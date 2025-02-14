@@ -12,8 +12,7 @@ import {
 	Typography
 } from "@mui/material"
 import { useState } from "react"
-import Task from "./Task"
-
+import { Task } from "./Task"
 type TaskItems = {
 	taskItems: Task[]
 }

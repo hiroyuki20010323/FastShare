@@ -255,7 +255,7 @@ export const SignUp = () => {
 				</Typography>
 			</Button>
 
-			{isOpenModal && <SignUpModal  />}
+			{isOpenModal && <SignUpModal />}
 		</Box>
 	)
 }

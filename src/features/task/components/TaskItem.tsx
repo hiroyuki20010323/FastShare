@@ -7,7 +7,6 @@ import {
 	Box,
 	Typography
 } from "@mui/material"
-
 import EachTask from "./EachTask"
 import { TaskData } from "./Task"
 

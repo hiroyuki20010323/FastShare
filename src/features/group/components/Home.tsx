@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router-dom"
 import { useAuthContext } from "../../../provider/AuthProvider"
 import { Avatar, Box, Button, List, ListItem, Typography } from "@mui/material"
 import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
 import { useEffect, useState } from "react"
-
-import { api } from "../../../lib/axios"
+import { GroupApi } from "../api/group"
+import { useNavigation } from "../../../hooks/useNavigation"
 
 export type Group = {
 	id: number
@@ -15,7 +14,7 @@ export type Group = {
 }
 
 const Home = () => {
-	const navigate = useNavigate()
+	const { toHome } = useNavigation()
 	const user = useAuthContext()
 
 	const [groups, setGroups] = useState<Group[]>([])
@@ -26,7 +25,7 @@ const Home = () => {
 				return
 			}
 
-			const response = await api.get(`/api/group`)
+			const response = await GroupApi.getGroup()
 			setGroups(response.data)
 		})()
 
@@ -35,7 +34,7 @@ const Home = () => {
 
 	const openGroup = async (groupId: number) => {
 		try {
-			const response = await api.post(`/api/open-group`, { groupId })
+			const response = await GroupApi.activeGroup(groupId)
 			console.log("グループを開きました")
 			alert(response.data.message)
 		} catch (e) {
@@ -44,7 +43,7 @@ const Home = () => {
 	}
 
 	if (!user) {
-		navigate("/login")
+		toHome()
 		return null
 
 		// リアクトコンポーネントは必ず何か返却する必要があるため、nullを返却する

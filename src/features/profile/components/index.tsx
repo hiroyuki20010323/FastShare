@@ -1,6 +1,5 @@
 import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
-import { useNavigate } from "react-router-dom"
 import { signOut } from "firebase/auth"
 import { auth } from "../../../config/firebaseConfig"
 import { Box, Button, FormControl, TextField } from "@mui/material"
@@ -8,7 +7,8 @@ import UserIcon from "./UserIcon"
 import { useForm, Controller } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { useAuthContext } from "../../../provider/AuthProvider"
-import { api } from "../../../lib/axios"
+import { ProfileApi } from "../api/profile"
+import { useNavigation } from "../../../hooks/useNavigation"
 
 export type UserProfileData = {
 	userName: string
@@ -17,10 +17,11 @@ export type UserProfileData = {
 
 const Profile = () => {
 	const user = useAuthContext()
-	const navigate = useNavigate()
+	const { toHome } = useNavigation()
+
 	const handleLogout = () => {
 		signOut(auth)
-		navigate("/login")
+		toHome()
 	}
 
 	const { control, handleSubmit, setValue } = useForm({
@@ -35,24 +36,11 @@ const Profile = () => {
 
 	const onSubmit = async ({ userName, userIcon }: UserProfileData) => {
 		try {
-			const formData = new FormData()
-			formData.append("user_name", userName)
-			formData.append("icon_url", userIcon)
-
-			for (let pair of formData.entries()) {
-				console.log(pair[0] + ": " + pair[1])
-			}
-
-			const patchResponse = await api.patch(`/api/profile`, formData)
-			console.log(patchResponse.data)
-
-			const getResponse = await api.get(`/api/profile`)
-
+			await ProfileApi.patchProfile({ userName, userIcon })
+			const getResponse = await ProfileApi.getProfile()
 			const { newUserName, fileUrl } = getResponse.data
 			setFileUrl(fileUrl)
 			setValue("userName", newUserName)
-
-			console.log("アップロード成功")
 		} catch (error) {
 			console.log("アップロードに失敗しました", error)
 		}
@@ -64,11 +52,8 @@ const Profile = () => {
 				console.log("ログインしてません")
 				return
 			}
-
-			const getResponse = await api.get(`/api/profile`)
-
+			const getResponse = await ProfileApi.getProfile()
 			const { newUserName, fileUrl } = getResponse.data
-
 			setFileUrl(fileUrl)
 			setValue("userName", newUserName)
 		})()

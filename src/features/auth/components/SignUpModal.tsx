@@ -6,14 +6,12 @@ import Modal from "@mui/material/Modal"
 import Loading from "../../../components/Loading"
 import { useAuth } from "../hooks/useAuth"
 
-
-
 export type SignUpModalData = {
 	user_name: string
 }
 
 const SignUpModal = () => {
-	const { inputUserModal,authLoading } = useAuth()
+	const { inputUserModal, authLoading } = useAuth()
 	// モーダルをtrueにして表示させる
 	const open = true
 	const { control, handleSubmit } = useForm({
@@ -24,7 +22,6 @@ const SignUpModal = () => {
 	})
 
 	const onSubmit = (data: SignUpModalData) => inputUserModal(data)
-
 
 	if (authLoading) {
 		return <Loading />

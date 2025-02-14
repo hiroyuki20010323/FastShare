@@ -3,10 +3,7 @@ import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
 import { Controller, useForm } from "react-hook-form"
 import GroupIcon from "./GroupIcon"
-import { useState } from "react"
-import { useAuthContext } from "../../../provider/AuthProvider"
-import { useNavigate } from "react-router-dom"
-import { api, CustomAxiosRequestConfig } from "../../../lib/axios"
+import useGroup from "../hooks/useGroup"
 
 export type GroupProfileData = {
 	group_name: string
@@ -15,8 +12,6 @@ export type GroupProfileData = {
 }
 
 const CreateGroup = () => {
-	const navigate = useNavigate()
-	const user = useAuthContext()
 	const { control, handleSubmit, setValue } = useForm({
 		mode: "onSubmit",
 		defaultValues: {
@@ -25,34 +20,19 @@ const CreateGroup = () => {
 			group_icon: ""
 		}
 	})
+	const { createGroup } = useGroup()
+	const groupIcon = ""
 
-	const [groupIcon] = useState("")
-	// buildする時にset関数をしようしてないとエラーが出るので一時てきにset関数を削除する。
-
-	const onSubmit = async ({
+	const onSubmit = ({
 		group_icon,
 		group_name,
 		group_description
 	}: GroupProfileData) => {
-		try {
-			const formData = new FormData()
-			formData.append("group_name", group_name)
-			formData.append("group_icon", group_icon)
-			formData.append("group_description", group_description)
-			formData.append("uid", user?.uid || "")
-
-			for (let pair of formData.entries()) {
-				console.log(pair[0] + ": " + pair[1])
-			}
-
-			const groupPostResponse = await api.post(`/api/group`, formData, {
-				requiresAuth: false
-			} as CustomAxiosRequestConfig)
-			console.log(groupPostResponse.data)
-			navigate("/")
-		} catch (error) {
-			console.log("アップロードに失敗しました", error)
-		}
+		createGroup({
+			group_icon,
+			group_name,
+			group_description
+		})
 	}
 
 	return (

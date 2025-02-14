@@ -9,26 +9,23 @@ import {
 	Typography
 } from "@mui/material"
 import Footer from "../../../components/Footer"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useAuthContext } from "../../../provider/AuthProvider"
 import { useEffect, useRef, useState } from "react"
-
-import { Group } from "./Home"
 import Loading from "../../../components/Loading"
 import { Controller, useForm } from "react-hook-form"
-import { api, CustomAxiosRequestConfig } from "../../../lib/axios"
+import { api } from "../../../lib/axios"
+import useGroup from "../hooks/useGroup"
 
-type FormInputs = {
+export type FormInputs = {
 	group_name: string
 	group_icon: File | string | null
 	group_description: string
 }
 
 const GroupSettings = () => {
-	const navigate = useNavigate()
 	const user = useAuthContext()
-
-	const [groupData, setGroupData] = useState<Group | null>(null)
+	const { groupData, groupEdit, setGroupData, groupDelete } = useGroup()
 	const [groupIcon, setGroupIcon] = useState<string | null>(null)
 	const { control, handleSubmit, setValue } = useForm<FormInputs>({
 		mode: "onSubmit",
@@ -38,6 +35,7 @@ const GroupSettings = () => {
 			group_description: ""
 		}
 	})
+
 	const fileInputRef = useRef<HTMLInputElement | null>(null)
 
 	const handleInput = () => {
@@ -55,57 +53,26 @@ const GroupSettings = () => {
 	const fileUpload = () => {
 		fileInputRef.current?.click()
 	}
-	const onDelete = async (groupId: number) => {
-		try {
-			console.log(groupId)
-			const response = await api.delete(`/api/group-profile`, {
-				data: { groupId },
-				requiresAuth: false
-			} as CustomAxiosRequestConfig)
+	const onDelete = async (groupId: number) => groupDelete(groupId)
 
-			alert(response.data.message)
-			navigate("/")
-		} catch (e) {
-			console.log("うまく削除できませんでした", e)
-		}
-	}
-
-	const onSubmit = async ({
+	const onSubmit = ({
 		group_icon,
 		group_name,
 		group_description
 	}: FormInputs) => {
-		try {
-			const formData = new FormData()
-
-			if (group_icon) {
-				formData.append("group_icon", group_icon)
-			}
-			formData.append("group_name", group_name)
-			formData.append("group_description", group_description)
-			formData.append("groupId", String(groupData?.id))
-
-			for (let pair of formData.entries()) {
-				console.log(pair[0] + ": " + pair[1])
-			}
-			console.log(groupData)
-
-			const patchResponse = await api.patch(`/api/group-profile`, formData)
-			console.log(patchResponse.data)
-			setGroupData(patchResponse.data)
-		} catch (e) {
-			console.log("なんかのエラーが出ました", e)
-		}
+		groupEdit({
+			group_icon,
+			group_name,
+			group_description
+		})
 	}
+
 	useEffect(() => {
 		;(async () => {
 			if (!user) {
-				console.log("ログインしてません")
 				return
 			}
-
 			const response = await api.get(`/api/open-group`)
-
 			setValue("group_name", response.data.group_name)
 			setValue("group_description", response.data.group_description)
 			setGroupIcon(response.data.group_icon)

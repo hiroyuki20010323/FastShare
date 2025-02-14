@@ -8,7 +8,7 @@ import { api, CustomAxiosRequestConfig } from "../../../lib/axios"
 import { auth, provider } from "../../../config/firebaseConfig"
 import { SignUpModalData } from "../components/SignUpModal"
 
-export const AuthRepos = {
+export const AuthApi = {
 	// グーグルログイン
 	googleAuth: async () => {
 		const userData = await signInWithPopup(auth, provider)

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigation } from "../../../hooks/useNavigation"
 import { SignUpModalData } from "../components/SignUpModal"
-import { AuthRepos } from "../api/auth"
+import { AuthApi } from "../api/auth"
 
 export const useAuth = () => {
 	const [authLoading, setAuthLoading] = useState(false)
@@ -11,7 +11,7 @@ export const useAuth = () => {
 	const login = async (email: string, password: string) => {
 		try {
 			setAuthLoading(true)
-			await AuthRepos.emailAndPasswordLogin(email, password)
+			await AuthApi.emailAndPasswordLogin(email, password)
 			toHome()
 		} catch (e) {
 			alert("IDまたはPassWordが違います")
@@ -22,17 +22,17 @@ export const useAuth = () => {
 
 	const handleGoogleLogin = async () => {
 		try {
-			await AuthRepos.googleAuth()
+			await AuthApi.googleAuth()
 			toHome()
 		} catch (error) {
 			console.log(error)
 		}
 	}
 
-	const signUp = async(email: string, password: string) => {
+	const signUp = async (email: string, password: string) => {
 		try {
 			setAuthLoading(true)
-			await AuthRepos.signUp(email, password)
+			await AuthApi.signUp(email, password)
 			setAuthLoading(false)
 			setIsOpenModal(true)
 		} catch (e) {
@@ -42,7 +42,7 @@ export const useAuth = () => {
 
 	const inputUserModal = async (data: SignUpModalData) => {
 		setAuthLoading(true)
-		await AuthRepos.updateUserName(data)
+		await AuthApi.updateUserName(data)
 		setAuthLoading(false)
 		setIsOpenModal(false)
 		toHome()
