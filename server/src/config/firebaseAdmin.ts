@@ -1,5 +1,5 @@
 import admin from "firebase-admin"
-import "dotenv/config";
+import "dotenv/config"
 
 export const verification = admin.initializeApp({
 	credential: admin.credential.cert({

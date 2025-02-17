@@ -21,17 +21,17 @@ export const signUp = async (req: Request, res: Response) => {
 		if (!req.body) {
 			res.status(400).json({ message: "ユーザーデータが存在しません。。。" })
 		}
-		const { uid: id, displayName: user_name, icon_url, photoURL } = req.body;
-		const resolvedIconUrl = icon_url || photoURL;
+		const { uid: id, displayName: user_name, icon_url, photoURL } = req.body
+		const resolvedIconUrl = icon_url || photoURL
 
 		const existingUser = await AuthRepo.findUser(id)
-		
+
 		if (existingUser) {
 			res.status(200).json({ message: "ユーザーは既に存在します" })
 			return
 		}
-		
-		await AuthRepo.createUser({id,user_name,icon_url:resolvedIconUrl})
+
+		await AuthRepo.createUser({ id, user_name, icon_url: resolvedIconUrl })
 
 		res.status(201).json({ message: "ユーザーの登録に成功しました。" })
 	} catch (e) {
