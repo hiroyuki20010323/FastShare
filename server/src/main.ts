@@ -1,4 +1,4 @@
-import express from "express"
+import express, { Request, Response } from "express"
 import { PrismaClient } from "@prisma/client"
 import cors from "cors"
 import { S3Client } from "@aws-sdk/client-s3"
@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid"
 import admin from "firebase-admin"
 import { startOfDay, addDays } from "date-fns"
 import { toZonedTime } from "date-fns-tz"
+import { authMiddleware } from "./middleware/auth/authMiddleware"
 
 const prisma = new PrismaClient()
 const app = express()
@@ -16,14 +17,6 @@ const PORT = 3080
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-admin.initializeApp({
-	credential: admin.credential.cert({
-		projectId: process.env.FIREBASE_PROJECT_ID,
-		privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-		clientEmail: process.env.FIREBASE_CLIENT_EMAIL
-	})
-})
 
 const s3 = new S3Client({
 	region: process.env.AWS_REGION || "",
@@ -54,24 +47,11 @@ app.get("/", (req, res) => {
 	res.status(200).send("Hello Fast Share!!!!")
 })
 
-app.post("/auth/verify", async (req, res) => {
-	const authHeader = req.headers.authorization
-	const idToken = authHeader && authHeader.split("Bearer ")[1]
-
-	if (!idToken) {
-		res.status(400).json({ message: "トークンがありません" })
-		console.log("トークンがないよ")
-		return
-	}
-
+app.post("/auth/verify", authMiddleware, async (req, res) => {
 	try {
-		const decodedToken = await admin.auth().verifyIdToken(idToken)
-		res
-			.status(200)
-			.send({ message: "トークンが有効です", uid: decodedToken.uid })
+		res.status(200).send({ message: "トークンが有効です", uid: req.user.uid })
 	} catch (e) {
 		res.status(401).send("無効なトークンです")
-		console.log("無効なトークンだよ")
 	}
 })
 
@@ -105,67 +85,55 @@ app.post("/api/user", async (req, res) => {
 		})
 		res.status(201).json({ message: "ユーザーの登録に成功しました。" })
 	} catch (e) {
-		console.log("ユーザーデータの保存に失敗しました")
 		res.status(500).json({ error: "データの保存に失敗しました" })
 	}
 })
 
 // プロフィール情報取得
-app.get("/api/profile", async (req, res) => {
-	try {
-		const token = req.headers.authorization?.split("Bearer ")[1]
-		if (!token) {
-			res.status(400).json({ message: "許可されていないリクエストです。" })
-			return
+app.get(
+	"/api/profile",
+	authMiddleware,
+	async (req: Request, res: Response): Promise<void> => {
+		try {
+			const user = await prisma.users.findUnique({
+				where: { id: req.user.uid }
+			})
+			if (!user) {
+				res.status(400).json({ error: "ユーザー情報を取得できませんでした" })
+				return
+			}
+			res.json({
+				newUserName: user.user_name,
+				fileUrl: user.icon_url,
+				message: "取得成功"
+			})
+		} catch (e) {
+			res.status(500).json({ error: "サーバーエラー" })
 		}
-		const decodedToken = await admin.auth().verifyIdToken(token)
-		console.log(decodedToken)
-		const uid = decodedToken.uid
-		const user = await prisma.users.findUnique({ where: { id: uid } })
-		if (!user) {
-			res.status(400).json({ error: "ユーザー情報を取得できませんでした" })
-			return
-		}
-		res.json({
-			newUserName: user.user_name,
-			fileUrl: user.icon_url,
-			message: "取得成功"
-		})
-	} catch (error) {
-		console.error("データ取得エラー", error)
-		res.status(500).json({ error: "サーバーエラー" })
 	}
-})
+)
 
 // プロフィール情報の更新
-app.patch("/api/profile", upload.single("icon_url"), async (req, res) => {
-	console.log("Body:", req.body)
-	console.log("File:", req.file || "No file uploaded")
-	try {
-		const token = req.headers.authorization?.split("Bearer ")[1]
-		if (!token) {
-			res.status(400).json({ message: "許可されていないリクエストです。" })
-			return
+app.patch(
+	"/api/profile",
+	authMiddleware,
+	upload.single("icon_url"),
+	async (req, res) => {
+		try {
+			const { user_name } = req.body
+			const updatedUser = await prisma.users.update({
+				where: { id: req.user.uid },
+				data: {
+					...(user_name && { user_name }),
+					...(req.file && { icon_url: (req.file as any)?.location })
+				}
+			})
+			res.status(201).json(updatedUser)
+		} catch (e) {
+			res.status(500).json({ error: "ユーザーの更新に失敗しました。" })
 		}
-		const decodedToken = await admin.auth().verifyIdToken(token)
-		console.log(decodedToken)
-		const uid = decodedToken.uid
-
-		const { user_name } = req.body
-
-		const updatedUser = await prisma.users.update({
-			where: { id: uid },
-			data: {
-				...(user_name && { user_name }),
-				...(req.file && { icon_url: (req.file as any)?.location })
-			}
-		})
-		res.status(201).json(updatedUser)
-	} catch (error) {
-		console.error("Error updating user:", error)
-		res.status(500).json({ error: "ユーザーの更新に失敗しました。" })
 	}
-})
+)
 
 // グループの作成
 app.post("/api/group", upload.single("group_icon"), async (req, res) => {
@@ -190,93 +158,63 @@ app.post("/api/group", upload.single("group_icon"), async (req, res) => {
 		res.status(201).json({
 			message: "グループの作成に成功しました。"
 		})
-	} catch (error) {
+	} catch (e) {
 		res.json({
 			message: "データが送信されていません"
 		})
-		console.log("データの処理に失敗")
 	}
 })
 
 // グループ一覧取得
-app.get("/api/group", async (req, res) => {
+app.get("/api/group", authMiddleware, async (req, res) => {
 	try {
-		const token = req.headers.authorization?.split("Bearer ")[1]
-		if (!token) {
-			res.status(400).json({ message: "許可されていないリクエストです。" })
-			return
-		}
-		const decodedToken = await admin.auth().verifyIdToken(token)
-		console.log(decodedToken)
-		const uid = decodedToken.uid
 		const participations = await prisma.participation.findMany({
-			where: { userId: uid },
+			where: { userId: req.user.uid },
 			include: { group: true }
 		})
-
 		const groups = participations.map((participations) => participations.group)
-		console.log(groups)
 		res.status(201).json(groups)
 	} catch (e) {
 		res.status(500).json({
 			message: "グループ情報を取得できませんでした。"
 		})
-		console.log(e)
 	}
 })
 
 // グループを開く処理
-app.post("/api/open-group", async (req, res) => {
+app.post("/api/open-group", authMiddleware, async (req, res) => {
 	try {
-		const token = req.headers.authorization?.split("Bearer ")[1]
-		if (!token) {
-			res.status(400).json({ message: "許可されていないリクエストです。" })
-			return
-		}
-		const decodedToken = await admin.auth().verifyIdToken(token)
-		console.log(decodedToken)
-		const userId = decodedToken.uid
 		const { groupId } = req.body
 		//  下記すでにtrueの値をfalseに変える。これにより別のグループの開くボタンを押した時に現在開かれているグループをcloseする。
 		await prisma.participation.updateMany({
-			where: { userId },
+			where: { userId: req.user.uid },
 			data: { isActive: false }
 		})
 		await prisma.participation.updateMany({
 			// 複合主キーで開くグループを一意に特的する。
 			where: {
-				AND: [{ userId }, { groupId }]
+				AND: [{ userId: req.user.uid }, { groupId }]
 			},
 			data: { isActive: true }
 		})
 		res.status(201).json({ message: "グループを開きました！！" })
 	} catch (e) {
-		console.log("何らかのエラー", e)
 		res.status(500).json({ message: "グループひらけませんでした。。。" })
 	}
 })
 
 // グループのプロフィールを取得する
-app.get("/api/open-group", async (req, res) => {
+app.get("/api/open-group", authMiddleware, async (req, res) => {
 	try {
-		const token = req.headers.authorization?.split("Bearer ")[1]
-		if (!token) {
-			res.status(400).json({ message: "許可されていないリクエストです。" })
-			return
-		}
-		const decodedToken = await admin.auth().verifyIdToken(token)
-		console.log(decodedToken)
-		const userId = decodedToken.uid
 		const activeGroup = await prisma.participation.findFirst({
 			where: {
-				userId,
+				userId: req.user.uid,
 				isActive: true
 			},
 			include: { group: true }
 		})
 		res.status(201).json(activeGroup?.group)
 	} catch (e) {
-		console.log("グループのデータ取得できませんでした。。。", e)
 		res.status(500).json("処理に失敗しました。")
 	}
 })
@@ -284,16 +222,10 @@ app.get("/api/open-group", async (req, res) => {
 // グループのプロフィールを更新する処理
 app.patch(
 	"/api/group-profile",
+	authMiddleware,
 	upload.single("group_icon"),
 	async (req, res) => {
 		try {
-			const token = req.headers.authorization?.split("Bearer ")[1]
-
-			if (!token) {
-				res.status(400).json({ message: "許可されていないリクエストです。" })
-				return
-			}
-
 			const { group_name, group_description, groupId } = req.body
 			const groupIdInt = parseInt(groupId, 10)
 			//  フロントからのFormDataは文字列でidが送信されてくるのでIntに変換する
@@ -307,9 +239,7 @@ app.patch(
 				}
 			})
 			res.status(201).json(updateGroup)
-			console.log(updateGroup)
 		} catch (e) {
-			console.error("Error updating user:", e)
 			res
 				.status(500)
 				.json({ error: "グループプロフィールの更新に失敗しました。" })
@@ -329,7 +259,6 @@ app.delete("/api/group-profile", async (req, res) => {
 		})
 		res.status(200).json({ message: "グループが削除されました。" })
 	} catch (e) {
-		console.log("削除できなかったエラー", e)
 		res
 			.status(500)
 			.json({ message: `サーバー側で削除がうまく実行できませんでした`, e })
@@ -337,18 +266,11 @@ app.delete("/api/group-profile", async (req, res) => {
 })
 
 // タスクの取得
-app.get("/api/task", async (req, res) => {
+app.get("/api/task", authMiddleware, async (req, res) => {
 	try {
-		const token = req.headers.authorization?.split("Bearer ")[1]
-		if (!token) {
-			res.status(400).json({ message: "許可されていないリクエストです。" })
-			return
-		}
-		const decodedToken = await admin.auth().verifyIdToken(token)
-		const uid = decodedToken.uid
 		const activeParticipation = await prisma.participation.findFirst({
 			where: {
-				userId: uid,
+				userId: req.user.uid,
 				isActive: true
 			}
 		})
@@ -413,76 +335,68 @@ app.get("/api/task", async (req, res) => {
 })
 
 // タスクの追加
-app.post("/api/task", upload.single("taskImage"), async (req, res) => {
-	try {
-		const token = req.headers.authorization?.split("Bearer ")[1]
-
-		if (!token) {
-			res.status(400).json({ message: "許可されていないリクエストです。" })
-			return
-		}
-		const decodedToken = await admin.auth().verifyIdToken(token)
-		const userId = decodedToken.uid
-		const activeParticipation = await prisma.participation.findFirst({
-			where: {
-				userId,
-				isActive: true
-			}
-		})
-
-		if (!activeParticipation) {
-			res
-				.status(404)
-				.json({ message: "アクティブなグループが見つかりません。" })
-			return
-		}
-
-		const activeGroupId = activeParticipation.groupId
-
-		const { taskTitle, taskDetail, dueDate, dueTime } = req.body
-
-		const period = new Date(`${dueDate}T${dueTime || "00:00"}:00`)
-
-		const calenderDate = new Date(`${dueDate}T00:00:00`)
+app.post(
+	"/api/task",
+	authMiddleware,
+	upload.single("taskImage"),
+	async (req, res) => {
 		try {
-			const calender = await prisma.calendar.findUnique({
-				where: { date: calenderDate }
-			})
-
-			const task = await prisma.task.create({
-				data: {
-					taskTitle,
-					taskDetail,
-					...(req.file && { taskImageUrl: (req.file as any)?.location }),
-					period,
-					participationCreatedUserId: userId,
-					participationCreatedGroupId: activeGroupId,
-					calendarId: calender!.id
+			const activeParticipation = await prisma.participation.findFirst({
+				where: {
+					userId: req.user.uid,
+					isActive: true
 				}
 			})
 
-			res.status(201).json({ message: "タスクが作成されました", task })
+			if (!activeParticipation) {
+				res
+					.status(404)
+					.json({ message: "アクティブなグループが見つかりません。" })
+				return
+			}
+
+			const activeGroupId = activeParticipation.groupId
+
+			const { taskTitle, taskDetail, dueDate, dueTime } = req.body
+
+			const period = new Date(`${dueDate}T${dueTime || "00:00"}:00`)
+
+			const calenderDate = new Date(`${dueDate}T00:00:00`)
+			try {
+				const calender = await prisma.calendar.findUnique({
+					where: { date: calenderDate }
+				})
+
+				const task = await prisma.task.create({
+					data: {
+						taskTitle,
+						taskDetail,
+						...(req.file && { taskImageUrl: (req.file as any)?.location }),
+						period,
+						participationCreatedUserId: req.user.uid,
+						participationCreatedGroupId: activeGroupId,
+						calendarId: calender!.id
+					}
+				})
+
+				res.status(201).json({ message: "タスクが作成されました", task })
+			} catch (e) {
+				res
+					.status(500)
+					.json({ message: "指定された日にタスクは追加できません" })
+			}
 		} catch (e) {
-			res.status(500).json({ message: "指定された日にタスクは追加できません" })
+			console.log("タスクの投稿に失敗しました。", e)
 		}
-	} catch (e) {
-		console.log("タスクの投稿に失敗しました。", e)
 	}
-})
+)
 
 // 先週のタスクを取得する
-app.get("/api/task/prev-week", async (req, res) => {
+app.get("/api/task/prev-week", authMiddleware, async (req, res) => {
 	try {
-		const token = req.headers.authorization?.split("Bearer ")[1]
-		if (!token) {
-			res.status(400).json({ message: "許可されていないリクエストです。" })
-			return
-		}
-		const decodedToken = await admin.auth().verifyIdToken(token)
-		const uid = decodedToken.uid
 		const activeParticipation = await prisma.participation.findFirst({
 			where: {
-				userId: uid,
+				userId: req.user.uid,
 				isActive: true
 			}
 		})
@@ -549,18 +463,11 @@ app.get("/api/task/prev-week", async (req, res) => {
 })
 
 // 来週のデータを取得する
-app.get("/api/task/next-week", async (req, res) => {
+app.get("/api/task/next-week", authMiddleware, async (req, res) => {
 	try {
-		const token = req.headers.authorization?.split("Bearer ")[1]
-		if (!token) {
-			res.status(400).json({ message: "許可されていないリクエストです。" })
-			return
-		}
-		const decodedToken = await admin.auth().verifyIdToken(token)
-		const uid = decodedToken.uid
 		const activeParticipation = await prisma.participation.findFirst({
 			where: {
-				userId: uid,
+				userId: req.user.uid,
 				isActive: true
 			}
 		})
@@ -621,7 +528,6 @@ app.get("/api/task/next-week", async (req, res) => {
 
 		res.status(200).json(tasks)
 	} catch (e) {
-		console.log("次週のタスクデータの取得に失敗しました。", e)
 		res.status(500).json({ error: "データの取得に失敗しました" })
 	}
 })
