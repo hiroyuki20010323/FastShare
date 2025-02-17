@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { prisma } from "../lib/prismaClient"
+import { AuthRepo } from "../repository/authRepository"
 
 // ログイン認証
 export const verifyToken = (req: Request, res: Response) => {
@@ -21,27 +21,18 @@ export const signUp = async (req: Request, res: Response) => {
 		if (!req.body) {
 			res.status(400).json({ message: "ユーザーデータが存在しません。。。" })
 		}
+		const { uid: id, displayName: user_name, icon_url, photoURL } = req.body;
+		const resolvedIconUrl = icon_url || photoURL;
 
-		const id = req.body.uid
-		const userName = req.body.displayName
-		const iconData = req.body.icon_url || req.body.photoURL
-
-		const existingUser = await prisma.users.findUnique({
-			where: { id }
-		})
-
+		const existingUser = await AuthRepo.findUser(id)
+		
 		if (existingUser) {
 			res.status(200).json({ message: "ユーザーは既に存在します" })
 			return
 		}
+		
+		await AuthRepo.createUser({id,user_name,icon_url:resolvedIconUrl})
 
-		await prisma.users.create({
-			data: {
-				id,
-				user_name: userName,
-				icon_url: iconData
-			}
-		})
 		res.status(201).json({ message: "ユーザーの登録に成功しました。" })
 	} catch (e) {
 		res.status(500).json({ error: "データの保存に失敗しました" })
