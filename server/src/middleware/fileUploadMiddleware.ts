@@ -13,7 +13,7 @@ export const upload = multer({
 		},
 		key: function (req, file, cb) {
 			const uniqueFileName = `${uuidv4()}-${file.originalname}`
-			// TODOuserIconというパスに画像関係を全てアップロードしてしまっているため、あとでパスを切る
+			// TODO userIconというパスに画像関係を全てアップロードしてしまっているため、あとでパスを切る
 			const filePath = `userIcon/${uniqueFileName}`
 			cb(null, filePath)
 		}

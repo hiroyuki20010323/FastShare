@@ -1,23 +1,9 @@
 import express, { Request, Response } from "express"
 import cors from "cors"
-import { authMiddleware } from "./middleware/auth/authMiddleware"
-import { upload } from "./middleware/fileUploadMiddleware"
-import { signUp, verifyToken } from "./service/authService"
-import { getProfile, updateProfile } from "./service/profileService"
-import {
-	activeGroup,
-	createGroup,
-	deleteGroup,
-	getGroupData,
-	getGroupProfile,
-	updateGroup
-} from "./service/groupService"
-import {
-	createTask,
-	getNextWeekTask,
-	getPrevWeekTask,
-	getTask
-} from "./service/taskService"
+import authRoutes from "./routes/authRoutes"
+import profileRoutes from "./routes/profileRoutes"
+import groupRoutes from "./routes/groupRoutes"
+import taskRoutes from "./routes/taskRoutes"
 
 const app = express()
 const PORT = 3080
@@ -26,115 +12,38 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// ALBヘルスチェック用
+// ヘルスチェック用
 app.get("/", (req: Request, res: Response) => {
 	res.status(200).send("Hello Fast Share!!!!")
 })
 
-// ログイン
-app.post("/auth/verify", authMiddleware, (req: Request, res: Response) => {
-	verifyToken(req, res)
-})
+app.use("/auth", authRoutes)
 
-// メールアドレスとパスワード新規登録
-app.post("/api/user", (req: Request, res: Response) => {
-	signUp(req, res)
-})
+app.use("/auth", authRoutes)
 
-// プロフィール情報取得
-app.get("/api/profile", authMiddleware, (req: Request, res: Response): void => {
-	getProfile(req, res)
-})
+app.use("/api", profileRoutes)
 
-// プロフィール情報の更新
-app.patch(
-	"/api/profile",
-	authMiddleware,
-	upload.single("icon_url"),
-	async (req: Request, res: Response) => {
-		updateProfile(req, res)
-	}
-)
+app.use("/api", profileRoutes)
 
-// グループの作成
-app.post(
-	"/api/group",
-	upload.single("group_icon"),
-	async (req: Request, res: Response) => {
-		createGroup(req, res)
-	}
-)
+app.use("/api", groupRoutes)
 
-// グループ一覧取得
-app.get("/api/group", authMiddleware, (req: Request, res: Response) => {
-	getGroupData(req, res)
-})
+app.use("/api", groupRoutes)
 
-// グループを開く処理
-app.post(
-	"/api/open-group",
-	authMiddleware,
-	async (req: Request, res: Response) => {
-		activeGroup(req, res)
-	}
-)
+app.use("/api", groupRoutes)
 
-// グループのプロフィールを取得する
-app.get(
-	"/api/open-group",
-	authMiddleware,
-	async (req: Request, res: Response) => {
-		getGroupProfile(req, res)
-	}
-)
+app.use("/api", groupRoutes)
 
-// グループのプロフィールを更新する処理
-app.patch(
-	"/api/group-profile",
-	authMiddleware,
-	upload.single("group_icon"),
-	async (req: Request, res: Response) => {
-		updateGroup(req, res)
-	}
-)
+app.use("/api", groupRoutes)
 
-// グループを削除する処理
-app.delete("/api/group-profile", async (req: Request, res: Response) => {
-	deleteGroup(req, res)
-})
+app.use("/api", groupRoutes)
 
-// タスクの取得
-app.get("/api/task", authMiddleware, async (req: Request, res: Response) => {
-	getTask(req, res)
-})
+app.use("/api", taskRoutes)
 
-// タスクの追加
-app.post(
-	"/api/task",
-	authMiddleware,
-	upload.single("taskImage"),
-	async (req: Request, res: Response) => {
-		createTask(req, res)
-	}
-)
+app.use("/api", taskRoutes)
 
-// 先週のタスクを取得する
-app.get(
-	"/api/task/prev-week",
-	authMiddleware,
-	async (req: Request, res: Response) => {
-		getPrevWeekTask(req, res)
-	}
-)
+app.use("/api", taskRoutes)
 
-// 来週のデータを取得する
-app.get(
-	"/api/task/next-week",
-	authMiddleware,
-	async (req: Request, res: Response) => {
-		getNextWeekTask(req, res)
-	}
-)
+app.use("/api", taskRoutes)
 
 app.listen(PORT, () => {
 	console.log(`Server is running at http://localhost:${PORT}`)

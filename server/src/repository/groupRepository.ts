@@ -1,7 +1,7 @@
 import { Request } from "express"
 import { prisma } from "../lib/prismaClient"
 import { v4 as uuidv4 } from "uuid"
-import { MulterS3File } from "../service/groupService"
+import { MulterS3File } from "../controller/groupController"
 
 export type createGroupData = {
 	group_icon: string | null
@@ -16,7 +16,7 @@ export type ParticipationData = {
 
 export type UpdateGroupDataType = {
 	group_name: string
-	group_description?: string
+	group_description: string | null
 	groupIdInt: number
 }
 export const GroupRepo = {
@@ -92,7 +92,7 @@ export const GroupRepo = {
 			data: {
 				...(req.file && { group_icon: (req.file as MulterS3File)?.location }),
 				...(group_name && { group_name }),
-				...(group_description && { group_description })
+				...(group_description !== undefined ? { group_description } : {})
 			}
 		})
 	},
