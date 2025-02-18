@@ -7,12 +7,13 @@ export type UserData = {
 }
 
 export const AuthRepo = {
+	// ユーザーの特定
 	findUser: async (id: string) => {
 		return await prisma.users.findUnique({
 			where: { id }
 		})
 	},
-
+	// 新規ユーザーの作成。ユーザーネームがnllなので、ポップアップで入力されたユーザーネームのinsertをする
 	createUser: async ({ id, user_name, icon_url }: UserData) => {
 		return await prisma.users.create({
 			data: {

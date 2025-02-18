@@ -2,8 +2,8 @@ import express, { Request, Response } from "express"
 import cors from "cors"
 import { authMiddleware } from "./middleware/auth/authMiddleware"
 import { upload } from "./middleware/fileUploadMiddleware"
-import { signUp, verifyToken } from "./controller/authController"
-import { getProfile, updateProfile } from "./controller/profileController"
+import { signUp, verifyToken } from "./service/authService"
+import { getProfile, updateProfile } from "./service/profileService"
 import {
 	activeGroup,
 	createGroup,
@@ -11,13 +11,13 @@ import {
 	getGroupData,
 	getGroupProfile,
 	updateGroup
-} from "./controller/groupContoroller"
+} from "./service/groupService"
 import {
 	createTask,
 	getNextWeekTask,
 	getPrevWeekTask,
 	getTask
-} from "./controller/taskController"
+} from "./service/taskService"
 
 const app = express()
 const PORT = 3080
@@ -26,7 +26,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// ヘルスチェック用
+// ALBヘルスチェック用
 app.get("/", (req: Request, res: Response) => {
 	res.status(200).send("Hello Fast Share!!!!")
 })

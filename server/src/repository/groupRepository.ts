@@ -1,7 +1,7 @@
 import { Request } from "express"
 import { prisma } from "../lib/prismaClient"
 import { v4 as uuidv4 } from "uuid"
-import { MulterS3File } from "../controller/groupContoroller"
+import { MulterS3File } from "../service/groupService"
 
 export type createGroupData = {
 	group_icon: string | null
