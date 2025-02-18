@@ -16,33 +16,10 @@ app.use(express.urlencoded({ extended: true }))
 app.get("/", (req: Request, res: Response) => {
 	res.status(200).send("Hello Fast Share!!!!")
 })
-
-app.use("/auth", authRoutes)
-
 app.use("/auth", authRoutes)
 
 app.use("/api", profileRoutes)
-
-app.use("/api", profileRoutes)
-
 app.use("/api", groupRoutes)
-
-app.use("/api", groupRoutes)
-
-app.use("/api", groupRoutes)
-
-app.use("/api", groupRoutes)
-
-app.use("/api", groupRoutes)
-
-app.use("/api", groupRoutes)
-
-app.use("/api", taskRoutes)
-
-app.use("/api", taskRoutes)
-
-app.use("/api", taskRoutes)
-
 app.use("/api", taskRoutes)
 
 app.listen(PORT, () => {

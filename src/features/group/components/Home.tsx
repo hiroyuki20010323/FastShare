@@ -21,7 +21,6 @@ const Home = () => {
 	useEffect(() => {
 		;(async () => {
 			if (!user) {
-				console.log("ログインしてません")
 				return
 			}
 
@@ -35,7 +34,6 @@ const Home = () => {
 	const openGroup = async (groupId: number) => {
 		try {
 			const response = await GroupApi.activeGroup(groupId)
-			console.log("グループを開きました")
 			alert(response.data.message)
 		} catch (e) {
 			console.error("アクションの実行に失敗しました。", e)
@@ -45,8 +43,6 @@ const Home = () => {
 	if (!user) {
 		toHome()
 		return null
-
-		// リアクトコンポーネントは必ず何か返却する必要があるため、nullを返却する
 	} else {
 		return (
 			<Box>
