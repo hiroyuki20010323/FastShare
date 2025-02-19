@@ -13,7 +13,7 @@ export const getProfile = async (req: Request, res: Response) => {
 			fileUrl: user.icon_url
 		})
 	} catch (e) {
-		res.status(500).json({ error: "サーバーエラー" })
+		res.status(500).json({ error: "ユーザ情報の取得に失敗しました" })
 	}
 }
 
@@ -22,7 +22,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 	try {
 		const { user_name } = req.body
 		const updatedUser = await ProfileRepo.updateProfileData(req, user_name)
-		res.status(201).json(updatedUser)
+		res.status(201).json({message:'プロフィールを更新しました！',updatedUser})
 	} catch (e) {
 		res.status(500).json({ error: "ユーザーの更新に失敗しました。" })
 	}

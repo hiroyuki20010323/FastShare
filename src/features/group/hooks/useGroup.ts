@@ -5,10 +5,14 @@ import { GroupApi } from "../api/group"
 import { useState } from "react"
 import { Group } from "../components/Home"
 import { FormInputs } from "../components/GroupSettings"
+import { useAlert } from "../../../provider/AlertProvider"
+import { AxiosError } from "axios"
 export const useGroup = () => {
 	const { toHome } = useNavigation()
 	const user = useAuthContext()
 	const [groupData, setGroupData] = useState<Group | null>(null)
+  const { showAlert } = useAlert()
+
 
 	const createGroup = async ({
 		group_icon,
@@ -16,7 +20,7 @@ export const useGroup = () => {
 		group_description
 	}: GroupProfileData) => {
 		try {
-			await GroupApi.createGroupFromData(
+		const response = 	await GroupApi.createGroupFromData(
 				{
 					group_icon,
 					group_name,
@@ -25,8 +29,13 @@ export const useGroup = () => {
 				user
 			)
 			toHome()
+      showAlert(response.data.message,'success')
 		} catch (error) {
-			console.log("アップロードに失敗しました", error)
+		  if (error instanceof AxiosError) {
+        showAlert(error.response?.data?.error, 'error')
+      } else {
+        showAlert('予期せぬエラーが発生しました', 'error')
+      }
 		}
 	}
 
@@ -36,7 +45,7 @@ export const useGroup = () => {
 		group_description
 	}: FormInputs) => {
 		try {
-			const patchResponse = await GroupApi.editGroup(
+			const response = await GroupApi.editGroup(
 				{
 					group_icon,
 					group_name,
@@ -44,19 +53,28 @@ export const useGroup = () => {
 				},
 				groupData
 			)
-			setGroupData(patchResponse.data)
-		} catch (e) {
-			console.log("なんかのエラーが出ました", e)
+			setGroupData(response.data)
+      showAlert(response.data.message,'success')
+		} catch (error) {
+			if (error instanceof AxiosError) {
+        showAlert(error.response?.data?.error, 'error')
+      } else {
+        showAlert('予期せぬエラーが発生しました', 'error')
+      }
 		}
 	}
 
 	const groupDelete = async (groupId: number) => {
 		try {
 			const response = await GroupApi.groupDelete(groupId)
-			alert(response.data.message)
 			toHome()
-		} catch (e) {
-			console.log("うまく削除できませんでした", e)
+      showAlert(response.data.message,'success')
+		} catch (error) {
+			if (error instanceof AxiosError) {
+        showAlert(error.response?.data?.error, 'error')
+      } else {
+        showAlert('予期せぬエラーが発生しました', 'error')
+      }
 		}
 	}
 

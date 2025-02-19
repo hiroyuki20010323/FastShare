@@ -2,28 +2,37 @@ import { useState } from "react"
 import { TaskData, TaskFormInputs } from "../components/Task"
 
 import { TaskApi } from "../api/task"
+import { useAlert } from "../../../provider/AlertProvider"
+import { AxiosError } from "axios"
 
 export const useTask = () => {
 	const [tasks, setTasks] = useState<TaskData[]>([])
 	const [open, setOpen] = useState<boolean>(false)
+	const { showAlert } = useAlert()
 
 	const createTask = async (
 		{ taskTitle, taskDetail, taskImage, dueDate, dueTime }: TaskFormInputs,
 		onClose: () => void
 	) => {
 		try {
-			await TaskApi.createTask({
+		const createResponse = 	await TaskApi.createTask({
 				taskTitle,
 				taskDetail,
 				taskImage,
 				dueDate,
 				dueTime
 			})
+			console.log(1)
+			const { data: newTasks } = await TaskApi.getTask()
+			setTasks(newTasks)	
+			showAlert(createResponse.data.message,'success')
 			onClose()
-			const response = await TaskApi.getTask()
-			setTasks(response.data)
-		} catch (e) {
-			console.log("なんかのエラーが出ました", e)
+		} catch (error) {
+			if (error instanceof AxiosError) {
+        showAlert(error.response?.data?.error, 'error')
+      } else {
+        showAlert('予期せぬエラーが発生しました', 'error')
+      }
 		}
 	}
 

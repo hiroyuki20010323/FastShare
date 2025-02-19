@@ -30,7 +30,7 @@ const EachTask: React.FC<TaskItems> = ({ taskItems }) => {
 		setOpen(false)
 		setSelectedTask(null)
 	}
-
+console.log('ここが重要')
 	return (
 		<>
 			{taskItems.map((task) => {

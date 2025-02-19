@@ -84,7 +84,7 @@ const Task = () => {
 	const getNextWeekTasks = async () => {
 		nextWeekTask()
 	}
-
+	console.log('レンダリング')
 	return (
 		<>
 			<Header />

@@ -13,12 +13,12 @@ export const AuthApi = {
 	googleAuth: async () => {
 		const userData = await signInWithPopup(auth, provider)
 		const { displayName, photoURL, uid } = userData.user
-		const {data} = await api.post(`/auth/user`, {
+		return  await api.post(`/auth/user`, {
 			displayName,
 			photoURL,
 			uid
 		})
-		return data.message
+
 	},
 
 	// メールアドレスログイン
@@ -45,7 +45,7 @@ export const AuthApi = {
 			email,
 			password
 		)
-		 await api.post(`/auth/verify`, {
+		  return await api.post(`/auth/verify`, {
 			tokenProvider: {
 				type: "specific",
 				user: userCredential.user
@@ -62,13 +62,12 @@ export const AuthApi = {
 				displayName: data.user_name
 			})
 
-			const response = await api.post(`/auth/user`, {
+		return await api.post(`/auth/user`, {
 				uid: uid,
 				displayName: data.user_name,
 				icon_url: null
 			})
-			const res = response.data.message
-			return res
+		
 		}
 	}
 }

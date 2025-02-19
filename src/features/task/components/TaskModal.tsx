@@ -74,7 +74,9 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 				},
 				onClose
 			)
+
 		}
+		
 
 		return (
 			<Box sx={style} ref={ref} tabIndex={-1}>

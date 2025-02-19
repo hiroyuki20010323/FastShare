@@ -29,10 +29,13 @@ export const useAuth = () => {
 		try {
 			const response = await AuthApi.googleAuth()
 			toHome()
-			showAlert( response,"success")
-		} catch (error:AxiosError|any) {
-			console.log(error)
-			showAlert(error.response.data.error ,"error")
+			showAlert( response.data.message,"success")
+		} catch (error) {
+			if (error instanceof AxiosError) {
+        showAlert(error.response?.data?.error, 'error')
+      } else {
+        showAlert('予期せぬエラーが発生しました', 'error')
+      }
 		}
 	}
 
@@ -43,9 +46,12 @@ export const useAuth = () => {
 			setLoading(false)
 			setIsOpenModal(true)
 			
-		} catch (error: AxiosError | any) {
-			console.log("処理がうまくいきませんでした。")
-			showAlert( "登録に失敗しました...","error")
+		} catch (error) {
+			if (error instanceof AxiosError) {
+        showAlert(error.response?.data?.error, 'error')
+      } else {
+        showAlert('予期せぬエラーが発生しました', 'error')
+      }
 		}
 	}
 
@@ -54,7 +60,7 @@ export const useAuth = () => {
 		const response =await AuthApi.updateUserName(data)
 		setLoading(false)
 		setIsOpenModal(false)
-		showAlert(response, "success")
+		showAlert(response?.data.message, "success")
 		toHome()
 	}
 

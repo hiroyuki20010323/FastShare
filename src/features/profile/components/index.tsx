@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import { useAuthContext } from "../../../provider/AuthProvider"
 import { ProfileApi } from "../api/profile"
 import { useNavigation } from "../../../hooks/useNavigation"
+import { useAlert } from "../../../provider/AlertProvider"
 
 export type UserProfileData = {
 	userName: string
@@ -18,6 +19,7 @@ export type UserProfileData = {
 const Profile = () => {
 	const user = useAuthContext()
 	const { toHome } = useNavigation()
+	const { showAlert } = useAlert()
 
 	const handleLogout = () => {
 		signOut(auth)
@@ -36,13 +38,16 @@ const Profile = () => {
 
 	const onSubmit = async ({ userName, userIcon }: UserProfileData) => {
 		try {
-			await ProfileApi.patchProfile({ userName, userIcon })
-			const getResponse = await ProfileApi.getProfile()
-			const { newUserName, fileUrl } = getResponse.data
+			const Patchresponse = await ProfileApi.patchProfile({ userName, userIcon })
+			showAlert(Patchresponse.data.message,'success')
+			const response = await ProfileApi.getProfile()
+			const { newUserName, fileUrl} = response.data
 			setFileUrl(fileUrl)
 			setValue("userName", newUserName)
+			console.log(response)
+		
 		} catch (error) {
-			console.log("アップロードに失敗しました", error)
+        showAlert('予期せぬエラーが発生しました', 'error')
 		}
 	}
 
