@@ -14,6 +14,8 @@ import useTask from "../hooks/useTask"
 import TaskModal from "./TaskModal"
 import { useLoading } from "../../../provider/LoadingProvider"
 import { TaskApi } from "../api/task"
+import { GroupApi } from "../../group/api/group"
+import InactiveGroupModal from "./InactiveGroupModal"
 
 export type TaskData = {
 	id: number
@@ -47,6 +49,7 @@ export type TaskFormInputs = {
 const Task = () => {
 	const [tabValue, setTabValue] = useState<string>("1")
 	const { loading, setLoading } = useLoading()
+	const [isActiveGroup, setIsActiveGroup] = useState(true)
 	const {
 		handleOpenModal,
 		tasks,
@@ -61,6 +64,8 @@ const Task = () => {
 		const getTasks = async () => {
 			try {
 				setLoading(true)
+				const response = await GroupApi.getActiveGroup()
+				setIsActiveGroup(response.data)
 				const taskData = await TaskApi.getTask()
 				setTasks(taskData.data)
 			} catch (e) {
@@ -84,7 +89,6 @@ const Task = () => {
 	const getNextWeekTasks = async () => {
 		nextWeekTask()
 	}
-	console.log("タスクデータを渡す", tasks)
 
 	return (
 		<>
@@ -118,10 +122,13 @@ const Task = () => {
 							>
 								<Loading />
 							</Box>
+						) : !isActiveGroup ? (
+							<InactiveGroupModal />
 						) : (
 							<TaskItem tasks={tasks} />
 						)}
 					</TabPanel>
+
 					{/* <TabPanel value="2" sx={{ padding: 0 }}>
 						<WeekTask />
 					</TabPanel>

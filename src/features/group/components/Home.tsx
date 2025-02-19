@@ -7,6 +7,8 @@ import { GroupApi } from "../api/group"
 import { useNavigation } from "../../../hooks/useNavigation"
 import { useLoading } from "../../../provider/LoadingProvider"
 import Loading from "../../../components/Loading"
+import { useAlert } from "../../../provider/AlertProvider"
+import { useGroupIconContext } from "../../../provider/GroupIconProvider"
 
 export type Group = {
 	id: number
@@ -19,7 +21,8 @@ const Home = () => {
 	const { toHome } = useNavigation()
 	const { loading, setLoading } = useLoading()
 	const user = useAuthContext()
-
+	const { showAlert } = useAlert()
+	const { setGroupIcon } = useGroupIconContext()
 	const [groups, setGroups] = useState<Group[]>([])
 	useEffect(() => {
 		;(async () => {
@@ -27,8 +30,8 @@ const Home = () => {
 				return
 			}
 			setLoading(true)
-			const response = await GroupApi.getGroup()
-			setGroups(response.data)
+			const GroupIconresponse = await GroupApi.getGroup()
+			setGroups(GroupIconresponse.data)
 			setLoading(false)
 		})()
 
@@ -38,7 +41,10 @@ const Home = () => {
 	const openGroup = async (groupId: number) => {
 		try {
 			const response = await GroupApi.activeGroup(groupId)
-			alert(response.data.message)
+			showAlert(response.data.message, "info")
+			// アクティブなグループのアイコンを取得。setGroupIconはグローバル管理なので、状態が変われば再レンダリングされる
+			const groupIconresponse = await GroupApi.getActiveGroup()
+			setGroupIcon(groupIconresponse.data.group_icon)
 		} catch (e) {
 			console.error("アクションの実行に失敗しました。", e)
 		}

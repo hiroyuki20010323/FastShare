@@ -11,11 +11,12 @@ import {
 import Footer from "../../../components/Footer"
 import { Link } from "react-router-dom"
 import { useAuthContext } from "../../../provider/AuthProvider"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import Loading from "../../../components/Loading"
 import { Controller, useForm } from "react-hook-form"
-import { api } from "../../../lib/axios"
 import useGroup from "../hooks/useGroup"
+import { GroupApi } from "../api/group"
+import { useGroupIconContext } from "../../../provider/GroupIconProvider"
 
 export type FormInputs = {
 	group_name: string
@@ -26,7 +27,7 @@ export type FormInputs = {
 const GroupSettings = () => {
 	const user = useAuthContext()
 	const { groupData, groupEdit, setGroupData, groupDelete } = useGroup()
-	const [groupIcon, setGroupIcon] = useState<string | null>(null)
+	const { groupIcon, setGroupIcon } = useGroupIconContext()
 	const { control, handleSubmit, setValue } = useForm<FormInputs>({
 		mode: "onSubmit",
 		defaultValues: {
@@ -72,7 +73,7 @@ const GroupSettings = () => {
 			if (!user) {
 				return
 			}
-			const response = await api.get(`/api/open-group`)
+			const response = await GroupApi.getActiveGroup()
 			setValue("group_name", response.data.group_name)
 			setValue("group_description", response.data.group_description)
 			setGroupIcon(response.data.group_icon)

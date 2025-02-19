@@ -47,5 +47,8 @@ export const GroupApi = {
 	},
 	activeGroup: async (groupId: number) => {
 		return api.post(`/api/open-group`, { groupId })
+	},
+	getActiveGroup: async () => {
+		return api.get(`/api/open-group`)
 	}
 }

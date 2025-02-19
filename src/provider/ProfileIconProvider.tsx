@@ -16,7 +16,7 @@ const ProfileContext = createContext<ProfileIconContextType | undefined>(
 	undefined
 )
 
-export const ProfileProvider = ({ children }: { children: ReactNode }) => {
+export const ProfileIconProvider = ({ children }: { children: ReactNode }) => {
 	const [profileIcon, setProfileIcon] = useState<string | undefined>(undefined)
 
 	useEffect(() => {
@@ -33,7 +33,7 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
 	)
 }
 
-export const useProfileContext = () => {
+export const useProfileIconContext = () => {
 	const context = useContext(ProfileContext)
 	if (!context) {
 		throw new Error("使い方が間違っています")

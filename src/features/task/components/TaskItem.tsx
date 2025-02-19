@@ -14,8 +14,6 @@ export type TaskItemProps = {
 	tasks: TaskData[]
 }
 
-console.log("タスク回す")
-
 const TaskItem = ({ tasks }: TaskItemProps) => {
 	return (
 		<>

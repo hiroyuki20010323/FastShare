@@ -53,6 +53,7 @@ export const useGroup = () => {
 				groupData
 			)
 			setGroupData(response.data)
+			console.log(response.data)
 			showAlert(response.data.message, "success")
 		} catch (error) {
 			if (error instanceof AxiosError) {

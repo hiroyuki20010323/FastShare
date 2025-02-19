@@ -22,9 +22,8 @@ export const useTask = () => {
 				dueDate,
 				dueTime
 			})
-			const { data: newTasks } = await TaskApi.getTask()
-			console.log(newTasks)
-			setTasks([...newTasks])
+			const response = await TaskApi.getTask()
+			setTasks(response.data)
 			showAlert(createResponse.data.message, "success")
 			onClose()
 		} catch (error) {

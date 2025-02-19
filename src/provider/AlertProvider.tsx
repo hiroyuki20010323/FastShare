@@ -2,7 +2,7 @@ import { createContext, useContext, ReactNode, useState } from "react"
 import { Alert, Snackbar } from "@mui/material"
 
 type AlertContextType = {
-	showAlert: (message: string, severity?: "success" | "error") => void
+	showAlert: (message: string, severity?: "success" | "error" | "info") => void
 	hideAlert: () => void
 }
 
@@ -14,11 +14,13 @@ const AlertContext = createContext<AlertContextType>({
 export const AlertProvider = ({ children }: { children: ReactNode }) => {
 	const [open, setOpen] = useState(false)
 	const [message, setMessage] = useState("")
-	const [severity, setSeverity] = useState<"success" | "error">("success")
+	const [severity, setSeverity] = useState<"success" | "error" | "info">(
+		"success"
+	)
 
 	const showAlert = (
 		message: string,
-		severity: "success" | "error" = "success"
+		severity: "success" | "error" | "info" = "success"
 	) => {
 		setMessage(message)
 		setSeverity(severity)
@@ -34,7 +36,7 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
 			{children}
 			<Snackbar
 				open={open}
-				autoHideDuration={2000}
+				autoHideDuration={1000}
 				onClose={hideAlert}
 				anchorOrigin={{ vertical: "top", horizontal: "center" }}
 			>

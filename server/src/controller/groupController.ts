@@ -83,11 +83,13 @@ export const updateGroup = async (req: Request, res: Response) => {
 			group_description,
 			groupIdInt
 		})
-		res.status(201).json(updateGroup)
+		res
+			.status(201)
+			.json({ message: "グループプロフィールを更新しました！", updateGroup })
 	} catch (e) {
 		res
 			.status(500)
-			.json({ message: "グループプロフィールの更新に失敗しました。" })
+			.json({ error: "グループプロフィールの更新に失敗しました。" })
 	}
 }
 

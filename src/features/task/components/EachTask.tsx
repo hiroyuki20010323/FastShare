@@ -30,7 +30,6 @@ const EachTask: React.FC<TaskItems> = ({ taskItems }) => {
 		setOpen(false)
 		setSelectedTask(null)
 	}
-	console.log("各くタスク展開する")
 
 	return (
 		<>
