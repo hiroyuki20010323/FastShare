@@ -38,16 +38,18 @@ const Profile = () => {
 
 	const onSubmit = async ({ userName, userIcon }: UserProfileData) => {
 		try {
-			const Patchresponse = await ProfileApi.patchProfile({ userName, userIcon })
-			showAlert(Patchresponse.data.message,'success')
+			const Patchresponse = await ProfileApi.patchProfile({
+				userName,
+				userIcon
+			})
+			showAlert(Patchresponse.data.message, "success")
 			const response = await ProfileApi.getProfile()
-			const { newUserName, fileUrl} = response.data
+			const { newUserName, fileUrl } = response.data
 			setFileUrl(fileUrl)
 			setValue("userName", newUserName)
 			console.log(response)
-		
 		} catch (error) {
-        showAlert('予期せぬエラーが発生しました', 'error')
+			showAlert("予期せぬエラーが発生しました", "error")
 		}
 	}
 
@@ -63,10 +65,6 @@ const Profile = () => {
 			setValue("userName", newUserName)
 		})()
 	}, [user])
-
-
-
-
 
 	return (
 		<Box

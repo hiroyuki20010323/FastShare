@@ -15,10 +15,9 @@ export const GroupApi = {
 		formData.append("group_description", group_description)
 		formData.append("uid", user?.uid || "")
 
-		  return await api.post(`/api/group`, formData, {
+		return await api.post(`/api/group`, formData, {
 			requiresAuth: false
 		} as CustomAxiosRequestConfig)
-    
 	},
 
 	editGroup: async (

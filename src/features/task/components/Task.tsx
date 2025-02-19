@@ -10,10 +10,10 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
 import TaskItem from "./TaskItem"
 import Loading from "../../../components/Loading"
-import { api } from "../../../lib/axios"
 import useTask from "../hooks/useTask"
 import TaskModal from "./TaskModal"
 import { useLoading } from "../../../provider/LoadingProvider"
+import { TaskApi } from "../api/task"
 
 export type TaskData = {
 	id: number
@@ -45,8 +45,8 @@ export type TaskFormInputs = {
 }
 
 const Task = () => {
-	const [taskValue, setTaskValue] = useState<string>("1")
-	const {loading, setLoading} = useLoading()
+	const [tabValue, setTabValue] = useState<string>("1")
+	const { loading, setLoading } = useLoading()
 	const {
 		handleOpenModal,
 		tasks,
@@ -61,7 +61,7 @@ const Task = () => {
 		const getTasks = async () => {
 			try {
 				setLoading(true)
-				const taskData = await api.get(`/api/task`)
+				const taskData = await TaskApi.getTask()
 				setTasks(taskData.data)
 			} catch (e) {
 				console.error("タスクの取得に失敗しました。")
@@ -73,7 +73,7 @@ const Task = () => {
 	}, [])
 
 	const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-		setTaskValue(newValue)
+		setTabValue(newValue)
 		event
 	}
 
@@ -84,12 +84,13 @@ const Task = () => {
 	const getNextWeekTasks = async () => {
 		nextWeekTask()
 	}
-	console.log('レンダリング')
+	console.log("タスクデータを渡す", tasks)
+
 	return (
 		<>
 			<Header />
 
-			<TabContext value={taskValue}>
+			<TabContext value={tabValue}>
 				<Box
 					sx={{
 						overflow: "scroll",

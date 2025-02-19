@@ -7,7 +7,7 @@ import { useAlert } from "../../../provider/AlertProvider"
 import { AxiosError } from "axios"
 
 export const useAuth = () => {
-	const {loading,setLoading} = useLoading()
+	const { loading, setLoading } = useLoading()
 	const [isOpenModal, setIsOpenModal] = useState(false)
 	const { toHome } = useNavigation()
 	const { showAlert } = useAlert()
@@ -16,10 +16,10 @@ export const useAuth = () => {
 		try {
 			setLoading(true)
 			const response = await AuthApi.emailAndPasswordLogin(email, password)
-      showAlert(response.message, "success")
+			showAlert(response.message, "success")
 			toHome()
 		} catch (e) {
-			showAlert('パスワードまたはメールアドレスが違います',"error")
+			showAlert("パスワードまたはメールアドレスが違います", "error")
 		} finally {
 			setLoading(false)
 		}
@@ -29,35 +29,34 @@ export const useAuth = () => {
 		try {
 			const response = await AuthApi.googleAuth()
 			toHome()
-			showAlert( response.data.message,"success")
+			showAlert(response.data.message, "success")
 		} catch (error) {
 			if (error instanceof AxiosError) {
-        showAlert(error.response?.data?.error, 'error')
-      } else {
-        showAlert('予期せぬエラーが発生しました', 'error')
-      }
+				showAlert(error.response?.data?.error, "error")
+			} else {
+				showAlert("予期せぬエラーが発生しました", "error")
+			}
 		}
 	}
 
 	const signUp = async (email: string, password: string) => {
 		try {
 			setLoading(true)
-			 await AuthApi.signUp(email, password)
+			await AuthApi.signUp(email, password)
 			setLoading(false)
 			setIsOpenModal(true)
-			
 		} catch (error) {
 			if (error instanceof AxiosError) {
-        showAlert(error.response?.data?.error, 'error')
-      } else {
-        showAlert('予期せぬエラーが発生しました', 'error')
-      }
+				showAlert(error.response?.data?.error, "error")
+			} else {
+				showAlert("予期せぬエラーが発生しました", "error")
+			}
 		}
 	}
 
 	const inputUserModal = async (data: SignUpModalData) => {
 		setLoading(true)
-		const response =await AuthApi.updateUserName(data)
+		const response = await AuthApi.updateUserName(data)
 		setLoading(false)
 		setIsOpenModal(false)
 		showAlert(response?.data.message, "success")

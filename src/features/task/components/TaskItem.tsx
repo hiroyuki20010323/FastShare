@@ -14,8 +14,9 @@ export type TaskItemProps = {
 	tasks: TaskData[]
 }
 
+console.log("タスク回す")
 
-const TaskItem: React.FC<TaskItemProps> = ({ tasks }) => {
+const TaskItem = ({ tasks }: TaskItemProps) => {
 	return (
 		<>
 			{tasks.map((task) => (

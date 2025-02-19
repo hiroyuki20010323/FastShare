@@ -11,8 +11,7 @@ export const useGroup = () => {
 	const { toHome } = useNavigation()
 	const user = useAuthContext()
 	const [groupData, setGroupData] = useState<Group | null>(null)
-  const { showAlert } = useAlert()
-
+	const { showAlert } = useAlert()
 
 	const createGroup = async ({
 		group_icon,
@@ -20,7 +19,7 @@ export const useGroup = () => {
 		group_description
 	}: GroupProfileData) => {
 		try {
-		const response = 	await GroupApi.createGroupFromData(
+			const response = await GroupApi.createGroupFromData(
 				{
 					group_icon,
 					group_name,
@@ -29,13 +28,13 @@ export const useGroup = () => {
 				user
 			)
 			toHome()
-      showAlert(response.data.message,'success')
+			showAlert(response.data.message, "success")
 		} catch (error) {
-		  if (error instanceof AxiosError) {
-        showAlert(error.response?.data?.error, 'error')
-      } else {
-        showAlert('予期せぬエラーが発生しました', 'error')
-      }
+			if (error instanceof AxiosError) {
+				showAlert(error.response?.data?.error, "error")
+			} else {
+				showAlert("予期せぬエラーが発生しました", "error")
+			}
 		}
 	}
 
@@ -54,13 +53,13 @@ export const useGroup = () => {
 				groupData
 			)
 			setGroupData(response.data)
-      showAlert(response.data.message,'success')
+			showAlert(response.data.message, "success")
 		} catch (error) {
 			if (error instanceof AxiosError) {
-        showAlert(error.response?.data?.error, 'error')
-      } else {
-        showAlert('予期せぬエラーが発生しました', 'error')
-      }
+				showAlert(error.response?.data?.error, "error")
+			} else {
+				showAlert("予期せぬエラーが発生しました", "error")
+			}
 		}
 	}
 
@@ -68,13 +67,13 @@ export const useGroup = () => {
 		try {
 			const response = await GroupApi.groupDelete(groupId)
 			toHome()
-      showAlert(response.data.message,'success')
+			showAlert(response.data.message, "success")
 		} catch (error) {
 			if (error instanceof AxiosError) {
-        showAlert(error.response?.data?.error, 'error')
-      } else {
-        showAlert('予期せぬエラーが発生しました', 'error')
-      }
+				showAlert(error.response?.data?.error, "error")
+			} else {
+				showAlert("予期せぬエラーが発生しました", "error")
+			}
 		}
 	}
 

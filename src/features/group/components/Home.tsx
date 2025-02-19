@@ -17,7 +17,7 @@ export type Group = {
 
 const Home = () => {
 	const { toHome } = useNavigation()
-	const {loading,setLoading} = useLoading()
+	const { loading, setLoading } = useLoading()
 	const user = useAuthContext()
 
 	const [groups, setGroups] = useState<Group[]>([])
@@ -26,11 +26,10 @@ const Home = () => {
 			if (!user) {
 				return
 			}
-setLoading(true)
+			setLoading(true)
 			const response = await GroupApi.getGroup()
 			setGroups(response.data)
 			setLoading(false)
-
 		})()
 
 		// useEffect第二引数のuserは、user情報の取得が非同期であるためから配列にするとuser情報が取得される前にapiが叩かれてしまう。
@@ -45,9 +44,9 @@ setLoading(true)
 		}
 	}
 
-if(loading){
-	return <Loading/>
-}
+	if (loading) {
+		return <Loading />
+	}
 
 	if (!user) {
 		toHome()

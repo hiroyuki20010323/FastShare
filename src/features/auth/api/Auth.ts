@@ -9,16 +9,15 @@ import { auth, provider } from "../../../config/firebaseConfig"
 import { SignUpModalData } from "../components/SignUpModal"
 
 export const AuthApi = {
-	// グーグルログイン　
+	// グーグルログイン
 	googleAuth: async () => {
 		const userData = await signInWithPopup(auth, provider)
 		const { displayName, photoURL, uid } = userData.user
-		return  await api.post(`/auth/user`, {
+		return await api.post(`/auth/user`, {
 			displayName,
 			photoURL,
 			uid
 		})
-
 	},
 
 	// メールアドレスログイン
@@ -28,13 +27,13 @@ export const AuthApi = {
 			email,
 			password
 		)
-		const {data} =await api.post(`/auth/verify`,{
+		const { data } = await api.post(`/auth/verify`, {
 			tokenProvider: {
 				type: "specific",
 				user: userCredential.user
 			}
 		} as CustomAxiosRequestConfig)
-		
+
 		return data
 	},
 
@@ -45,29 +44,27 @@ export const AuthApi = {
 			email,
 			password
 		)
-		  return await api.post(`/auth/verify`, {
+		return await api.post(`/auth/verify`, {
 			tokenProvider: {
 				type: "specific",
 				user: userCredential.user
 			}
 		} as CustomAxiosRequestConfig)
-		
 	},
 
 	// ユーザーネーム入力モーダル
 	updateUserName: async (data: SignUpModalData) => {
 		if (auth.currentUser) {
 			const uid = auth.currentUser?.uid
-				await updateProfile(auth.currentUser, {
+			await updateProfile(auth.currentUser, {
 				displayName: data.user_name
 			})
 
-		return await api.post(`/auth/user`, {
+			return await api.post(`/auth/user`, {
 				uid: uid,
 				displayName: data.user_name,
 				icon_url: null
 			})
-		
 		}
 	}
 }

@@ -1,6 +1,7 @@
 import { Avatar, Box } from "@mui/material"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { UseFormSetValue } from "react-hook-form"
+import { useProfileContext } from "../../../provider/ProfileIconProvider"
 
 type AvatarDataProps = {
 	setValue: UseFormSetValue<any>
@@ -9,10 +10,10 @@ type AvatarDataProps = {
 
 const UserIcon = ({ setValue, value }: AvatarDataProps) => {
 	const fileInputRef = useRef<HTMLInputElement | null>(null)
-	const [icon, setIcon] = useState<string | undefined>(value)
+	const { profileIcon, setProfileIcon } = useProfileContext()
 
 	useEffect(() => {
-		setIcon(value)
+		setProfileIcon(value)
 	}, [value])
 
 	const handleInput = () => {
@@ -23,7 +24,7 @@ const UserIcon = ({ setValue, value }: AvatarDataProps) => {
 		const reader = new FileReader()
 		reader.readAsDataURL(file)
 		reader.onload = (e) => {
-			setIcon(String(e.target?.result))
+			setProfileIcon(String(e.target?.result))
 		}
 	}
 
@@ -35,7 +36,7 @@ const UserIcon = ({ setValue, value }: AvatarDataProps) => {
 		<Box>
 			<Avatar
 				sx={{ width: 140, height: 140, marginTop: 10, marginBottom: 10 }}
-				src={icon || undefined}
+				src={profileIcon || undefined}
 				onClick={fileUpLoad}
 			/>
 			<input

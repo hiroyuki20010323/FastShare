@@ -11,9 +11,11 @@ import NotificationsIcon from "@mui/icons-material/Notifications"
 import ListAltIcon from "@mui/icons-material/ListAlt"
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { useProfileContext } from "../provider/ProfileIconProvider"
 
 const Footer = () => {
 	const [value, setValue] = useState(location.pathname)
+	const { profileIcon } = useProfileContext()
 	const handleChange = (event: React.BaseSyntheticEvent, newValue: string) => {
 		event
 		setValue(newValue)
@@ -70,7 +72,12 @@ const Footer = () => {
 					<BottomNavigationAction
 						label="ユーザー"
 						value="/profile"
-						icon={<Avatar sx={{ width: "28px", height: "28px" }} />}
+						icon={
+							<Avatar
+								src={profileIcon || undefined}
+								sx={{ width: "28px", height: "28px" }}
+							/>
+						}
 						component={Link}
 						to="/profile"
 					/>

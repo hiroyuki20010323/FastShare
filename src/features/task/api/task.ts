@@ -19,7 +19,7 @@ export const TaskApi = {
 		formData.append("dueDate", dueDate)
 		formData.append("dueTime", dueTime)
 
-	return 	await api.post(`/api/task`, formData)
+		return await api.post(`/api/task`, formData)
 	},
 
 	getTask: async () => {
