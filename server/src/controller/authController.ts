@@ -11,7 +11,7 @@ export const verifyToken = (req: Request, res: Response) => {
 		console.error("ログインエラー:", e)
 		res
 			.status(401)
-			.send({ message: "ログインに失敗しました。もう一度お試しください" })
+			.send({ error: "ログインに失敗しました。もう一度お試しください" })
 	}
 }
 
@@ -26,8 +26,9 @@ export const signUp = async (req: Request, res: Response) => {
 
 		const existingUser = await AuthRepo.findUser(id)
 
+		// googleログインで既にデータがある場合、return
 		if (existingUser) {
-			res.status(200).json({ message: "ユーザーは既に存在します" })
+			res.status(200).json({ message: "ログインに成功しました！" })
 			return
 		}
 
@@ -35,6 +36,6 @@ export const signUp = async (req: Request, res: Response) => {
 
 		res.status(201).json({ message: "ユーザーの登録に成功しました。" })
 	} catch (e) {
-		res.status(500).json({ error: "データの保存に失敗しました" })
+		res.status(500).json({ error: "ユーザー登録に失敗しました" })
 	}
 }

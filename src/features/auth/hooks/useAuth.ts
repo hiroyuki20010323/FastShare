@@ -2,56 +2,66 @@ import { useState } from "react"
 import { useNavigation } from "../../../hooks/useNavigation"
 import { SignUpModalData } from "../components/SignUpModal"
 import { AuthApi } from "../api/auth"
+import { useLoading } from "../../../provider/LoadingProvider"
+import { useAlert } from "../../../provider/AlertProvider"
+import { AxiosError } from "axios"
 
 export const useAuth = () => {
-	const [authLoading, setAuthLoading] = useState(false)
+	const {loading,setLoading} = useLoading()
 	const [isOpenModal, setIsOpenModal] = useState(false)
 	const { toHome } = useNavigation()
+	const { showAlert } = useAlert()
 
 	const login = async (email: string, password: string) => {
 		try {
-			setAuthLoading(true)
-			await AuthApi.emailAndPasswordLogin(email, password)
+			setLoading(true)
+			const response = await AuthApi.emailAndPasswordLogin(email, password)
+      showAlert(response.message, "success")
 			toHome()
 		} catch (e) {
-			alert("IDまたはPassWordが違います")
+			showAlert('パスワードまたはメールアドレスが違います',"error")
 		} finally {
-			setAuthLoading(false)
+			setLoading(false)
 		}
 	}
 
 	const handleGoogleLogin = async () => {
 		try {
-			await AuthApi.googleAuth()
+			const response = await AuthApi.googleAuth()
 			toHome()
-		} catch (error) {
+			showAlert( response,"success")
+		} catch (error:AxiosError|any) {
 			console.log(error)
+			showAlert(error.response.data.error ,"error")
 		}
 	}
 
 	const signUp = async (email: string, password: string) => {
 		try {
-			setAuthLoading(true)
-			await AuthApi.signUp(email, password)
-			setAuthLoading(false)
+			setLoading(true)
+			 await AuthApi.signUp(email, password)
+			setLoading(false)
 			setIsOpenModal(true)
-		} catch (e) {
+			
+		} catch (error: AxiosError | any) {
 			console.log("処理がうまくいきませんでした。")
+			showAlert( "登録に失敗しました...","error")
 		}
 	}
 
 	const inputUserModal = async (data: SignUpModalData) => {
-		setAuthLoading(true)
-		await AuthApi.updateUserName(data)
-		setAuthLoading(false)
+		setLoading(true)
+		const response =await AuthApi.updateUserName(data)
+		setLoading(false)
 		setIsOpenModal(false)
+		showAlert(response, "success")
 		toHome()
 	}
 
 	return {
 		login,
-		authLoading,
-		setAuthLoading,
+		loading,
+		setLoading,
 		handleGoogleLogin,
 		isOpenModal,
 		setIsOpenModal,

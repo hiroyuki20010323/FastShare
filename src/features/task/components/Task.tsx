@@ -13,6 +13,7 @@ import Loading from "../../../components/Loading"
 import { api } from "../../../lib/axios"
 import useTask from "../hooks/useTask"
 import TaskModal from "./TaskModal"
+import { useLoading } from "../../../provider/LoadingProvider"
 
 export type TaskData = {
 	id: number
@@ -45,7 +46,7 @@ export type TaskFormInputs = {
 
 const Task = () => {
 	const [taskValue, setTaskValue] = useState<string>("1")
-	const [isLoading, setIsLoading] = useState(true)
+	const {loading, setLoading} = useLoading()
 	const {
 		handleOpenModal,
 		tasks,
@@ -59,13 +60,13 @@ const Task = () => {
 	useEffect(() => {
 		const getTasks = async () => {
 			try {
-				setIsLoading(true)
+				setLoading(true)
 				const taskData = await api.get(`/api/task`)
 				setTasks(taskData.data)
 			} catch (e) {
 				console.error("タスクの取得に失敗しました。")
 			} finally {
-				setIsLoading(false)
+				setLoading(false)
 			}
 		}
 		getTasks()
@@ -103,7 +104,7 @@ const Task = () => {
 					</TabList>
 
 					<TabPanel value="1" sx={{ padding: 0 }}>
-						{isLoading ? (
+						{loading ? (
 							<Box
 								sx={{
 									display: "flex",

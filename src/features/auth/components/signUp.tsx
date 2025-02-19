@@ -30,7 +30,7 @@ type UserData = {
 }
 
 export const SignUp = () => {
-	const { authLoading, handleGoogleLogin, signUp, isOpenModal } = useAuth()
+	const { loading, handleGoogleLogin, signUp, isOpenModal } = useAuth()
 	const {
 		showPassword,
 		showConfirmPassword,
@@ -54,7 +54,7 @@ export const SignUp = () => {
 
 	const onSubmit = ({ email, password }: UserData) => signUp(email, password)
 
-	if (authLoading) {
+	if (loading) {
 		return <Loading />
 	}
 

@@ -12,10 +12,13 @@ const router = Router()
 
 // タスク取得
 router.get("/task", authMiddleware, getTask)
+
 // タスク追加
 router.post("/task", upload.single("taskImage"), authMiddleware, createTask)
+
 // 先週のタスク
 router.get("/task/prev-week", authMiddleware, getPrevWeekTask)
+
 // 来週のタスク
 router.get("/task/next-week", authMiddleware, getNextWeekTask)
 

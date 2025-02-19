@@ -5,6 +5,8 @@ import Footer from "../../../components/Footer"
 import { useEffect, useState } from "react"
 import { GroupApi } from "../api/group"
 import { useNavigation } from "../../../hooks/useNavigation"
+import { useLoading } from "../../../provider/LoadingProvider"
+import Loading from "../../../components/Loading"
 
 export type Group = {
 	id: number
@@ -15,6 +17,7 @@ export type Group = {
 
 const Home = () => {
 	const { toHome } = useNavigation()
+	const {loading,setLoading} = useLoading()
 	const user = useAuthContext()
 
 	const [groups, setGroups] = useState<Group[]>([])
@@ -23,9 +26,11 @@ const Home = () => {
 			if (!user) {
 				return
 			}
-
+setLoading(true)
 			const response = await GroupApi.getGroup()
 			setGroups(response.data)
+			setLoading(false)
+
 		})()
 
 		// useEffect第二引数のuserは、user情報の取得が非同期であるためから配列にするとuser情報が取得される前にapiが叩かれてしまう。
@@ -39,6 +44,10 @@ const Home = () => {
 			console.error("アクションの実行に失敗しました。", e)
 		}
 	}
+
+if(loading){
+	return <Loading/>
+}
 
 	if (!user) {
 		toHome()

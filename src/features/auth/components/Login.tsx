@@ -28,7 +28,7 @@ export type LoginUserData = {
 }
 
 const Login = () => {
-	const { login, authLoading, handleGoogleLogin } = useAuth()
+	const { login, loading, handleGoogleLogin } = useAuth()
 	const { showPassword, togglePassword } = usePasswordVisibility()
 	const { control, handleSubmit } = useForm({
 		mode: "onSubmit",
@@ -43,7 +43,7 @@ const Login = () => {
 	const onSubmit = ({ email, password }: LoginUserData) =>
 		login(email, password)
 
-	if (authLoading) {
+	if (loading) {
 		return <Loading />
 	}
 

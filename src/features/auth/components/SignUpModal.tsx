@@ -11,7 +11,7 @@ export type SignUpModalData = {
 }
 
 const SignUpModal = () => {
-	const { inputUserModal, authLoading } = useAuth()
+	const { inputUserModal, loading } = useAuth()
 	// モーダルをtrueにして表示させる
 	const open = true
 	const { control, handleSubmit } = useForm({
@@ -23,7 +23,7 @@ const SignUpModal = () => {
 
 	const onSubmit = (data: SignUpModalData) => inputUserModal(data)
 
-	if (authLoading) {
+	if (loading) {
 		return <Loading />
 	}
 

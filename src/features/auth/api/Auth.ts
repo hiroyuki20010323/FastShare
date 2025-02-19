@@ -9,15 +9,16 @@ import { auth, provider } from "../../../config/firebaseConfig"
 import { SignUpModalData } from "../components/SignUpModal"
 
 export const AuthApi = {
-	// グーグルログイン　だが、データを自前のDBに保存するため、実態は新規登録
+	// グーグルログイン　
 	googleAuth: async () => {
 		const userData = await signInWithPopup(auth, provider)
 		const { displayName, photoURL, uid } = userData.user
-		await api.post(`/auth/user`, {
+		const {data} = await api.post(`/auth/user`, {
 			displayName,
 			photoURL,
 			uid
 		})
+		return data.message
 	},
 
 	// メールアドレスログイン
@@ -27,42 +28,47 @@ export const AuthApi = {
 			email,
 			password
 		)
-		await api.post(`/auth/verify`, { message: "認証に成功しました！" }, {
+		const {data} =await api.post(`/auth/verify`,{
 			tokenProvider: {
 				type: "specific",
 				user: userCredential.user
 			}
 		} as CustomAxiosRequestConfig)
+		
+		return data
 	},
 
-	// 新規登録だが、実際にはupdateUserNameで登録の振る舞いをしている。こちらは認証的な役割を持つ
+	// 新規登録
 	signUp: async (email: string, password: string) => {
 		const userCredential = await createUserWithEmailAndPassword(
 			auth,
 			email,
 			password
 		)
-		await api.post(`/auth/verify`, { message: "認証に成功しました！" }, {
+		 await api.post(`/auth/verify`, {
 			tokenProvider: {
 				type: "specific",
 				user: userCredential.user
 			}
 		} as CustomAxiosRequestConfig)
+		
 	},
 
-	// ここで新規登録
+	// ユーザーネーム入力モーダル
 	updateUserName: async (data: SignUpModalData) => {
 		if (auth.currentUser) {
 			const uid = auth.currentUser?.uid
-			await updateProfile(auth.currentUser, {
+				await updateProfile(auth.currentUser, {
 				displayName: data.user_name
 			})
 
-			await api.post(`/auth/user`, {
+			const response = await api.post(`/auth/user`, {
 				uid: uid,
 				displayName: data.user_name,
 				icon_url: null
 			})
+			const res = response.data.message
+			return res
 		}
 	}
 }
