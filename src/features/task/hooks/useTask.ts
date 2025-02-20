@@ -10,7 +10,7 @@ export const useTask = () => {
 	const { tasks, setTasks } = useTaskContext()
 	const [open, setOpen] = useState<boolean>(false)
 	const { showAlert } = useAlert()
-	const {  setLoading } = useLoading()
+	const { setLoading } = useLoading()
 
 	const createTask = async (
 		{ taskTitle, taskDetail, taskImage, dueDate, dueTime }: TaskFormInputs,

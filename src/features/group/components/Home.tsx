@@ -18,7 +18,7 @@ export type Group = {
 
 const Home = () => {
 	const { loading, setLoading } = useLoading()
-	const [isLoading, setIsLoading] = useState<number | null>(null); 
+	const [isLoading, setIsLoading] = useState<number | null>(null)
 	const user = useAuthContext()
 	const { showAlert } = useAlert()
 	const [groups, setGroups] = useState<Group[]>([])
@@ -49,19 +49,15 @@ const Home = () => {
 		}
 	}
 
-	
-
-
-		return (
-			<Box>
-				<Header />
-				<List sx={{ paddingTop: "80px", paddingBottom: "80px" }}>
-					{loading ? (
-						Array(4).fill(0).map((_,index) => (
-							<GroupListSkeleton key={index}/>
-						))
-					) : (
-						groups.map((group) => (
+	return (
+		<Box>
+			<Header />
+			<List sx={{ paddingTop: "80px", paddingBottom: "80px" }}>
+				{loading
+					? Array(4)
+							.fill(0)
+							.map((_, index) => <GroupListSkeleton key={index} />)
+					: groups.map((group) => (
 							<List
 								key={group.id}
 								sx={{
@@ -70,7 +66,7 @@ const Home = () => {
 									border: "solid 1px  #E0E0E0",
 									padding: "14px",
 									borderTop: "none",
-									alignItems: "center",
+									alignItems: "center"
 								}}
 							>
 								<Avatar
@@ -96,21 +92,19 @@ const Home = () => {
 								</ListItem>
 								<Button
 									variant="contained"
-									disabled={isLoading === group.id} 
+									disabled={isLoading === group.id}
 									sx={{ height: 30 }}
 									onClick={() => openGroup(group.id)}
 								>
 									開く
 								</Button>
 							</List>
-						))
-					)}
-				</List>
+						))}
+			</List>
 
-				<Footer />
-			</Box>
-		)
-	}
-
+			<Footer />
+		</Box>
+	)
+}
 
 export default Home

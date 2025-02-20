@@ -21,7 +21,7 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 		const { createTask } = useTask()
 		const fileInputRef = useRef<HTMLInputElement | null>(null)
 		const [image, setImage] = useState<string | undefined>(undefined)
-		const {loading} = useLoading()
+		const { loading } = useLoading()
 		const { control, handleSubmit, setValue } = useForm<TaskFormInputs>({
 			mode: "onSubmit",
 			defaultValues: {
@@ -78,8 +78,8 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 				onClose
 			)
 		}
-		if(loading){
-			return <ModalLoading/>
+		if (loading) {
+			return <ModalLoading />
 		}
 
 		return (

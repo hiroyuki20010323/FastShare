@@ -90,7 +90,6 @@ const Task = () => {
 		nextWeekTask()
 	}
 
-
 	return (
 		<>
 			<Header />

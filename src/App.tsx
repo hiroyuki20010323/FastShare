@@ -12,7 +12,7 @@ const App = () => {
 				<AuthProvider>
 					<LoadingProvider>
 						<TaskProvider>
-						<CssBaseline />
+							<CssBaseline />
 							<AppRoutes />
 						</TaskProvider>
 					</LoadingProvider>
