@@ -1,13 +1,14 @@
-import { Avatar, Box } from "@mui/material"
+import { Avatar, Box, Skeleton } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
 import { UseFormSetValue } from "react-hook-form"
 
 type AvatarDataProps = {
 	setValue: UseFormSetValue<any>
 	value: any
+	loading?: boolean
 }
 
-const UserIcon = ({ setValue, value }: AvatarDataProps) => {
+const UserIcon = ({ setValue, value, loading }: AvatarDataProps) => {
 	const fileInputRef = useRef<HTMLInputElement | null>(null)
 	const [profileIcon, setProfileIcon] = useState<string | null>()
 
@@ -33,19 +34,30 @@ const UserIcon = ({ setValue, value }: AvatarDataProps) => {
 
 	return (
 		<Box>
-			<Avatar
-				sx={{ width: 140, height: 140, marginTop: 10, marginBottom: 10 }}
-				src={profileIcon || undefined}
-				onClick={fileUpLoad}
-			/>
-			<input
-				type="file"
-				ref={fileInputRef}
-				onChange={handleInput}
-				style={{
-					display: "none"
-				}}
-			/>
+			{loading ? (
+				<Skeleton
+					variant="circular"
+					width={140}
+					height={140}
+					sx={{ marginTop: 10, marginBottom: 10 }}
+				/>
+			) : (
+				<>
+					<Avatar
+						sx={{ width: 140, height: 140, marginTop: 10, marginBottom: 10 }}
+						src={profileIcon || undefined}
+						onClick={fileUpLoad}
+					/>
+					<input
+						type="file"
+						ref={fileInputRef}
+						onChange={handleInput}
+						style={{
+							display: "none"
+						}}
+					/>
+				</>
+			)}
 		</Box>
 	)
 }

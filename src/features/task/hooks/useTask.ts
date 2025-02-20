@@ -47,14 +47,18 @@ export const useTask = () => {
 	}
 
 	const prevWeekTask = async () => {
+		setLoading(true)
 		const currentDate = tasks[0].date
 		const response = await TaskApi.prevWeekTaskData(currentDate)
+		setLoading(false)
 		setTasks(response.data)
 	}
 
 	const nextWeekTask = async () => {
+		setLoading(true)
 		const currentDate = tasks[6].date
 		const response = await TaskApi.nextWeekTaskData(currentDate)
+		setLoading(false)
 		setTasks(response.data)
 	}
 

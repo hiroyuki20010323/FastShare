@@ -1,4 +1,4 @@
-import { Box, Fab, IconButton, Modal, Tab, Typography } from "@mui/material"
+import { Box, Fab, IconButton, Modal, Skeleton, Tab, Typography } from "@mui/material"
 import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
 import TabPanel from "@mui/lab/TabPanel"
@@ -9,13 +9,13 @@ import AddIcon from "@mui/icons-material/Add"
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
 import TaskItem from "./TaskItem"
-import Loading from "../../../components/Loading"
 import useTask from "../hooks/useTask"
 import TaskModal from "./TaskModal"
 import { useLoading } from "../../../provider/LoadingProvider"
 import { TaskApi } from "../api/task"
 import { GroupApi } from "../../group/api/group"
 import InactiveGroupModal from "./InactiveGroupModal"
+import UnderConstruction from "../../../components/UnderConstruction"
 
 export type TaskData = {
 	id: number
@@ -104,38 +104,35 @@ const Task = () => {
 				>
 					<TabList onChange={handleChange} centered>
 						<Tab label="全体タスク" value="1" />
-						{/* <Tab label="請負中のタスク" value="2" />
-						<Tab label="依頼したタスク" value="3" /> */}
+						<Tab label="請負中のタスク" value="2" />
+						<Tab label="依頼したタスク" value="3" />
 					</TabList>
 
 					<TabPanel value="1" sx={{ padding: 0 }}>
-						{loading ? (
-							<Box
-								sx={{
-									display: "flex",
-									justifyContent: "center",
-									alignItems: "center",
-									height: "28vh",
-									flexFlow: "column",
-									marginBottom: 40
-								}}
-							>
-								<Loading />
-							</Box>
-						) : !isActiveGroup ? (
+						{ !isActiveGroup ? (
 							<InactiveGroupModal />
 						) : (
-							<TaskItem tasks={tasks} />
+							<TaskItem tasks={tasks}loading={loading} />
 						)}
 					</TabPanel>
 
-					{/* <TabPanel value="2" sx={{ padding: 0 }}>
-						<WeekTask />
+					<TabPanel value="2" sx={{ padding: 0 }}>
+						{ !isActiveGroup ? (
+							<InactiveGroupModal />
+						) : (
+							<UnderConstruction/>
+							// <TaskItem tasks={tasks}loading={loading} />
+						)}
 					</TabPanel>
 
 					<TabPanel value="3" sx={{ padding: 0 }}>
-						<WeekTask />
-					</TabPanel> */}
+						{ !isActiveGroup ? (
+							<InactiveGroupModal />
+						) : (
+							<UnderConstruction/>
+							// <TaskItem tasks={tasks}loading={loading} />
+						)}
+					</TabPanel>
 
 					<Fab
 						color="primary"
@@ -182,22 +179,29 @@ const Task = () => {
 							}}
 							variant="subtitle1"
 						>
-							{tasks.length > 0 ? (
-								<>
-									{new Date(tasks[0].date).toLocaleDateString("ja-JP", {
-										month: "numeric",
-										day: "numeric",
-										weekday: "short"
-									})}
-									&nbsp;~&nbsp;
-									{new Date(tasks[6].date).toLocaleDateString("ja-JP", {
-										month: "numeric",
-										day: "numeric",
-										weekday: "short"
-									})}
-								</>
+							{loading ? (
+								<Skeleton 
+									variant="text" 
+									width={200} 
+									height={24}
+									sx={{ mx: "auto" }}  
+								/>
 							) : (
-								"データ読み込み中..."
+								tasks.length > 0 && (
+									<>
+										{new Date(tasks[0].date).toLocaleDateString("ja-JP", {
+											month: "numeric",
+											day: "numeric",
+											weekday: "short"
+										})}
+										&nbsp;~&nbsp;
+										{new Date(tasks[6].date).toLocaleDateString("ja-JP", {
+											month: "numeric",
+											day: "numeric",
+											weekday: "short"
+										})}
+									</>
+								)
 							)}
 						</Typography>
 

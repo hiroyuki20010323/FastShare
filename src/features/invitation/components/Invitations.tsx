@@ -1,13 +1,15 @@
-import { Box, TextField, Button } from "@mui/material"
+// import { Box, TextField, Button } from "@mui/material"
 
 import Footer from "../../../components/Footer"
 import Header from "../../../components/Header"
+import UnderConstruction from "../../../components/UnderConstruction"
 
 const Invitations = () => {
 	return (
 		<>
 			<Header />
-			<Box
+			<UnderConstruction/>
+			{/* <Box
 				sx={{
 					display: "flex",
 					alignItems: "center",
@@ -26,7 +28,7 @@ const Invitations = () => {
 				<Button variant="contained" sx={{ width: 300, marginTop: 4 }}>
 					リンクを共有
 				</Button>
-			</Box>
+			</Box> */}
 			<Footer />
 		</>
 	)

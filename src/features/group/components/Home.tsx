@@ -54,7 +54,7 @@ const Home = () => {
 			<Header />
 			<List sx={{ paddingTop: "80px", paddingBottom: "80px" }}>
 				{loading
-					? Array(4)
+					? Array(10)
 							.fill(0)
 							.map((_, index) => <GroupListSkeleton key={index} />)
 					: groups.map((group) => (

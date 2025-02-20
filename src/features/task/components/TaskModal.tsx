@@ -99,13 +99,30 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 						sx={{
 							display: "flex",
 							alignItems: "center",
-							marginBottom: 4
+							marginBottom: 4,
+							position: "relative",
+							width: "100%"
 						}}
 					>
-						<Typography id="modal-modal-title" variant="h6" component="h2">
+						<Typography
+							id="modal-modal-title"
+							variant="h6"
+							component="h2"
+							sx={{
+								width: "100%",
+								textAlign: "center"
+							}}
+						>
 							タスク追加
 						</Typography>
-						<Button onClick={onClose} color="error">
+						<Button
+							onClick={onClose}
+							color="error"
+							sx={{
+								position: "absolute",
+								right: 0
+							}}
+						>
 							閉じる
 						</Button>
 					</Box>
@@ -177,7 +194,7 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 							/>
 						</Box>
 
-						<Typography sx={{ marginTop: 2 }}>期限指定</Typography>
+						
 
 						<Controller
 							name="dueDate"
@@ -192,6 +209,14 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 								<TextField
 									{...field}
 									type="date"
+									label="期限日"
+									sx={{ 
+										mt:4,
+										mb:4,
+										'& .MuiInputLabel-root': {
+											transform: 'translate(14px, -14px) scale(0.80)'
+										}
+									}}
 									error={errors.dueDate ? true : false}
 									helperText={errors.dueDate?.message}
 								/>
@@ -200,12 +225,23 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 						<Controller
 							name="dueTime"
 							control={control}
-							render={({ field }) => <TextField {...field} type="time" />}
+							render={({ field }) => (
+								<TextField
+									{...field}
+									type="time"
+									label="時間"
+									sx={{ 
+										'& .MuiInputLabel-root': {
+											transform: 'translate(14px, -14px) scale(0.80)'
+										}
+									}}
+								/>
+							)}
 						/>
 
 						<Button
 							variant="contained"
-							sx={{ height: 40, marginTop: 6, marginBottom: 4 }}
+							sx={{ height: 40, marginTop: 8, marginBottom: 4 }}
 							onClick={handleSubmit(onSubmit)}
 						>
 							追加

@@ -1,13 +1,15 @@
 import { Box } from "@mui/material"
 import Header from "../../../components/Header"
-import NotificationItem from "./NotificationItem"
+// import NotificationItem from "./NotificationItem"
 import Footer from "../../../components/Footer"
+import UnderConstruction from "../../../components/UnderConstruction"
 
 const Notification = () => {
 	return (
 		<Box>
 			<Header />
-			<Box sx={{ paddingTop: "80px", paddingBottom: "80px" }}>
+			<UnderConstruction/>
+			{/* <Box sx={{ paddingTop: "80px", paddingBottom: "80px" }}>
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
@@ -17,7 +19,7 @@ const Notification = () => {
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
-			</Box>
+			</Box> */}
 			<Footer />
 		</Box>
 	)

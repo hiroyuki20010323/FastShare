@@ -5,16 +5,28 @@ import {
 	AccordionSummary,
 	Badge,
 	Box,
-	Typography
+	Typography,
 } from "@mui/material"
 import EachTask from "./EachTask"
 import { TaskData } from "./Task"
+import TaskLitSkeleton from "./TaskLitSkeleton"
 
 export type TaskItemProps = {
 	tasks: TaskData[]
+	loading?: boolean
 }
 
-const TaskItem = ({ tasks }: TaskItemProps) => {
+const TaskItem = ({ tasks, loading }: TaskItemProps) => {
+	if (loading) {
+		return (
+			<>
+				{Array(7).fill(0).map((_, index) => (
+				<TaskLitSkeleton key={index}/>
+				))}
+			</>
+		)
+	}
+
 	return (
 		<>
 			{tasks.map((task) => (
