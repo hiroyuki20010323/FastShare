@@ -18,17 +18,19 @@ const Header = () => {
 	}, [])
 	return (
 		<>
-			{/* TODO:原始的な方法でアイコンの位置などを調整しているので後で修正する */}
+			
 			<AppBar
 				elevation={0}
 				sx={{
 					width: "100vw",
 					top: 0,
+					left: 0,
 					height: "74px",
 					backgroundColor: "white",
 					pb: 0.6,
 					boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-					position: "fixed"
+					position: "fixed",
+					margin: 0 
 				}}
 			>
 				<Toolbar
@@ -40,21 +42,23 @@ const Header = () => {
 					}}
 				>
 					<Typography
-						variant="h6"
+						variant="subtitle1" 
 						component="div"
 						color="black"
 						sx={{
 							position: "absolute",
 							left: "50%",
-							transform: "translateX(-50%)"
+							transform: "translateX(-50%)",
+							fontWeight: 600,
+							fontSize: '1rem',
 						}}
 					>
 						{pathName === "/"
-							? "グループ一覧"
+							? "グループ"
 							: pathName === "/creategroup"
 								? "グループ作成"
 								: pathName === "/task"
-									? "タスク一覧"
+									? "タスク"
 									: pathName === "/notification"
 										? "通知"
 										: pathName === "/profile"

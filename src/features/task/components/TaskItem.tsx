@@ -59,8 +59,17 @@ const TaskItem = ({ tasks, loading }: TaskItemProps) => {
 							</Typography>
 							<Badge
 								badgeContent={task.tasks.length}
-								color="success"
-								sx={{ marginRight: 4 }}
+								sx={{ 
+									marginRight: 4,
+									'& .MuiBadge-badge': {
+										backgroundColor: '#4CAF50',
+										color: 'white',
+										minWidth: '22px',
+										height: '22px',
+										fontSize: '0.85rem',
+										padding: '0 6px'
+									}
+								}}
 							></Badge>
 						</Box>
 					</AccordionSummary>

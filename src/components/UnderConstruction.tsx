@@ -17,9 +17,9 @@ const UnderConstruction = () => {
 				🚧 🏗️
 			</span>
 			<Typography variant="h5" color="text.secondary">
-				　　　　工事中・・・
+				一生懸命実装中・・・
 				<br />
-				もうしばらくお待ちください
+				しばらくお待ちください
 			</Typography>
 			<span role="img" aria-label="construction" style={{ fontSize: "3em" }}>
 				👷 👷‍♀️

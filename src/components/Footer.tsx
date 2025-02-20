@@ -32,7 +32,7 @@ const Footer = () => {
 					bottom: 0,
 					left: 0,
 					right: 0,
-					paddingBottom: 8,
+					paddingBottom: 6,
 					pt: 0.6,
 					boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.1)",
 					marginTop: 2,
@@ -93,7 +93,7 @@ const Footer = () => {
 								sx={{
 									width: "28px",
 									height: "28px",
-									border: "1px solid rgba(0, 0, 0, 0.26)"
+									border: "1px solid rgba(0, 0, 0, 0.12)"
 								}}
 							/>
 						}
