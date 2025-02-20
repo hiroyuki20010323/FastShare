@@ -194,8 +194,6 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 							/>
 						</Box>
 
-						
-
 						<Controller
 							name="dueDate"
 							rules={{
@@ -210,11 +208,11 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 									{...field}
 									type="date"
 									label="期限日"
-									sx={{ 
-										mt:4,
-										mb:4,
-										'& .MuiInputLabel-root': {
-											transform: 'translate(14px, -14px) scale(0.80)'
+									sx={{
+										mt: 4,
+										mb: 4,
+										"& .MuiInputLabel-root": {
+											transform: "translate(14px, -14px) scale(0.80)"
 										}
 									}}
 									error={errors.dueDate ? true : false}
@@ -230,9 +228,9 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 									{...field}
 									type="time"
 									label="時間"
-									sx={{ 
-										'& .MuiInputLabel-root': {
-											transform: 'translate(14px, -14px) scale(0.80)'
+									sx={{
+										"& .MuiInputLabel-root": {
+											transform: "translate(14px, -14px) scale(0.80)"
 										}
 									}}
 								/>

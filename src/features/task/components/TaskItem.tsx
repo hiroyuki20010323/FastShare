@@ -5,7 +5,7 @@ import {
 	AccordionSummary,
 	Badge,
 	Box,
-	Typography,
+	Typography
 } from "@mui/material"
 import EachTask from "./EachTask"
 import { TaskData } from "./Task"
@@ -20,9 +20,11 @@ const TaskItem = ({ tasks, loading }: TaskItemProps) => {
 	if (loading) {
 		return (
 			<>
-				{Array(7).fill(0).map((_, index) => (
-				<TaskLitSkeleton key={index}/>
-				))}
+				{Array(7)
+					.fill(0)
+					.map((_, index) => (
+						<TaskLitSkeleton key={index} />
+					))}
 			</>
 		)
 	}

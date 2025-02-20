@@ -37,7 +37,7 @@ const Profile = () => {
 	})
 
 	const [fileUrl, setFileUrl] = useState(null)
-	const {loading, setLoading} = useLoading()
+	const { loading, setLoading } = useLoading()
 
 	const onSubmit = async ({ userName, userIcon }: UserProfileData) => {
 		try {
@@ -93,32 +93,32 @@ const Profile = () => {
 					sx={{ alignItems: "center" }}
 				>
 					<UserIcon setValue={setValue} value={fileUrl} loading={loading} />
-					
-					<Skeleton 
+
+					<Skeleton
 						variant="rectangular"
 						width={280}
 						height={56}
-						sx={{ 
+						sx={{
 							marginBottom: 7,
 							borderRadius: 1
 						}}
 					/>
 
-					<Skeleton 
+					<Skeleton
 						variant="rectangular"
 						width={280}
 						height={40}
-						sx={{ 
+						sx={{
 							borderRadius: 1,
 							marginBottom: 16
 						}}
 					/>
 
-					<Skeleton 
+					<Skeleton
 						variant="rectangular"
 						width={100}
 						height={40}
-						sx={{ 
+						sx={{
 							borderRadius: 1,
 							marginBottom: 4
 						}}
@@ -126,50 +126,48 @@ const Profile = () => {
 				</FormControl>
 			) : (
 				<>
-			
-				<FormControl
-					encType="multipart/form-data"
-					component="form"
-					variant="standard"
-					sx={{ alignItems: "center" }}
-					onSubmit={handleSubmit(onSubmit)}
-				>
-					<UserIcon setValue={setValue} value={fileUrl} />
-					<Controller
-						name="userName"
-						control={control}
-						rules={{ required: { value: true, message: "入力は必須です" } }}
-						render={({ field, formState: { errors } }) => (
-							<TextField
-								{...field}
-								id="outline-disabled"
-								label="ユーザーネーム"
-								style={{ width: 280, marginBottom: 50 }}
-								error={errors.userName ? true : false}
-								helperText={errors.userName?.message as string}
-							/>
-						)}
-					/>
+					<FormControl
+						encType="multipart/form-data"
+						component="form"
+						variant="standard"
+						sx={{ alignItems: "center" }}
+						onSubmit={handleSubmit(onSubmit)}
+					>
+						<UserIcon setValue={setValue} value={fileUrl} />
+						<Controller
+							name="userName"
+							control={control}
+							rules={{ required: { value: true, message: "入力は必須です" } }}
+							render={({ field, formState: { errors } }) => (
+								<TextField
+									{...field}
+									id="outline-disabled"
+									label="ユーザーネーム"
+									style={{ width: 280, marginBottom: 50 }}
+									error={errors.userName ? true : false}
+									helperText={errors.userName?.message as string}
+								/>
+							)}
+						/>
+
+						<Button
+							variant="contained"
+							sx={{ width: 280, height: 40 }}
+							onClick={handleSubmit(onSubmit)}
+						>
+							保存
+						</Button>
+					</FormControl>
 
 					<Button
-						variant="contained"
-						sx={{ width: 280, height: 40 }}
-						onClick={handleSubmit(onSubmit)}
+						variant="outlined"
+						color="error"
+						sx={{ marginTop: 22, marginBottom: 4 }}
+						onClick={handleLogout}
 					>
-						保存
+						ログアウト
 					</Button>
-				</FormControl>
-			
-
-			<Button
-				variant="outlined"
-				color="error"
-				sx={{ marginTop: 22, marginBottom: 4 }}
-				onClick={handleLogout}
-			>
-				ログアウト
-			</Button>
-			</>
+				</>
 			)}
 			<Footer />
 		</Box>

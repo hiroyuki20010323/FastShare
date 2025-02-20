@@ -6,7 +6,7 @@ import {
 	Button,
 	FormControl,
 	TextField,
-	Typography,
+	Typography
 } from "@mui/material"
 import Footer from "../../../components/Footer"
 import { Link } from "react-router-dom"
@@ -96,7 +96,7 @@ const GroupSettings = () => {
 				}}
 			>
 				{!groupData ? (
-				<GroupSettingSkeleton/>
+					<GroupSettingSkeleton />
 				) : (
 					<FormControl
 						component="form"

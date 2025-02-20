@@ -8,7 +8,7 @@ const Notification = () => {
 	return (
 		<Box>
 			<Header />
-			<UnderConstruction/>
+			<UnderConstruction />
 			{/* <Box sx={{ paddingTop: "80px", paddingBottom: "80px" }}>
 				<NotificationItem />
 				<NotificationItem />

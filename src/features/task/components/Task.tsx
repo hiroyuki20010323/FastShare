@@ -1,4 +1,12 @@
-import { Box, Fab, IconButton, Modal, Skeleton, Tab, Typography } from "@mui/material"
+import {
+	Box,
+	Fab,
+	IconButton,
+	Modal,
+	Skeleton,
+	Tab,
+	Typography
+} from "@mui/material"
 import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
 import TabPanel from "@mui/lab/TabPanel"
@@ -109,27 +117,27 @@ const Task = () => {
 					</TabList>
 
 					<TabPanel value="1" sx={{ padding: 0 }}>
-						{ !isActiveGroup ? (
+						{!isActiveGroup ? (
 							<InactiveGroupModal />
 						) : (
-							<TaskItem tasks={tasks}loading={loading} />
+							<TaskItem tasks={tasks} loading={loading} />
 						)}
 					</TabPanel>
 
 					<TabPanel value="2" sx={{ padding: 0 }}>
-						{ !isActiveGroup ? (
+						{!isActiveGroup ? (
 							<InactiveGroupModal />
 						) : (
-							<UnderConstruction/>
+							<UnderConstruction />
 							// <TaskItem tasks={tasks}loading={loading} />
 						)}
 					</TabPanel>
 
 					<TabPanel value="3" sx={{ padding: 0 }}>
-						{ !isActiveGroup ? (
+						{!isActiveGroup ? (
 							<InactiveGroupModal />
 						) : (
-							<UnderConstruction/>
+							<UnderConstruction />
 							// <TaskItem tasks={tasks}loading={loading} />
 						)}
 					</TabPanel>
@@ -180,11 +188,11 @@ const Task = () => {
 							variant="subtitle1"
 						>
 							{loading ? (
-								<Skeleton 
-									variant="text" 
-									width={200} 
+								<Skeleton
+									variant="text"
+									width={200}
 									height={24}
-									sx={{ mx: "auto" }}  
+									sx={{ mx: "auto" }}
 								/>
 							) : (
 								tasks.length > 0 && (

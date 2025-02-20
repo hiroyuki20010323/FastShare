@@ -8,7 +8,7 @@ const Invitations = () => {
 	return (
 		<>
 			<Header />
-			<UnderConstruction/>
+			<UnderConstruction />
 			{/* <Box
 				sx={{
 					display: "flex",
