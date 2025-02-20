@@ -57,9 +57,7 @@ export const createTask = async (req: Request, res: Response) => {
 			const calendar = await TaskRepo.findDueDate(calenderDate)
 
 			if (!calendar) {
-				res
-					.status(500)
-					.json({ error: "指定されたカレンダーが見つかりません" })
+				res.status(500).json({ error: "指定されたカレンダーが見つかりません" })
 				return
 			}
 

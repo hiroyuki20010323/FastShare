@@ -32,7 +32,7 @@ const Footer = () => {
 					bottom: 0,
 					left: 0,
 					right: 0,
-					paddingBottom:9,
+					paddingBottom: 9,
 					borderTop: "solid 2px #E0E0E0",
 					marginTop: 2,
 					height: "58px",

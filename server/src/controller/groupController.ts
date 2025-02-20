@@ -103,8 +103,6 @@ export const deleteGroup = async (req: Request, res: Response) => {
 		await GroupRepo.deleteGroupAction(groupId)
 		res.status(200).json({ message: "グループが削除されました。" })
 	} catch (e) {
-		res
-			.status(500)
-			.json({ error: `削除がうまく実行できませんでした`, e })
+		res.status(500).json({ error: `削除がうまく実行できませんでした`, e })
 	}
 }

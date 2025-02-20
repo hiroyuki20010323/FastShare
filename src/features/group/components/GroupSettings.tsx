@@ -26,9 +26,9 @@ export type FormInputs = {
 
 const GroupSettings = () => {
 	const user = useAuthContext()
-	const { groupData, groupEdit, setGroupData} = useGroup()
+	const { groupData, groupEdit, setGroupData } = useGroup()
 	const [groupIcon, setGroupIcon] = useState<string | undefined>()
-	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+	const [deleteModalOpen, setDeleteModalOpen] = useState(false)
 	const { control, handleSubmit, setValue } = useForm<FormInputs>({
 		mode: "onSubmit",
 		defaultValues: {
@@ -55,7 +55,6 @@ const GroupSettings = () => {
 	const fileUpload = () => {
 		fileInputRef.current?.click()
 	}
-	
 
 	const onSubmit = ({
 		group_icon,
@@ -85,10 +84,8 @@ const GroupSettings = () => {
 	}, [user])
 
 	const handleDeleteClick = () => {
-    setDeleteModalOpen(true);
-  };
- 
-
+		setDeleteModalOpen(true)
+	}
 
 	return (
 		<>
@@ -193,7 +190,11 @@ const GroupSettings = () => {
 						>
 							グループ削除
 						</Button>
-						<DeleteConfirmModal deleteModalOpen={deleteModalOpen} setDeleteModalOpen={setDeleteModalOpen} groupData={groupData} />
+						<DeleteConfirmModal
+							deleteModalOpen={deleteModalOpen}
+							setDeleteModalOpen={setDeleteModalOpen}
+							groupData={groupData}
+						/>
 					</FormControl>
 				)}
 			</Box>
