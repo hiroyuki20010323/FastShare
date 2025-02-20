@@ -10,6 +10,7 @@ import { useAuthContext } from "../../../provider/AuthProvider"
 import { ProfileApi } from "../api/profile"
 import { useNavigation } from "../../../hooks/useNavigation"
 import { useAlert } from "../../../provider/AlertProvider"
+import { mutate } from "swr"
 
 export type UserProfileData = {
 	userName: string
@@ -42,6 +43,7 @@ const Profile = () => {
 				userName,
 				userIcon
 			})
+			mutate("/api/profile")
 			showAlert(Patchresponse.data.message, "success")
 			const response = await ProfileApi.getProfile()
 			const { newUserName, fileUrl } = response.data

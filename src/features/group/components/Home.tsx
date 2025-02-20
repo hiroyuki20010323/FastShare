@@ -8,7 +8,7 @@ import { useNavigation } from "../../../hooks/useNavigation"
 import { useLoading } from "../../../provider/LoadingProvider"
 import Loading from "../../../components/Loading"
 import { useAlert } from "../../../provider/AlertProvider"
-import { useGroupIconContext } from "../../../provider/GroupIconProvider"
+import { mutate } from "swr"
 
 export type Group = {
 	id: number
@@ -22,7 +22,6 @@ const Home = () => {
 	const { loading, setLoading } = useLoading()
 	const user = useAuthContext()
 	const { showAlert } = useAlert()
-	const { setGroupIcon } = useGroupIconContext()
 	const [groups, setGroups] = useState<Group[]>([])
 	useEffect(() => {
 		;(async () => {
@@ -42,9 +41,7 @@ const Home = () => {
 		try {
 			const response = await GroupApi.activeGroup(groupId)
 			showAlert(response.data.message, "info")
-			// アクティブなグループのアイコンを取得。setGroupIconはグローバル管理なので、状態が変われば再レンダリングされる
-			const groupIconresponse = await GroupApi.getActiveGroup()
-			setGroupIcon(groupIconresponse.data.group_icon)
+			mutate("/api/open-group")
 		} catch (e) {
 			console.error("アクションの実行に失敗しました。", e)
 		}

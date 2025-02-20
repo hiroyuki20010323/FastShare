@@ -1,7 +1,6 @@
 import { Avatar, Box } from "@mui/material"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { UseFormSetValue } from "react-hook-form"
-import { useProfileIconContext } from "../../../provider/ProfileIconProvider"
 
 type AvatarDataProps = {
 	setValue: UseFormSetValue<any>
@@ -10,7 +9,7 @@ type AvatarDataProps = {
 
 const UserIcon = ({ setValue, value }: AvatarDataProps) => {
 	const fileInputRef = useRef<HTMLInputElement | null>(null)
-	const { profileIcon, setProfileIcon } = useProfileIconContext()
+	const [profileIcon, setProfileIcon] = useState<string | null>()
 
 	useEffect(() => {
 		setProfileIcon(value)

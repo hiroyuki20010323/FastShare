@@ -1,12 +1,12 @@
 import { AppBar, Avatar, Toolbar, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { useGroupIconContext } from "../provider/GroupIconProvider"
 import { GroupApi } from "../features/group/api/group"
+import { useGroupIcon } from "../hooks/useSWR"
 
 const Header = () => {
 	const [pathName, setPathName] = useState(location.pathname)
-	const { groupIcon } = useGroupIconContext()
+	const { groupIcon } = useGroupIcon()
 	const [checkActiveGroup, setCheckActiveGroup] = useState(false)
 	useEffect(() => {
 		setPathName(location.pathname)

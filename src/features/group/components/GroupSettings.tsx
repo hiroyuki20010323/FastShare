@@ -11,12 +11,11 @@ import {
 import Footer from "../../../components/Footer"
 import { Link } from "react-router-dom"
 import { useAuthContext } from "../../../provider/AuthProvider"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Loading from "../../../components/Loading"
 import { Controller, useForm } from "react-hook-form"
 import useGroup from "../hooks/useGroup"
 import { GroupApi } from "../api/group"
-import { useGroupIconContext } from "../../../provider/GroupIconProvider"
 
 export type FormInputs = {
 	group_name: string
@@ -27,7 +26,7 @@ export type FormInputs = {
 const GroupSettings = () => {
 	const user = useAuthContext()
 	const { groupData, groupEdit, setGroupData, groupDelete } = useGroup()
-	const { groupIcon, setGroupIcon } = useGroupIconContext()
+	const [groupIcon, setGroupIcon] = useState<string | undefined>()
 	const { control, handleSubmit, setValue } = useForm<FormInputs>({
 		mode: "onSubmit",
 		defaultValues: {

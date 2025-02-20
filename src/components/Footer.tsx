@@ -11,11 +11,11 @@ import NotificationsIcon from "@mui/icons-material/Notifications"
 import ListAltIcon from "@mui/icons-material/ListAlt"
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { useProfileIconContext } from "../provider/ProfileIconProvider"
+import { useUserIcon } from "../hooks/useSWR"
 
 const Footer = () => {
 	const [value, setValue] = useState(location.pathname)
-	const { profileIcon } = useProfileIconContext()
+	const { userIcon } = useUserIcon()
 	const handleChange = (event: React.BaseSyntheticEvent, newValue: string) => {
 		event
 		setValue(newValue)
@@ -74,7 +74,7 @@ const Footer = () => {
 						value="/profile"
 						icon={
 							<Avatar
-								src={profileIcon || undefined}
+								src={userIcon || undefined}
 								sx={{ width: "28px", height: "28px" }}
 							/>
 						}
