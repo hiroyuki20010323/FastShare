@@ -15,9 +15,9 @@ const NotificationItem = () => {
 			<ListItem
 				sx={{ display: "flex", flexFlow: "column", alignItems: "flex-start" }}
 			>
-				<Typography variant="subtitle1">hiroyuki</Typography>
+				<Typography variant="subtitle1">user123</Typography>
 				<Typography variant="caption">
-					hiroyukiがuser1のタスクを完了しました!
+					user123がuser1のタスクを完了しました!
 				</Typography>
 			</ListItem>
 			<Typography variant="caption">12:00</Typography>

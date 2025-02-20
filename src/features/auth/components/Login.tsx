@@ -17,10 +17,10 @@ import {
 } from "@mui/material"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
-import Loading from "../../../components/Loading"
 import { usePasswordVisibility } from "../hooks/useForm"
 import { Controller, useForm } from "react-hook-form"
 import { useAuth } from "../hooks/useAuth"
+import ModalLoading from "../../../components/ModalLoading"
 
 export type LoginUserData = {
 	email: string
@@ -44,7 +44,7 @@ const Login = () => {
 		login(email, password)
 
 	if (loading) {
-		return <Loading />
+		return <ModalLoading />
 	}
 
 	return (

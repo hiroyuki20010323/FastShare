@@ -49,7 +49,7 @@ const Footer = () => {
 						to="/"
 					/>
 					<BottomNavigationAction
-						label="新規作成"
+						label="作成"
 						value="/creategroup"
 						icon={<AddCircleOutlineIcon />}
 						component={Link}

@@ -10,6 +10,8 @@ import { Controller, useForm } from "react-hook-form"
 import useTask from "../hooks/useTask"
 import { TaskFormInputs } from "./Task"
 import { forwardRef, useRef, useState } from "react"
+import ModalLoading from "../../../components/ModalLoading"
+import { useLoading } from "../../../provider/LoadingProvider"
 type TaskModalProps = {
 	onClose: () => void
 }
@@ -19,6 +21,7 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 		const { createTask } = useTask()
 		const fileInputRef = useRef<HTMLInputElement | null>(null)
 		const [image, setImage] = useState<string | undefined>(undefined)
+		const {loading} = useLoading()
 		const { control, handleSubmit, setValue } = useForm<TaskFormInputs>({
 			mode: "onSubmit",
 			defaultValues: {
@@ -74,6 +77,9 @@ const TaskModal = forwardRef<HTMLDivElement, TaskModalProps>(
 				},
 				onClose
 			)
+		}
+		if(loading){
+			return <ModalLoading/>
 		}
 
 		return (

@@ -4,17 +4,20 @@ import { TaskApi } from "../api/task"
 import { useAlert } from "../../../provider/AlertProvider"
 import { AxiosError } from "axios"
 import { useTaskContext } from "../../../provider/TaskProvider"
+import { useLoading } from "../../../provider/LoadingProvider"
 
 export const useTask = () => {
 	const { tasks, setTasks } = useTaskContext()
 	const [open, setOpen] = useState<boolean>(false)
 	const { showAlert } = useAlert()
+	const {  setLoading } = useLoading()
 
 	const createTask = async (
 		{ taskTitle, taskDetail, taskImage, dueDate, dueTime }: TaskFormInputs,
 		onClose: () => void
 	) => {
 		try {
+			setLoading(true)
 			const createResponse = await TaskApi.createTask({
 				taskTitle,
 				taskDetail,
@@ -25,6 +28,7 @@ export const useTask = () => {
 			const response = await TaskApi.getTask()
 			setTasks(response.data)
 			showAlert(createResponse.data.message, "success")
+			setLoading(false)
 			onClose()
 		} catch (error) {
 			if (error instanceof AxiosError) {

@@ -1,3 +1,4 @@
+import { CssBaseline } from "@mui/material"
 import { AlertProvider } from "./provider/AlertProvider"
 import { AuthProvider } from "./provider/AuthProvider"
 import { LoadingProvider } from "./provider/LoadingProvider"
@@ -11,6 +12,7 @@ const App = () => {
 				<AuthProvider>
 					<LoadingProvider>
 						<TaskProvider>
+						<CssBaseline />
 							<AppRoutes />
 						</TaskProvider>
 					</LoadingProvider>
