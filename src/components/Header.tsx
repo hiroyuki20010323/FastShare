@@ -18,7 +18,6 @@ const Header = () => {
 	}, [])
 	return (
 		<>
-			
 			<AppBar
 				elevation={0}
 				sx={{
@@ -30,7 +29,7 @@ const Header = () => {
 					pb: 0.6,
 					boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
 					position: "fixed",
-					margin: 0 
+					margin: 0
 				}}
 			>
 				<Toolbar
@@ -42,7 +41,7 @@ const Header = () => {
 					}}
 				>
 					<Typography
-						variant="subtitle1" 
+						variant="subtitle1"
 						component="div"
 						color="black"
 						sx={{
@@ -50,7 +49,7 @@ const Header = () => {
 							left: "50%",
 							transform: "translateX(-50%)",
 							fontWeight: 600,
-							fontSize: '1rem',
+							fontSize: "1rem"
 						}}
 					>
 						{pathName === "/"
