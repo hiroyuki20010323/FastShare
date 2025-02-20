@@ -54,9 +54,10 @@ const Login = () => {
 				sx={{
 					width: "100vw",
 					top: 0,
-					height: "74px",
+					height: "68px",
 					backgroundColor: "white",
-					borderBottom: "solid 2px #E0E0E0",
+					pb: 0.6,
+					boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.06)",
 					position: "fixed"
 				}}
 			>
@@ -82,7 +83,7 @@ const Login = () => {
 					</Typography>
 				</Toolbar>
 			</AppBar>
-			<Typography variant="h4" marginTop={20}>
+			<Typography variant="h4" marginTop={12}>
 				ログイン
 			</Typography>
 			<Typography variant="subtitle1" marginTop={5}>

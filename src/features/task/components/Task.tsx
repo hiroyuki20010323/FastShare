@@ -110,10 +110,102 @@ const Task = () => {
 						paddingBottom: "120px"
 					}}
 				>
-					<TabList onChange={handleChange} centered>
-						<Tab label="全体タスク" value="1" />
-						<Tab label="請負中のタスク" value="2" />
-						<Tab label="依頼したタスク" value="3" />
+					<TabList
+						onChange={handleChange}
+						centered
+						sx={{
+							"& .MuiTabs-flexContainer": {
+								gap: 0
+							},
+							"& .MuiTabs-indicator": {
+								display: "none"
+							}
+						}}
+					>
+						<Tab
+							label="タスク一覧"
+							value="1"
+							sx={{
+								borderRadius: "8px 8px 0 0",
+								borderTop: "0.8px solid #e0e0e0",
+								borderLeft: "0.8px solid #e0e0e0",
+								borderRight: "0.8px solid #e0e0e0",
+								backgroundColor: "white",
+								marginBottom: "-0.5px",
+								minWidth: "124px",
+								transition: "all 0.2s ease",
+								position: "relative",
+								"&.Mui-selected": {
+									borderBottom: "0.5px solid #fafafa",
+									transform: "translateY(-3px)",
+									zIndex: 1,
+									backgroundColor: "white",
+									boxShadow: "0 -5px 6px -4px rgba(0, 0, 0, 0.4)"
+								},
+								"&:not(.Mui-selected)": {
+									borderBottom: "0.5px solid #e0e0e0",
+									backgroundColor: "white",
+									transform: "translateY(0)",
+									boxShadow: "inset 0 -2px 3px -2px rgba(0, 0, 0, 0.15)"
+								}
+							}}
+						/>
+						<Tab
+							label="請負中"
+							value="2"
+							sx={{
+								borderRadius: "8px 8px 0 0",
+								borderTop: "0.8px solid #e0e0e0",
+								borderLeft: "0.8px solid #e0e0e0",
+								borderRight: "0.8px solid #e0e0e0",
+								backgroundColor: "white",
+								marginBottom: "-0.5px",
+								minWidth: "124px",
+								transition: "all 0.2s ease",
+								position: "relative",
+								"&.Mui-selected": {
+									borderBottom: "0.5px solid #fafafa",
+									transform: "translateY(-3px)",
+									zIndex: 1,
+									backgroundColor: "white",
+									boxShadow: "0 6px -4px rgba(0, 0, 0, 0.2)"
+								},
+								"&:not(.Mui-selected)": {
+									borderBottom: "0.5px solid #e0e0e0",
+									backgroundColor: "white",
+									transform: "translateY(0)",
+									boxShadow: "inset 0 -2px 3px -2px rgba(0, 0, 0, 0.08)"
+								}
+							}}
+						/>
+						<Tab
+							label="依頼中"
+							value="3"
+							sx={{
+								borderRadius: "8px 8px 0 0",
+								borderTop: "0.8px solid #e0e0e0",
+								borderLeft: "0.8px solid #e0e0e0",
+								borderRight: "0.8px solid #e0e0e0",
+								backgroundColor: "white",
+								marginBottom: "-0.5px",
+								minWidth: "124px",
+								transition: "all 0.2s ease",
+								position: "relative",
+								"&.Mui-selected": {
+									borderBottom: "0.5px solid #fafafa",
+									transform: "translateY(-3px)",
+									zIndex: 1,
+									backgroundColor: "white",
+									boxShadow: "0 -5px 6px -4px rgba(0, 0, 0, 0.2)"
+								},
+								"&:not(.Mui-selected)": {
+									borderBottom: "0.5px solid #e0e0e0",
+									backgroundColor: "white",
+									transform: "translateY(0)",
+									boxShadow: "inset 0 -2px 3px -2px rgba(0, 0, 0, 0.15)"
+								}
+							}}
+						/>
 					</TabList>
 
 					<TabPanel value="1" sx={{ padding: 0 }}>

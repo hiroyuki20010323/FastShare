@@ -18,16 +18,18 @@ const Header = () => {
 	}, [])
 	return (
 		<>
-			{/* TODO:原始的な方法でアイコンの位置などを調整しているので後で修正する */}
 			<AppBar
 				elevation={0}
 				sx={{
 					width: "100vw",
 					top: 0,
+					left: 0,
 					height: "74px",
 					backgroundColor: "white",
-					borderBottom: "solid 2px #E0E0E0",
-					position: "fixed"
+					pb: 0.6,
+					boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+					position: "fixed",
+					margin: 0
 				}}
 			>
 				<Toolbar
@@ -39,21 +41,23 @@ const Header = () => {
 					}}
 				>
 					<Typography
-						variant="h6"
+						variant="subtitle1"
 						component="div"
 						color="black"
 						sx={{
 							position: "absolute",
 							left: "50%",
-							transform: "translateX(-50%)"
+							transform: "translateX(-50%)",
+							fontWeight: 600,
+							fontSize: "1rem"
 						}}
 					>
 						{pathName === "/"
-							? "グループ一覧"
+							? "グループ"
 							: pathName === "/creategroup"
 								? "グループ作成"
 								: pathName === "/task"
-									? "タスク一覧"
+									? "タスク"
 									: pathName === "/notification"
 										? "通知"
 										: pathName === "/profile"
@@ -69,7 +73,12 @@ const Header = () => {
 							src={groupIcon || undefined}
 							component={Link}
 							to="/groupsettings"
-							sx={{ position: "absolute", right: "28px" }}
+							sx={{
+								position: "absolute",
+								right: "28px",
+								boxShadow: "inset 0px 0px 4px rgba(0, 0, 0, 0.2)",
+								border: "1px solid rgba(0, 0, 0, 0.1)"
+							}}
 						/>
 					) : null}
 				</Toolbar>
