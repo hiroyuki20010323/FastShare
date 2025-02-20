@@ -27,16 +27,24 @@ const Home = () => {
 			if (!user) {
 				return
 			}
-			setLoading(true)
-			const response = await GroupApi.getGroup()
-			const activeGroupData = await GroupApi.getActiveGroup()
-			setGroups(response.data)
-			setIsLoading(activeGroupData.data.id)
-			setLoading(false)
+			try {
+				setLoading(true)
+				const response = await GroupApi.getGroup()
+				// TODO ログインログアウト時叩かれて、エラーが出るので修正する
+				setGroups(response.data)
+			}finally {
+				setLoading(false)  
+			}
 		})()
-
 		// useEffect第二引数のuserは、user情報の取得が非同期であるためから配列にするとuser情報が取得される前にapiが叩かれてしまう。
 	}, [user])
+
+	useEffect(()=>{
+		;(async () => {
+			const activeGroupData = await GroupApi.getActiveGroup()
+			setIsLoading(activeGroupData.data.id)
+		})()
+	},[location.pathname === '/'])
 
 	const openGroup = async (groupId: number) => {
 		try {

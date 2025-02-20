@@ -58,7 +58,7 @@ export const activeGroup = async (req: Request, res: Response) => {
 		res.status(201).json({ message: "グループを開きました！！" })
 	} catch (e) {
 		console.log(e)
-		res.status(500).json({ message: "グループひらけませんでした。。。" })
+		res.status(500).json({ error: "グループひらけませんでした。。。" })
 	}
 }
 
@@ -68,7 +68,7 @@ export const getGroupProfile = async (req: Request, res: Response) => {
 		const activeGroup = await GroupRepo.getActiveGroupData(req)
 		res.status(201).json(activeGroup?.group)
 	} catch (e) {
-		res.status(500).json({ message: "グループデータの取得に失敗しました" })
+		res.status(500).json({ error: "グループデータの取得に失敗しました" })
 	}
 }
 // グループデータの更新
@@ -105,6 +105,6 @@ export const deleteGroup = async (req: Request, res: Response) => {
 	} catch (e) {
 		res
 			.status(500)
-			.json({ message: `サーバー側で削除がうまく実行できませんでした`, e })
+			.json({ error: `削除がうまく実行できませんでした`, e })
 	}
 }

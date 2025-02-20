@@ -16,6 +16,7 @@ import { Controller, useForm } from "react-hook-form"
 import useGroup from "../hooks/useGroup"
 import { GroupApi } from "../api/group"
 import GroupSettingSkeleton from "./GroupSettingSkeleton"
+import DeleteConfirmModal from "./DeleteConfirmModal"
 
 export type FormInputs = {
 	group_name: string
@@ -25,8 +26,9 @@ export type FormInputs = {
 
 const GroupSettings = () => {
 	const user = useAuthContext()
-	const { groupData, groupEdit, setGroupData, groupDelete } = useGroup()
+	const { groupData, groupEdit, setGroupData} = useGroup()
 	const [groupIcon, setGroupIcon] = useState<string | undefined>()
+	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 	const { control, handleSubmit, setValue } = useForm<FormInputs>({
 		mode: "onSubmit",
 		defaultValues: {
@@ -53,7 +55,7 @@ const GroupSettings = () => {
 	const fileUpload = () => {
 		fileInputRef.current?.click()
 	}
-	const onDelete = async (groupId: number) => groupDelete(groupId)
+	
 
 	const onSubmit = ({
 		group_icon,
@@ -81,6 +83,12 @@ const GroupSettings = () => {
 
 		// useEffect第二引数のuserは、user情報の取得が非同期であるためから配列にするとuser情報が取得される前にapiが叩かれてしまう。
 	}, [user])
+
+	const handleDeleteClick = () => {
+    setDeleteModalOpen(true);
+  };
+ 
+
 
 	return (
 		<>
@@ -181,10 +189,11 @@ const GroupSettings = () => {
 							variant="outlined"
 							color="error"
 							sx={{ marginTop: 12, marginBottom: 4 }}
-							onClick={() => onDelete(groupData.id)}
+							onClick={() => handleDeleteClick()}
 						>
 							グループ削除
 						</Button>
+						<DeleteConfirmModal deleteModalOpen={deleteModalOpen} setDeleteModalOpen={setDeleteModalOpen} groupData={groupData} />
 					</FormControl>
 				)}
 			</Box>

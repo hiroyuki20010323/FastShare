@@ -98,6 +98,10 @@ export const GroupRepo = {
 	},
 	// カスケードを設定しようとしたが、なぜかDBの権限の問題でうまく実行できなかったので、先に中間テーブルのレコードを削除した。
 	preDeleteGroupParticipations: async (groupId: number) => {
+		await prisma.task.deleteMany({
+			where: { participationCreatedGroupId: groupId }
+		})
+
 		return await prisma.participation.deleteMany({
 			where: { groupId }
 		})

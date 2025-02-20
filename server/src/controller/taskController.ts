@@ -59,7 +59,7 @@ export const createTask = async (req: Request, res: Response) => {
 			if (!calendar) {
 				res
 					.status(500)
-					.json({ message: "指定されたカレンダーが見つかりません" })
+					.json({ error: "指定されたカレンダーが見つかりません" })
 				return
 			}
 
@@ -71,10 +71,10 @@ export const createTask = async (req: Request, res: Response) => {
 				calendar
 			})
 
-			res.status(201).json({ message: "タスクが作成されました", task })
+			res.status(201).json({ message: "タスクが作成されました!", task })
 			return
 		} catch (e) {
-			res.status(500).json({ message: "指定された日にタスクは追加できません" })
+			res.status(500).json({ error: "指定された日にタスクは追加できません" })
 		}
 	} catch (e) {
 		console.log("タスクの投稿に失敗しました。", e)
