@@ -26,7 +26,8 @@ const Header = () => {
 					top: 0,
 					height: "74px",
 					backgroundColor: "white",
-					borderBottom: "solid 2px #E0E0E0",
+					pb: 0.6,
+					boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
 					position: "fixed"
 				}}
 			>
@@ -69,7 +70,12 @@ const Header = () => {
 							src={groupIcon || undefined}
 							component={Link}
 							to="/groupsettings"
-							sx={{ position: "absolute", right: "28px" }}
+							sx={{
+								position: "absolute",
+								right: "28px",
+								boxShadow: "inset 0px 0px 4px rgba(0, 0, 0, 0.2)",
+								border: "1px solid rgba(0, 0, 0, 0.1)"
+							}}
 						/>
 					) : null}
 				</Toolbar>

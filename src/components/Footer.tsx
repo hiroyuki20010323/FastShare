@@ -32,15 +32,30 @@ const Footer = () => {
 					bottom: 0,
 					left: 0,
 					right: 0,
-					paddingBottom: 9,
-					borderTop: "solid 2px #E0E0E0",
+					paddingBottom: 8,
+					pt: 0.6,
+					boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.1)",
 					marginTop: 2,
 					height: "58px",
 					zIndex: 99
 				}}
 				elevation={0}
 			>
-				<BottomNavigation value={value} onChange={handleChange}>
+				<BottomNavigation
+					value={value}
+					onChange={handleChange}
+					sx={{
+						"& .MuiBottomNavigationAction-root": {
+							minWidth: "54px",
+							padding: "30px 0",
+							"&.Mui-selected": {
+								transform: "translateY(-3px)",
+								transition: "transform 0.2s ease-in-out"
+							}
+						},
+						px: 1
+					}}
+				>
 					<BottomNavigationAction
 						label="グループ"
 						value="/"
@@ -75,7 +90,11 @@ const Footer = () => {
 						icon={
 							<Avatar
 								src={userIcon || undefined}
-								sx={{ width: "28px", height: "28px" }}
+								sx={{
+									width: "28px",
+									height: "28px",
+									border: "1px solid rgba(0, 0, 0, 0.26)"
+								}}
 							/>
 						}
 						component={Link}
