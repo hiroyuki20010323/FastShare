@@ -1,12 +1,21 @@
-import { AppBar, Avatar, Toolbar, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { AppBar, Avatar, Toolbar, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { GroupApi } from "../features/group/api/group"
+import { useGroupIcon } from "../hooks/useSWR"
 
 const Header = () => {
-	const [pathName, setPathName] = useState(location.pathname);
+	const [pathName, setPathName] = useState(location.pathname)
+	const { groupIcon } = useGroupIcon()
+	const [checkActiveGroup, setCheckActiveGroup] = useState(false)
 	useEffect(() => {
-		setPathName(location.pathname);
-	}, [location.pathname]);
+		setPathName(location.pathname)
+		// アクティブなグループデータを取得して、falseの時はアイコンを表示しない
+		;(async () => {
+			const response = await GroupApi.getActiveGroup()
+			setCheckActiveGroup(response.data.group_name)
+		})()
+	}, [])
 	return (
 		<>
 			{/* TODO:原始的な方法でアイコンの位置などを調整しているので後で修正する */}
@@ -18,7 +27,7 @@ const Header = () => {
 					height: "74px",
 					backgroundColor: "white",
 					borderBottom: "solid 2px #E0E0E0",
-					position: "fixed",
+					position: "fixed"
 				}}
 			>
 				<Toolbar
@@ -26,7 +35,7 @@ const Header = () => {
 						marginTop: 2,
 						display: "flex",
 						alignItems: "center",
-						position: "relative",
+						position: "relative"
 					}}
 				>
 					<Typography
@@ -36,7 +45,7 @@ const Header = () => {
 						sx={{
 							position: "absolute",
 							left: "50%",
-							transform: "translateX(-50%)",
+							transform: "translateX(-50%)"
 						}}
 					>
 						{pathName === "/"
@@ -55,15 +64,18 @@ const Header = () => {
 													? "招待リンク"
 													: ""}
 					</Typography>
-					<Avatar
-						component={Link}
-						to="/groupsettings"
-						sx={{ position: "absolute", right: "28px" }}
-					/>
+					{checkActiveGroup ? (
+						<Avatar
+							src={groupIcon || undefined}
+							component={Link}
+							to="/groupsettings"
+							sx={{ position: "absolute", right: "28px" }}
+						/>
+					) : null}
 				</Toolbar>
 			</AppBar>
 		</>
-	);
-};
+	)
+}
 
-export default Header;
+export default Header

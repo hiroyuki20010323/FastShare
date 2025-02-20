@@ -2,25 +2,27 @@ import {
 	Avatar,
 	BottomNavigation,
 	BottomNavigationAction,
-	Paper,
-} from "@mui/material";
+	Paper
+} from "@mui/material"
 
-import GroupsIcon from "@mui/icons-material/Groups";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import ListAltIcon from "@mui/icons-material/ListAlt";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import GroupsIcon from "@mui/icons-material/Groups"
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
+import NotificationsIcon from "@mui/icons-material/Notifications"
+import ListAltIcon from "@mui/icons-material/ListAlt"
+import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useUserIcon } from "../hooks/useSWR"
 
 const Footer = () => {
-	const [value, setValue] = useState(location.pathname);
+	const [value, setValue] = useState(location.pathname)
+	const { userIcon } = useUserIcon()
 	const handleChange = (event: React.BaseSyntheticEvent, newValue: string) => {
-		event;
-		setValue(newValue);
-	};
+		event
+		setValue(newValue)
+	}
 	useEffect(() => {
-		setValue(location.pathname);
-	}, [location.pathname]);
+		setValue(location.pathname)
+	}, [location.pathname])
 	return (
 		<>
 			<Paper
@@ -30,11 +32,11 @@ const Footer = () => {
 					bottom: 0,
 					left: 0,
 					right: 0,
-					padding: "1px",
+					paddingBottom: 9,
 					borderTop: "solid 2px #E0E0E0",
 					marginTop: 2,
 					height: "58px",
-					zIndex: 99,
+					zIndex: 99
 				}}
 				elevation={0}
 			>
@@ -47,7 +49,7 @@ const Footer = () => {
 						to="/"
 					/>
 					<BottomNavigationAction
-						label="新規作成"
+						label="作成"
 						value="/creategroup"
 						icon={<AddCircleOutlineIcon />}
 						component={Link}
@@ -70,14 +72,19 @@ const Footer = () => {
 					<BottomNavigationAction
 						label="ユーザー"
 						value="/profile"
-						icon={<Avatar sx={{ width: "28px", height: "28px" }} />}
+						icon={
+							<Avatar
+								src={userIcon || undefined}
+								sx={{ width: "28px", height: "28px" }}
+							/>
+						}
 						component={Link}
 						to="/profile"
 					/>
 				</BottomNavigation>
 			</Paper>
 		</>
-	);
-};
+	)
+}
 
-export default Footer;
+export default Footer
