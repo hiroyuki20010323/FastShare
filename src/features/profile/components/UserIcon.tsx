@@ -3,8 +3,10 @@ import { useEffect, useRef, useState } from "react"
 import { UseFormSetValue } from "react-hook-form"
 
 type AvatarDataProps = {
-	setValue: UseFormSetValue<any>
-	value: any
+	setValue: UseFormSetValue<{userIcon: File | string | null
+		userName: string;
+	}>
+	value: File | string | null
 	loading?: boolean
 }
 
@@ -13,7 +15,11 @@ const UserIcon = ({ setValue, value, loading }: AvatarDataProps) => {
 	const [profileIcon, setProfileIcon] = useState<string | null>()
 
 	useEffect(() => {
-		setProfileIcon(value)
+		if (value instanceof File) {
+			setProfileIcon(URL.createObjectURL(value))
+		} else {
+			setProfileIcon(value)
+		}
 	}, [value])
 
 	const handleInput = () => {

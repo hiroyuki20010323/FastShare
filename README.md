@@ -24,6 +24,10 @@ FastShareは、グループを作成し、メンバー同士でタスク(買い�
 
 FastShareは、こうした日常のちょっとした煩わしさをなくすためのソリューションとして開発したものです。
 
+## デモアカウント
+ユーザー名: test.prod@gmail.com<br>
+パスワード: testprod
+
 ## URL
 URL: https://fastshare.jp/login<br>
 ※現状ルートURLは何も設定しておらず、白飛びしてしまいますので、/login または　/signupで検索してください。
@@ -33,13 +37,14 @@ URL: https://fastshare.jp/login<br>
 * ログイン・ログアウト(google、パスワード・email)<br>
 * プロフィール編集<br>
 * グループ作成、編集、削除
+* タスク作成
+* Spinnerの実装
+* Snackbarの作成
 
-2025-1/24時点
+2025-2/22時点
 ## 実装予定機能
   1. タスクCRUD（実装中...）
   2. グループ招待
-  3. Spinnerの実装
-  4. Snackbarの作成
 ## 使用技術
 - フロントエンド
   - React
@@ -69,6 +74,8 @@ URL: https://fastshare.jp/login<br>
 
 ## UIプロトタイプ
 [プロトタイプ](  https://www.figma.com/proto/owXvBVTldegJC01y0D0bce/%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA%E8%A8%AD%E8%A8%88?node-id=10-4&t=u7yScyvT6wpmj2fp-1)<br>
+
+[プロジェクト全体](https://www.figma.com/team_invite/redeem/P3Y6aknF3Xt35cTZvzur9G)
 
 ## ER図
 ```mermaid

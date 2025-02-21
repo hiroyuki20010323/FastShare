@@ -11,6 +11,7 @@ const Header = () => {
 	useEffect(() => {
 		setPathName(location.pathname)
 		// アクティブなグループデータを取得して、falseの時はアイコンを表示しない
+		// TODO 毎回際レンダリングされるので少し考える
 		;(async () => {
 			const response = await GroupApi.getActiveGroup()
 			setCheckActiveGroup(response.data.group_name)

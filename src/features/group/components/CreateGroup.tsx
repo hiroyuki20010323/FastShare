@@ -8,11 +8,11 @@ import useGroup from "../hooks/useGroup"
 export type GroupProfileData = {
 	group_name: string
 	group_description: string
-	group_icon: string
+	group_icon: File | string
 }
 
 const CreateGroup = () => {
-	const { control, handleSubmit, setValue } = useForm({
+	const { control, handleSubmit, setValue } = useForm<GroupProfileData>({
 		mode: "onSubmit",
 		defaultValues: {
 			group_name: "",

@@ -239,8 +239,9 @@ const Task = () => {
 						aria-label="add"
 						sx={{
 							position: "fixed",
-							bottom: 80,
-							right: 16
+							bottom: 68,
+							right: 16,
+							boxShadow: '0px 4px 3px rgba(0,0,0,0.15)'
 						}}
 						onClick={handleOpenModal}
 					>
@@ -266,6 +267,18 @@ const Task = () => {
 							aria-label="delete"
 							size="large"
 							onClick={getPrevWeekTasks}
+							sx={{
+								backgroundColor: 'white',
+								borderRadius: '50px',
+								'&:hover': {
+									backgroundColor: 'rgba(0, 0, 0, 0.02)',
+									boxShadow: 'none',
+									transform: 'translateY(0px)'
+								},
+								padding: '8px',
+								transition: 'all 0.2s ease-in-out',
+								boxShadow: '0px 2px 3px rgba(0,0,0,0.15)'
+							}}
 						>
 							<ArrowBackIosNewIcon fontSize="inherit" />
 						</IconButton>
@@ -309,6 +322,18 @@ const Task = () => {
 							aria-label="delete"
 							size="large"
 							onClick={getNextWeekTasks}
+							sx={{
+								backgroundColor: 'white',
+								borderRadius: '50px',
+								'&:hover': {
+									backgroundColor: 'rgba(0, 0, 0, 0.02)',
+									boxShadow: 'none',
+									transform: 'translateY(-0px)'
+								},
+								padding: '8px',
+								transition: 'all 0.2s ease-in-out',
+								boxShadow: '0px 2px 3px rgba(0,0,0,0.15)'
+							}}
 						>
 							<ArrowForwardIosIcon fontSize="inherit" />
 						</IconButton>

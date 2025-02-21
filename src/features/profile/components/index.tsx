@@ -15,7 +15,7 @@ import { useLoading } from "../../../provider/LoadingProvider"
 
 export type UserProfileData = {
 	userName: string
-	userIcon: string
+	userIcon: string | null | File
 }
 
 const Profile = () => {
@@ -28,15 +28,15 @@ const Profile = () => {
 		toHome()
 	}
 
-	const { control, handleSubmit, setValue } = useForm({
+	const { control, handleSubmit, setValue } = useForm< UserProfileData>({
 		mode: "onSubmit",
 		defaultValues: {
 			userName: "",
-			userIcon: ""
+			userIcon: "" 
 		}
 	})
 
-	const [fileUrl, setFileUrl] = useState(null)
+	const [fileUrl, setFileUrl] = useState<string | File | null>(null)
 	const { loading, setLoading } = useLoading()
 
 	const onSubmit = async ({ userName, userIcon }: UserProfileData) => {

@@ -34,10 +34,10 @@ const Footer = () => {
 					right: 0,
 					paddingBottom: 6,
 					pt: 0.6,
-					boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.1)",
 					marginTop: 2,
 					height: "58px",
-					zIndex: 99
+					zIndex: 99,
+					borderTop: '0.8px solid rgba(0, 0, 0, 0.1)'
 				}}
 				elevation={0}
 			>
