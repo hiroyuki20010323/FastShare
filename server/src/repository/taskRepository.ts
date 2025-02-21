@@ -1,5 +1,6 @@
 import { Request } from "express"
 import { prisma } from "../lib/prismaClient"
+import { MulterS3File } from "../controller/groupController"
 
 export type GetTaskData = {
 	todayJST: Date
@@ -104,7 +105,7 @@ export const TaskRepo = {
 			data: {
 				taskTitle,
 				taskDetail,
-				...(req.file && { taskImageUrl: (req.file as any)?.location }),
+				...(req.file && { taskImageUrl: (req.file as MulterS3File)?.location }),
 				period,
 				participationCreatedUserId: req.user.uid,
 				participationCreatedGroupId: activeGroupId,

@@ -3,7 +3,11 @@ import { useRef, useState } from "react"
 import { UseFormSetValue } from "react-hook-form"
 
 type AvatarDataProps = {
-	setValue: UseFormSetValue<any>
+	setValue: UseFormSetValue<{
+		group_name: string
+		group_description: string
+		group_icon: string | File
+	}>
 	value: string
 }
 

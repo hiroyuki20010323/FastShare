@@ -1,5 +1,6 @@
 import { Request } from "express"
 import { prisma } from "../lib/prismaClient"
+import { MulterS3File } from "../controller/groupController"
 
 export const ProfileRepo = {
 	// プロフィール情報の取得
@@ -15,7 +16,7 @@ export const ProfileRepo = {
 			where: { id: req.user.uid },
 			data: {
 				...(user_name && { user_name }),
-				...(req.file && { icon_url: (req.file as any)?.location })
+				...(req.file && { icon_url: (req.file as MulterS3File)?.location })
 			}
 		})
 	}

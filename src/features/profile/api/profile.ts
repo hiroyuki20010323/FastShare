@@ -5,7 +5,9 @@ export const ProfileApi = {
 	patchProfile: async ({ userName, userIcon }: UserProfileData) => {
 		const formData = new FormData()
 		formData.append("user_name", userName)
-		formData.append("icon_url", userIcon)
+		if (userIcon) {
+			formData.append("icon_url", userIcon)
+		}
 		return await api.patch(`/api/profile`, formData)
 	},
 	getProfile: async () => {
