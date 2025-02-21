@@ -274,6 +274,10 @@ const Task = () => {
 									backgroundColor: 'rgba(0, 0, 0, 0.02)',
 									boxShadow: 'none',
 									transform: 'translateY(0px)'
+								},'&:active': {
+									backgroundColor: 'rgba(0, 0, 0, 0.02)',
+									boxShadow: 'none',
+									transform: 'translateY(-0px)'
 								},
 								padding: '8px',
 								transition: 'all 0.2s ease-in-out',
@@ -326,6 +330,11 @@ const Task = () => {
 								backgroundColor: 'white',
 								borderRadius: '50px',
 								'&:hover': {
+									backgroundColor: 'rgba(0, 0, 0, 0.02)',
+									boxShadow: 'none',
+									transform: 'translateY(-0px)'
+								},
+								'&:active': {
 									backgroundColor: 'rgba(0, 0, 0, 0.02)',
 									boxShadow: 'none',
 									transform: 'translateY(-0px)'
