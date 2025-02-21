@@ -330,6 +330,11 @@ const Task = () => {
 									boxShadow: 'none',
 									transform: 'translateY(-0px)'
 								},
+								'&:active': {
+									backgroundColor: 'rgba(0, 0, 0, 0.02)',
+									boxShadow: 'none',
+									transform: 'translateY(-0px)'
+								},
 								padding: '8px',
 								transition: 'all 0.2s ease-in-out',
 								boxShadow: '0px 2px 3px rgba(0,0,0,0.15)'
