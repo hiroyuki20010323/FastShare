@@ -47,9 +47,9 @@ model Participation {
  updatedAt DateTime? @updatedAt
  user Users @relation(fields: [userId], references: [id])
  group Groups @relation(fields: [groupId], references: [id])
- createdTasks Task[] @relation("TaskCreator")
- assignedTasks Task[] @relation("TaskAssignee")
  @@unique([userId, groupId])
+ requestors Requestors[]
+ contractors Contractors[]
 }
 
 model Calendar {
@@ -59,19 +59,32 @@ model Calendar {
   updatedAt DateTime @updatedAt
   tasks Task[]
 }
-
+model Contractors{
+  id String @id
+  participation_id String
+  participation Participation @relation(fields: [participation_id],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tasks Task[]
+}
+model Requestors{
+  id String @id
+  participation_id String
+  participation Participation @relation(fields: [participation_id],references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tasks Task[]
+}
 model Task {
   id              Int @id @default(autoincrement())
   taskTitle       String
   taskDetail      String?
   taskImageUrl    String? @db.Text
   period          DateTime 
-  createdUser Participation @relation("TaskCreator", fields: [participationCreatedUserId, participationCreatedGroupId], references: [userId, groupId])
-  participationCreatedUserId   String   
-  participationCreatedGroupId  Int
-  assignee Participation? @relation("TaskAssignee", fields: [participationAssigneeUserId, participationAssigneeGroupId], references: [userId, groupId])      
-  participationAssigneeUserId  String?   
-  participationAssigneeGroupId Int?  
+  contractor_id String?
+  contractor Contractors? @relation(fields: [contractor_id],references: [id])
+  requestor_id String
+  requestor Requestors @relation(fields: [requestor_id],references: [id])
   calendar Calendar @relation(fields: [calendarId], references: [id])
   calendarId Int
   createdAt       DateTime @default(now())

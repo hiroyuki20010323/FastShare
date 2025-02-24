@@ -65,6 +65,7 @@ URL: https://fastshare.jp/login<br>
     - フロントエンド: S3, CloudFront
     - バックエンド: ECS (Fargate), ECR, S3
     - データベース: RDS (MySQL)
+    - Bastion Host: EC2
   - CI/CD
     - GitHub Actions (フロントエンド)
     - AWS Copilot CLI (バックエンド)
@@ -149,7 +150,7 @@ erDiagram
 
 ```
 ## インフラ構成
-<img width="100%" alt="Image" src="https://github.com/user-attachments/assets/a3e9d3d1-9be3-40b5-9867-54080844004c" />
+<img width="100%" alt="Image" src="https://github.com/user-attachments/assets/b7dc404a-a306-43ad-a2d3-562adfe3af54" />
 
 
 
