@@ -1,6 +1,6 @@
 import { Box, Button, Modal, Typography } from "@mui/material"
 import useGroup from "../hooks/useGroup"
-import { Group } from "./Home"
+import type { Group } from "./Home"
 
 type DeleteConfirmModalProps = {
 	groupData: Group

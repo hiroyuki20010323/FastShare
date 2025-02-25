@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"
+import VisibilityIcon from "@mui/icons-material/Visibility"
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import {
 	AppBar,
 	Avatar,
@@ -15,13 +16,12 @@ import {
 	Toolbar,
 	Typography
 } from "@mui/material"
-import VisibilityIcon from "@mui/icons-material/Visibility"
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import { Controller, useForm } from "react-hook-form"
-import SignUpModal from "./SignUpModal"
+import { Link } from "react-router-dom"
 import Loading from "../../../components/Loading"
-import { usePasswordVisibility } from "../hooks/useForm"
 import { useAuth } from "../hooks/useAuth"
+import { usePasswordVisibility } from "../hooks/useForm"
+import SignUpModal from "./SignUpModal"
 
 type UserData = {
 	email: string

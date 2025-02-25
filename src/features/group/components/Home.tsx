@@ -1,12 +1,12 @@
-import { useAuthContext } from "../../../provider/AuthProvider"
 import { Avatar, Box, Button, List, ListItem, Typography } from "@mui/material"
-import Header from "../../../components/Header"
-import Footer from "../../../components/Footer"
 import { useEffect, useState } from "react"
-import { GroupApi } from "../api/group"
-import { useLoading } from "../../../provider/LoadingProvider"
-import { useAlert } from "../../../provider/AlertProvider"
 import { mutate } from "swr"
+import Footer from "../../../components/Footer"
+import Header from "../../../components/Header"
+import { useAlert } from "../../../provider/AlertProvider"
+import { useAuthContext } from "../../../provider/AuthProvider"
+import { useLoading } from "../../../provider/LoadingProvider"
+import { GroupApi } from "../api/group"
 import GroupListSkeleton from "./GroupListSkeleton"
 
 export type Group = {

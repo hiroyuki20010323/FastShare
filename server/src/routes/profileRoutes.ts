@@ -1,6 +1,6 @@
 import { Router } from "express"
-import { authMiddleware } from "../middleware/auth/authMiddleware"
 import { getProfile, updateProfile } from "../controller/profileController"
+import { authMiddleware } from "../middleware/auth/authMiddleware"
 import { upload } from "../middleware/fileUploadMiddleware"
 
 const router = Router()

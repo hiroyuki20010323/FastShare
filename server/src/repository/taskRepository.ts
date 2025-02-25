@@ -1,6 +1,7 @@
-import { Request } from "express"
+import type { Request } from "express"
+import { v4 as uuidv4 } from "uuid"
+import type { MulterS3File } from "../controller/groupController"
 import { prisma } from "../lib/prismaClient"
-import { MulterS3File } from "../controller/groupController"
 
 export type GetTaskData = {
 	todayJST: Date
@@ -57,7 +58,11 @@ export const TaskRepo = {
 				date: true,
 				tasks: {
 					where: {
-						participationCreatedGroupId: activeGroupId
+						requestor: {
+							participation: {
+								groupId: activeGroupId
+							}
+						}
 					},
 					select: {
 						id: true,
@@ -65,13 +70,17 @@ export const TaskRepo = {
 						taskImageUrl: true,
 						taskDetail: true,
 						period: true,
-						createdUser: {
+						requestor: {
 							select: {
-								user: {
+								participation: {
 									select: {
-										id: true,
-										user_name: true,
-										icon_url: true
+										user: {
+											select: {
+												id: true,
+												user_name: true,
+												icon_url: true
+											}
+										}
 									}
 								}
 							}
@@ -90,6 +99,7 @@ export const TaskRepo = {
 			where: { date: calenderDate }
 		})
 	},
+
 	// タスクの作成
 	createTaskData: async (
 		req: Request,
@@ -101,18 +111,40 @@ export const TaskRepo = {
 			calendar
 		}: CreateTaskDataType
 	) => {
+		// 該当するParticipationのIDを取得
+		const participation = await prisma.participation.findFirst({
+			where: {
+				AND: [{ userId: req.user.uid }, { groupId: activeGroupId }]
+			},
+			select: {
+				id: true
+			}
+		})
+
+		if (!participation) {
+			throw new Error("該当するデータが見つかりませんでした。")
+		}
+
+		// 取得したParticipation IDを使ってRequestorsを作成
+		const requestor = await prisma.requestors.create({
+			data: {
+				id: uuidv4(),
+				participation_id: participation.id
+			}
+		})
+
 		return prisma.task.create({
 			data: {
 				taskTitle,
 				taskDetail,
 				...(req.file && { taskImageUrl: (req.file as MulterS3File)?.location }),
 				period,
-				participationCreatedUserId: req.user.uid,
-				participationCreatedGroupId: activeGroupId,
+				requestor_id: requestor.id,
 				calendarId: calendar!.id
 			}
 		})
 	},
+
 	// 先週のタスクデータを取得
 	getPrevWeekTask: async ({
 		startDate,
@@ -131,7 +163,11 @@ export const TaskRepo = {
 				date: true,
 				tasks: {
 					where: {
-						participationCreatedGroupId: activeGroupId
+						requestor: {
+							participation: {
+								groupId: activeGroupId
+							}
+						}
 					},
 					select: {
 						id: true,
@@ -139,13 +175,17 @@ export const TaskRepo = {
 						taskImageUrl: true,
 						taskDetail: true,
 						period: true,
-						createdUser: {
+						requestor: {
 							select: {
-								user: {
+								participation: {
 									select: {
-										id: true,
-										user_name: true,
-										icon_url: true
+										user: {
+											select: {
+												id: true,
+												user_name: true,
+												icon_url: true
+											}
+										}
 									}
 								}
 							}
@@ -176,7 +216,11 @@ export const TaskRepo = {
 				date: true,
 				tasks: {
 					where: {
-						participationCreatedGroupId: activeGroupId
+						requestor: {
+							participation: {
+								groupId: activeGroupId
+							}
+						}
 					},
 					select: {
 						id: true,
@@ -184,13 +228,17 @@ export const TaskRepo = {
 						taskImageUrl: true,
 						taskDetail: true,
 						period: true,
-						createdUser: {
+						requestor: {
 							select: {
-								user: {
+								participation: {
 									select: {
-										id: true,
-										user_name: true,
-										icon_url: true
+										user: {
+											select: {
+												id: true,
+												user_name: true,
+												icon_url: true
+											}
+										}
 									}
 								}
 							}

@@ -1,15 +1,15 @@
+import { AxiosError } from "axios"
 import { useState } from "react"
 import { useNavigation } from "../../../hooks/useNavigation"
-import { SignUpModalData } from "../components/SignUpModal"
-import { AuthApi } from "../api/auth"
-import { useLoading } from "../../../provider/LoadingProvider"
 import { useAlert } from "../../../provider/AlertProvider"
-import { AxiosError } from "axios"
+import { useLoading } from "../../../provider/LoadingProvider"
+import { AuthApi } from "../api/auth"
+import type { SignUpModalData } from "../components/SignUpModal"
 
 export const useAuth = () => {
 	const { loading, setLoading } = useLoading()
 	const [isOpenModal, setIsOpenModal] = useState(false)
-	const { toHome } = useNavigation()
+	const { toHome, toTask } = useNavigation()
 	const { showAlert } = useAlert()
 
 	const login = async (email: string, password: string) => {
@@ -17,7 +17,7 @@ export const useAuth = () => {
 			setLoading(true)
 			const response = await AuthApi.emailAndPasswordLogin(email, password)
 			showAlert(response.message, "success")
-			toHome()
+			toTask()
 		} catch (e) {
 			showAlert("パスワードまたはメールアドレスが違います", "error")
 		} finally {

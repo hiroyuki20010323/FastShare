@@ -1,10 +1,10 @@
-import { API_URL } from "../config"
 import axios, {
-	AxiosRequestConfig,
-	InternalAxiosRequestConfig as OriginalInternalAxiosRequestConfig
+	type AxiosRequestConfig,
+	type InternalAxiosRequestConfig as OriginalInternalAxiosRequestConfig
 } from "axios"
+import { type User, onAuthStateChanged } from "firebase/auth"
+import { API_URL } from "../config"
 import { auth } from "../config/firebaseConfig"
-import { onAuthStateChanged, User } from "firebase/auth"
 
 export type InternalAxiosRequestConfig = OriginalInternalAxiosRequestConfig & {
 	requiresAuth?: boolean

@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from "react"
-import { TaskData } from "../features/task/components/Task"
+import type React from "react"
+import { type ReactNode, createContext, useContext, useState } from "react"
+import type { TaskData } from "../features/task/components/Task"
 
 type TaskContextType = {
 	tasks: TaskData[]

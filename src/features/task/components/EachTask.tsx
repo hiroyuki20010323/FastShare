@@ -12,7 +12,7 @@ import {
 	Typography
 } from "@mui/material"
 import { useState } from "react"
-import { Task } from "./Task"
+import type { Task } from "./Task"
 type TaskItems = {
 	taskItems: Task[]
 }
@@ -48,7 +48,7 @@ const EachTask: React.FC<TaskItems> = ({ taskItems }) => {
 								border: "1px solid #E0E0E0"
 							}}
 						>
-							<Avatar src={task.createdUser.user.icon_url} />
+							<Avatar src={task.requestor.participation.user.icon_url} />
 							<Typography
 								sx={{
 									flex: 1,
@@ -79,7 +79,7 @@ const EachTask: React.FC<TaskItems> = ({ taskItems }) => {
 									}}
 								>
 									<Avatar
-										src={task.createdUser.user.icon_url}
+										src={task.requestor.participation.user.icon_url}
 										sx={{ marginLeft: 2 }}
 									/>
 									<DialogTitle

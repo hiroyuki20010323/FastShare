@@ -5,12 +5,12 @@ import {
 	Paper
 } from "@mui/material"
 
-import GroupsIcon from "@mui/icons-material/Groups"
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
-import NotificationsIcon from "@mui/icons-material/Notifications"
+import GroupsIcon from "@mui/icons-material/Groups"
 import ListAltIcon from "@mui/icons-material/ListAlt"
-import { Link } from "react-router-dom"
+import NotificationsIcon from "@mui/icons-material/Notifications"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { useUserIcon } from "../hooks/useSWR"
 
 const Footer = () => {
@@ -37,7 +37,7 @@ const Footer = () => {
 					marginTop: 2,
 					height: "58px",
 					zIndex: 99,
-					borderTop: '0.8px solid rgba(0, 0, 0, 0.1)'
+					borderTop: "0.8px solid rgba(0, 0, 0, 0.1)"
 				}}
 				elevation={0}
 			>

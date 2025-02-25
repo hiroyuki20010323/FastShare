@@ -1,6 +1,6 @@
-import { Request } from "express"
+import type { Request } from "express"
+import type { MulterS3File } from "../controller/groupController"
 import { prisma } from "../lib/prismaClient"
-import { MulterS3File } from "../controller/groupController"
 
 export const ProfileRepo = {
 	// プロフィール情報の取得

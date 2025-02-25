@@ -1,3 +1,9 @@
+import AddIcon from "@mui/icons-material/Add"
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
+import { TabList } from "@mui/lab"
+import TabContext from "@mui/lab/TabContext"
+import TabPanel from "@mui/lab/TabPanel"
 import {
 	Box,
 	Fab,
@@ -7,23 +13,17 @@ import {
 	Tab,
 	Typography
 } from "@mui/material"
-import Header from "../../../components/Header"
-import Footer from "../../../components/Footer"
-import TabPanel from "@mui/lab/TabPanel"
 import { useEffect, useState } from "react"
-import TabContext from "@mui/lab/TabContext"
-import { TabList } from "@mui/lab"
-import AddIcon from "@mui/icons-material/Add"
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
-import TaskItem from "./TaskItem"
-import useTask from "../hooks/useTask"
-import TaskModal from "./TaskModal"
-import { useLoading } from "../../../provider/LoadingProvider"
-import { TaskApi } from "../api/task"
-import { GroupApi } from "../../group/api/group"
-import InactiveGroupModal from "./InactiveGroupModal"
+import Footer from "../../../components/Footer"
+import Header from "../../../components/Header"
 import UnderConstruction from "../../../components/UnderConstruction"
+import { useLoading } from "../../../provider/LoadingProvider"
+import { GroupApi } from "../../group/api/group"
+import { TaskApi } from "../api/task"
+import useTask from "../hooks/useTask"
+import InactiveGroupModal from "./InactiveGroupModal"
+import TaskItem from "./TaskItem"
+import TaskModal from "./TaskModal"
 
 export type TaskData = {
 	id: number
@@ -37,11 +37,13 @@ export type Task = {
 	taskImageUrl: string | null
 	taskDetail: string
 	period: string
-	createdUser: {
-		user: {
-			id: string
-			user_name: string
-			icon_url: string
+	requestor: {
+		participation: {
+			user: {
+				id: string
+				user_name: string
+				icon_url: string
+			}
 		}
 	}
 }
@@ -241,7 +243,7 @@ const Task = () => {
 							position: "fixed",
 							bottom: 68,
 							right: 16,
-							boxShadow: '0px 4px 3px rgba(0,0,0,0.15)'
+							boxShadow: "0px 4px 3px rgba(0,0,0,0.15)"
 						}}
 						onClick={handleOpenModal}
 					>
@@ -268,20 +270,21 @@ const Task = () => {
 							size="large"
 							onClick={getPrevWeekTasks}
 							sx={{
-								backgroundColor: 'white',
-								borderRadius: '50px',
-								'&:hover': {
-									backgroundColor: 'rgba(0, 0, 0, 0.02)',
-									boxShadow: 'none',
-									transform: 'translateY(0px)'
-								},'&:active': {
-									backgroundColor: 'rgba(0, 0, 0, 0.02)',
-									boxShadow: 'none',
-									transform: 'translateY(-0px)'
+								backgroundColor: "white",
+								borderRadius: "50px",
+								"&:hover": {
+									backgroundColor: "rgba(0, 0, 0, 0.02)",
+									boxShadow: "none",
+									transform: "translateY(2px)"
 								},
-								padding: '8px',
-								transition: 'all 0.2s ease-in-out',
-								boxShadow: '0px 2px 3px rgba(0,0,0,0.15)'
+								"&:active": {
+									backgroundColor: "rgba(0, 0, 0, 0.02)",
+									boxShadow: "none",
+									transform: "translateY(2px)"
+								},
+								padding: "8px",
+								transition: "all 0.2s ease-in-out",
+								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)"
 							}}
 						>
 							<ArrowBackIosNewIcon fontSize="inherit" />
@@ -327,21 +330,21 @@ const Task = () => {
 							size="large"
 							onClick={getNextWeekTasks}
 							sx={{
-								backgroundColor: 'white',
-								borderRadius: '50px',
-								'&:hover': {
-									backgroundColor: 'rgba(0, 0, 0, 0.02)',
-									boxShadow: 'none',
-									transform: 'translateY(-0px)'
+								backgroundColor: "white",
+								borderRadius: "50px",
+								"&:hover": {
+									backgroundColor: "rgba(0, 0, 0, 0.02)",
+									boxShadow: "none",
+									transform: "translateY(2px)"
 								},
-								'&:active': {
-									backgroundColor: 'rgba(0, 0, 0, 0.02)',
-									boxShadow: 'none',
-									transform: 'translateY(-0px)'
+								"&:active": {
+									backgroundColor: "rgba(0, 0, 0, 0.02)",
+									boxShadow: "none",
+									transform: "translateY(2px)"
 								},
-								padding: '8px',
-								transition: 'all 0.2s ease-in-out',
-								boxShadow: '0px 2px 3px rgba(0,0,0,0.15)'
+								padding: "8px",
+								transition: "all 0.2s ease-in-out",
+								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)"
 							}}
 						>
 							<ArrowForwardIosIcon fontSize="inherit" />

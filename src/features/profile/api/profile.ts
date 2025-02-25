@@ -1,5 +1,5 @@
 import { api } from "../../../lib/axios"
-import { UserProfileData } from "../components"
+import type { UserProfileData } from "../components"
 
 export const ProfileApi = {
 	patchProfile: async ({ userName, userIcon }: UserProfileData) => {

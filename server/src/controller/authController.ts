@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import type { Request, Response } from "express"
 import { AuthRepo } from "../repository/authRepository"
 
 // ログイン認証

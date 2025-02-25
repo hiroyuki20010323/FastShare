@@ -1,8 +1,8 @@
-import express, { Request, Response } from "express"
 import cors from "cors"
+import express, { type Request, type Response } from "express"
 import authRoutes from "./routes/authRoutes"
-import profileRoutes from "./routes/profileRoutes"
 import groupRoutes from "./routes/groupRoutes"
+import profileRoutes from "./routes/profileRoutes"
 import taskRoutes from "./routes/taskRoutes"
 
 const app = express()

@@ -8,7 +8,7 @@ import {
 	Typography
 } from "@mui/material"
 import EachTask from "./EachTask"
-import { TaskData } from "./Task"
+import type { TaskData } from "./Task"
 import TaskLitSkeleton from "./TaskLitSkeleton"
 
 export type TaskItemProps = {

@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express"
+import type { NextFunction, Request, Response } from "express"
+import type { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier"
 import { verification } from "../../config/firebaseAdmin"
-import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier"
 
 // リクエストの拡張
 declare global {
