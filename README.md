@@ -49,7 +49,7 @@ URL: https://fastshare.jp/login<br>
 - フロントエンド
   - React
   - TypeScript
-  - Material UI
+  - MUI
   - Firebase Authentication
   - Vite
 - バックエンド
