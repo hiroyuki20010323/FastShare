@@ -1,4 +1,3 @@
-import Header from "../../../components/Header"
 import {
 	Avatar,
 	AvatarGroup,
@@ -8,15 +7,16 @@ import {
 	TextField,
 	Typography
 } from "@mui/material"
-import Footer from "../../../components/Footer"
-import { Link } from "react-router-dom"
-import { useAuthContext } from "../../../provider/AuthProvider"
 import { useEffect, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import useGroup from "../hooks/useGroup"
+import { Link } from "react-router-dom"
+import Footer from "../../../components/Footer"
+import Header from "../../../components/Header"
+import { useAuthContext } from "../../../provider/AuthProvider"
 import { GroupApi } from "../api/group"
-import GroupSettingSkeleton from "./GroupSettingSkeleton"
+import useGroup from "../hooks/useGroup"
 import DeleteConfirmModal from "./DeleteConfirmModal"
+import GroupSettingSkeleton from "./GroupSettingSkeleton"
 
 export type FormInputs = {
 	group_name: string

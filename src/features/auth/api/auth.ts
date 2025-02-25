@@ -4,9 +4,9 @@ import {
 	signInWithPopup,
 	updateProfile
 } from "firebase/auth"
-import { api, CustomAxiosRequestConfig } from "../../../lib/axios"
 import { auth, provider } from "../../../config/firebaseConfig"
-import { SignUpModalData } from "../components/SignUpModal"
+import { type CustomAxiosRequestConfig, api } from "../../../lib/axios"
+import type { SignUpModalData } from "../components/SignUpModal"
 
 export const AuthApi = {
 	// グーグルログイン

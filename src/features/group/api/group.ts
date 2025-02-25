@@ -1,8 +1,8 @@
-import { User } from "firebase/auth"
-import { api, CustomAxiosRequestConfig } from "../../../lib/axios"
-import { GroupProfileData } from "../components/CreateGroup"
-import { FormInputs } from "../components/GroupSettings"
-import { Group } from "../components/Home"
+import type { User } from "firebase/auth"
+import { type CustomAxiosRequestConfig, api } from "../../../lib/axios"
+import type { GroupProfileData } from "../components/CreateGroup"
+import type { FormInputs } from "../components/GroupSettings"
+import type { Group } from "../components/Home"
 
 export const GroupApi = {
 	createGroupFromData: async (

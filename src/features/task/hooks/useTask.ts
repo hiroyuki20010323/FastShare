@@ -1,10 +1,10 @@
-import { useState } from "react"
-import { TaskFormInputs } from "../components/Task"
-import { TaskApi } from "../api/task"
-import { useAlert } from "../../../provider/AlertProvider"
 import { AxiosError } from "axios"
-import { useTaskContext } from "../../../provider/TaskProvider"
+import { useState } from "react"
+import { useAlert } from "../../../provider/AlertProvider"
 import { useLoading } from "../../../provider/LoadingProvider"
+import { useTaskContext } from "../../../provider/TaskProvider"
+import { TaskApi } from "../api/task"
+import type { TaskFormInputs } from "../components/Task"
 
 export const useTask = () => {
 	const { tasks, setTasks } = useTaskContext()

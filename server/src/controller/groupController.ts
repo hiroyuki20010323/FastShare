@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import type { Request, Response } from "express"
 import { GroupRepo } from "../repository/groupRepository"
 
 export type MulterS3File = Express.Multer.File & {
@@ -75,7 +75,7 @@ export const getGroupProfile = async (req: Request, res: Response) => {
 export const updateGroup = async (req: Request, res: Response) => {
 	try {
 		const { group_name, group_description, groupId } = req.body
-		const groupIdInt = parseInt(groupId, 10)
+		const groupIdInt = Number.parseInt(groupId, 10)
 		//  フロントからのFormDataは文字列でidが送信されてくるのでIntに変換する
 
 		const updateGroup = await GroupRepo.updateGroupData(req, {

@@ -1,6 +1,6 @@
 import { Router } from "express"
-import { authMiddleware } from "../middleware/auth/authMiddleware"
 import { signUp, verifyToken } from "../controller/authController"
+import { authMiddleware } from "../middleware/auth/authMiddleware"
 
 const router = Router()
 // ログイン

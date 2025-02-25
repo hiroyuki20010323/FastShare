@@ -8,10 +8,10 @@ export const upload = multer({
 		s3: s3,
 		bucket: process.env.S3_BUCKET_NAME!,
 		contentType: multerS3.AUTO_CONTENT_TYPE,
-		metadata: function (req, file, cb) {
+		metadata: (req, file, cb) => {
 			cb(null, { fieldName: file.fieldname })
 		},
-		key: function (req, file, cb) {
+		key: (req, file, cb) => {
 			const uniqueFileName = `${uuidv4()}-${file.originalname}`
 			// TODO userIconというパスに画像関係を全てアップロードしてしまっているため、あとでパスを切る
 			const filePath = `userIcon/${uniqueFileName}`

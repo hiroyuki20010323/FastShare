@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router-dom"
-import Home from "../features/group/components/Home"
-import { SignUp } from "../features/auth/components/signUp"
 import Login from "../features/auth/components/Login"
-import Profile from "../features/profile/components"
+import { SignUp } from "../features/auth/components/signUp"
 import CreateGroup from "../features/group/components/CreateGroup"
-import Invitations from "../features/invitation/components/Invitations"
 import GroupSettings from "../features/group/components/GroupSettings"
-import Task from "../features/task/components/Task"
+import Home from "../features/group/components/Home"
+import Invitations from "../features/invitation/components/Invitations"
 import Notification from "../features/notification/components/Notification"
+import Profile from "../features/profile/components"
+import Task from "../features/task/components/Task"
 
 const AppRoutes = () => {
 	return (

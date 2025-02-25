@@ -1,12 +1,12 @@
 import { Router } from "express"
-import { authMiddleware } from "../middleware/auth/authMiddleware"
-import { upload } from "../middleware/fileUploadMiddleware"
 import {
 	createTask,
 	getNextWeekTask,
 	getPrevWeekTask,
 	getTask
 } from "../controller/taskController"
+import { authMiddleware } from "../middleware/auth/authMiddleware"
+import { upload } from "../middleware/fileUploadMiddleware"
 
 const router = Router()
 

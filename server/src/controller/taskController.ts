@@ -1,13 +1,12 @@
-import { Request, Response } from "express"
-import { startOfDay, addDays } from "date-fns"
+import { addDays, startOfDay } from "date-fns"
 import { toZonedTime } from "date-fns-tz"
+import type { Request, Response } from "express"
 import { TaskRepo } from "../repository/taskRepository"
 
 // タスクの取得
 export const getTask = async (req: Request, res: Response) => {
 	try {
 		const activeParticipation = await TaskRepo.getActiveParticipation(req)
-
 		if (!activeParticipation) {
 			res
 				.status(404)

@@ -1,5 +1,5 @@
 import { api } from "../../../lib/axios"
-import { TaskFormInputs } from "../components/Task"
+import type { TaskFormInputs } from "../components/Task"
 
 export const TaskApi = {
 	createTask: async ({

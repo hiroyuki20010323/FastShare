@@ -6,12 +6,12 @@ import {
 	TextField,
 	Typography
 } from "@mui/material"
-import { Controller, useForm } from "react-hook-form"
-import useTask from "../hooks/useTask"
-import { TaskFormInputs } from "./Task"
 import { forwardRef, useRef, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
 import ModalLoading from "../../../components/ModalLoading"
 import { useLoading } from "../../../provider/LoadingProvider"
+import useTask from "../hooks/useTask"
+import type { TaskFormInputs } from "./Task"
 type TaskModalProps = {
 	onClose: () => void
 }

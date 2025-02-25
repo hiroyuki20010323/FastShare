@@ -1,5 +1,5 @@
-import { createContext, useContext, ReactNode, useState } from "react"
 import { Alert, Snackbar } from "@mui/material"
+import { type ReactNode, createContext, useContext, useState } from "react"
 
 type AlertContextType = {
 	showAlert: (message: string, severity?: "success" | "error" | "info") => void

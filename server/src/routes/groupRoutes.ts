@@ -1,5 +1,4 @@
 import { Router } from "express"
-import { authMiddleware } from "../middleware/auth/authMiddleware"
 import {
 	activeGroup,
 	createGroup,
@@ -8,6 +7,7 @@ import {
 	getGroupProfile,
 	updateGroup
 } from "../controller/groupController"
+import { authMiddleware } from "../middleware/auth/authMiddleware"
 import { upload } from "../middleware/fileUploadMiddleware"
 
 const router = Router()

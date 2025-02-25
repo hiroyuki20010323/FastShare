@@ -1,9 +1,9 @@
 import { Box, Button, FormControl, TextField } from "@mui/material"
-import Header from "../../../components/Header"
-import Footer from "../../../components/Footer"
 import { Controller, useForm } from "react-hook-form"
-import GroupIcon from "./GroupIcon"
+import Footer from "../../../components/Footer"
+import Header from "../../../components/Header"
 import useGroup from "../hooks/useGroup"
+import GroupIcon from "./GroupIcon"
 
 export type GroupProfileData = {
 	group_name: string

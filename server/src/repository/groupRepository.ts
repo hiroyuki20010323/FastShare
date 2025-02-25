@@ -1,7 +1,7 @@
-import { Request } from "express"
-import { prisma } from "../lib/prismaClient"
+import type { Request } from "express"
 import { v4 as uuidv4 } from "uuid"
-import { MulterS3File } from "../controller/groupController"
+import type { MulterS3File } from "../controller/groupController"
+import { prisma } from "../lib/prismaClient"
 
 export type createGroupData = {
 	group_icon: string | null
@@ -98,10 +98,25 @@ export const GroupRepo = {
 	},
 	// カスケードを設定しようとしたが、なぜかDBの権限の問題でうまく実行できなかったので、先に中間テーブルのレコードを削除した。
 	preDeleteGroupParticipations: async (groupId: number) => {
+		// 1. まず関連するタスクを削除
 		await prisma.task.deleteMany({
-			where: { participationCreatedGroupId: groupId }
+			where: {
+				OR: [
+					{ requestor: { participation: { groupId } } },
+					{ contractor: { participation: { groupId } } }
+				]
+			}
 		})
 
+		// 2. RequestorsとContractorsを削除
+		await prisma.requestors.deleteMany({
+			where: { participation: { groupId } }
+		})
+		await prisma.contractors.deleteMany({
+			where: { participation: { groupId } }
+		})
+
+		// 3. 最後にParticipationを削除
 		return await prisma.participation.deleteMany({
 			where: { groupId }
 		})

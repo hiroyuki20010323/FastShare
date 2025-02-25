@@ -1,17 +1,17 @@
-import Header from "../../../components/Header"
-import Footer from "../../../components/Footer"
+import { Box, Button, FormControl, Skeleton, TextField } from "@mui/material"
 import { signOut } from "firebase/auth"
-import { auth } from "../../../config/firebaseConfig"
-import { Box, Button, FormControl, TextField, Skeleton } from "@mui/material"
-import UserIcon from "./UserIcon"
-import { useForm, Controller } from "react-hook-form"
 import { useEffect, useState } from "react"
-import { useAuthContext } from "../../../provider/AuthProvider"
-import { ProfileApi } from "../api/profile"
+import { Controller, useForm } from "react-hook-form"
+import { mutate } from "swr"
+import Footer from "../../../components/Footer"
+import Header from "../../../components/Header"
+import { auth } from "../../../config/firebaseConfig"
 import { useNavigation } from "../../../hooks/useNavigation"
 import { useAlert } from "../../../provider/AlertProvider"
-import { mutate } from "swr"
+import { useAuthContext } from "../../../provider/AuthProvider"
 import { useLoading } from "../../../provider/LoadingProvider"
+import { ProfileApi } from "../api/profile"
+import UserIcon from "./UserIcon"
 
 export type UserProfileData = {
 	userName: string
@@ -28,11 +28,11 @@ const Profile = () => {
 		toHome()
 	}
 
-	const { control, handleSubmit, setValue } = useForm< UserProfileData>({
+	const { control, handleSubmit, setValue } = useForm<UserProfileData>({
 		mode: "onSubmit",
 		defaultValues: {
 			userName: "",
-			userIcon: "" 
+			userIcon: ""
 		}
 	})
 

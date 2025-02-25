@@ -1,10 +1,11 @@
 import { Avatar, Box, Skeleton } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
-import { UseFormSetValue } from "react-hook-form"
+import type { UseFormSetValue } from "react-hook-form"
 
 type AvatarDataProps = {
-	setValue: UseFormSetValue<{userIcon: File | string | null
-		userName: string;
+	setValue: UseFormSetValue<{
+		userIcon: File | string | null
+		userName: string
 	}>
 	value: File | string | null
 	loading?: boolean

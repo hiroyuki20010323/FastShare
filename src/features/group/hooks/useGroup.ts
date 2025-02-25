@@ -1,12 +1,12 @@
-import { useNavigation } from "../../../hooks/useNavigation"
-import { useAuthContext } from "../../../provider/AuthProvider"
-import { GroupProfileData } from "../components/CreateGroup"
-import { GroupApi } from "../api/group"
-import { useState } from "react"
-import { Group } from "../components/Home"
-import { FormInputs } from "../components/GroupSettings"
-import { useAlert } from "../../../provider/AlertProvider"
 import { AxiosError } from "axios"
+import { useState } from "react"
+import { useNavigation } from "../../../hooks/useNavigation"
+import { useAlert } from "../../../provider/AlertProvider"
+import { useAuthContext } from "../../../provider/AuthProvider"
+import { GroupApi } from "../api/group"
+import type { GroupProfileData } from "../components/CreateGroup"
+import type { FormInputs } from "../components/GroupSettings"
+import type { Group } from "../components/Home"
 export const useGroup = () => {
 	const { toHome } = useNavigation()
 	const user = useAuthContext()

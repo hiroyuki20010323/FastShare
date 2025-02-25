@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import type { Request, Response } from "express"
 import { ProfileRepo } from "../repository/profileRepository"
 // プロフィールデータ取得
 export const getProfile = async (req: Request, res: Response) => {

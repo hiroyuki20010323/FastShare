@@ -1,6 +1,6 @@
 import { Avatar, Box } from "@mui/material"
 import { useRef, useState } from "react"
-import { UseFormSetValue } from "react-hook-form"
+import type { UseFormSetValue } from "react-hook-form"
 
 type AvatarDataProps = {
 	setValue: UseFormSetValue<{

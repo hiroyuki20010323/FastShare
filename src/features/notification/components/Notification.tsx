@@ -1,7 +1,7 @@
 import { Box } from "@mui/material"
-import Header from "../../../components/Header"
 // import NotificationItem from "./NotificationItem"
 import Footer from "../../../components/Footer"
+import Header from "../../../components/Header"
 import UnderConstruction from "../../../components/UnderConstruction"
 
 const Notification = () => {

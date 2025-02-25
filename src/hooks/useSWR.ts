@@ -1,5 +1,5 @@
-import { API_URL } from "../config"
 import useSWR, { mutate } from "swr"
+import { API_URL } from "../config"
 import { api } from "../lib/axios"
 
 const fetcher = (url: string) =>
