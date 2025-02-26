@@ -10,25 +10,21 @@ import { useNavigate, useSearchParams } from "react-router-dom"
 export const useAuth = () => {
 	const { loading, setLoading } = useLoading()
 	const [isOpenModal, setIsOpenModal] = useState(false)
-	const { toHome} = useNavigation()
+	const { toHome } = useNavigation()
 	const { showAlert } = useAlert()
 	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
-	
-
 
 	const handleAuthSuccess = () => {
-		const savedToken = sessionStorage.getItem('inviteToken')
-		const redirectPath = searchParams.get('redirect') || '/task'
-		console.log(savedToken) 
+		const savedToken = sessionStorage.getItem("inviteToken")
+		const redirectPath = searchParams.get("redirect") || "/task"
+		console.log(savedToken)
 		console.log(redirectPath)
-		if (savedToken && redirectPath.includes('/invitechecker')) {
-
-			
+		if (savedToken && redirectPath.includes("/invitechecker")) {
 			navigate(`${redirectPath}?token=${savedToken}`)
-			sessionStorage.removeItem('inviteToken')
+			sessionStorage.removeItem("inviteToken")
 		} else {
-			console.log('elseブロックが実行')
+			console.log("elseブロックが実行")
 			navigate(redirectPath)
 		}
 	}

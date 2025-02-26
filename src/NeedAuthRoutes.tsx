@@ -1,4 +1,3 @@
-
 import { Route, Routes } from "react-router-dom"
 import Home from "./features/group/components/Home"
 import { SignUp } from "./features/auth/components/signUp"
@@ -11,19 +10,19 @@ import GroupSettings from "./features/group/components/GroupSettings"
 import Task from "./features/task/components/Task"
 
 const NeedAuthRoutes = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
+	return (
+		<Routes>
+			<Route path="/" element={<Home />} />
 			<Route path="/signup" element={<SignUp />} />
 			<Route path="/login" element={<Login />} />
 			<Route path="/profile" element={<Profile />} />
 			<Route path="/creategroup" element={<CreateGroup />} />
 			<Route path="/notification" element={<Notification />} />
 			<Route path="/invitation" element={<Invitations />} />
-    <Route path="/groupsettings" element={<GroupSettings />} />
-    <Route path="/task" element={<Task />} />
-    </Routes>
-  )
+			<Route path="/groupsettings" element={<GroupSettings />} />
+			<Route path="/task" element={<Task />} />
+		</Routes>
+	)
 }
 
 export default NeedAuthRoutes

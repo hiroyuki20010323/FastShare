@@ -8,12 +8,12 @@ const App = () => {
 	return (
 		<>
 			<AlertProvider>
-					<LoadingProvider>
-						<TaskProvider>
-							<CssBaseline />
-							<AppRoutes />
-						</TaskProvider>
-					</LoadingProvider>
+				<LoadingProvider>
+					<TaskProvider>
+						<CssBaseline />
+						<AppRoutes />
+					</TaskProvider>
+				</LoadingProvider>
 			</AlertProvider>
 		</>
 	)

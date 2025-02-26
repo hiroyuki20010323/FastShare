@@ -26,7 +26,7 @@ app.use("/api", groupRoutes)
 
 app.use("/api", taskRoutes)
 
-app.use('/invitation',invitationRoutes)
+app.use("/invitation", invitationRoutes)
 
 app.listen(PORT, () => {
 	console.log(`Server is running at http://localhost:${PORT}`)

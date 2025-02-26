@@ -11,11 +11,14 @@ const AppRoutes = () => {
 			<Route path="/invitechecker" element={<InviteChecker />} />
 
 			{/* 認証の監視が必要なルート */}
-			<Route path="/*" element={
-        <AuthProvider>
-          <NeedAuthRoutes/>
-        </AuthProvider>
-      } />
+			<Route
+				path="/*"
+				element={
+					<AuthProvider>
+						<NeedAuthRoutes />
+					</AuthProvider>
+				}
+			/>
 		</Routes>
 	)
 }

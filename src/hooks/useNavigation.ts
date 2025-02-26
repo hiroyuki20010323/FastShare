@@ -6,6 +6,6 @@ export const useNavigation = () => {
 		toHome: () => navigate("/"),
 		toCreateGroup: () => navigate("/creategroup"),
 		toTask: () => navigate("/task"),
-		toLogin:() => navigate('/login')
+		toLogin: () => navigate("/login")
 	}
 }

@@ -1,8 +1,8 @@
 import { Router } from "express"
-import { 
-  generateInvitationLink, 
-  validateInvitation,
-  acceptInvitation
+import {
+	generateInvitationLink,
+	validateInvitation,
+	acceptInvitation
 } from "../controller/invitationController"
 import { authMiddleware } from "../middleware/auth/authMiddleware"
 
