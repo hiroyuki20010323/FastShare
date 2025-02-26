@@ -1,42 +1,48 @@
 import { useEffect, useState } from 'react'
-
 import { Box, Typography, Button, CircularProgress } from '@mui/material'
 import { useAlert } from '../../../provider/AlertProvider'
-import { useAuthContext } from '../../../provider/AuthProvider'
 import { useLoading } from '../../../provider/LoadingProvider'
 import { useNavigation } from '../../../hooks/useNavigation'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { InvitationApi } from '../api/InvitationApi'
-
-
-
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../../../config/firebaseConfig'
+import { User } from 'firebase/auth'
 
 const InviteChecker = () => {
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token')
   const [groupInfo, setGroupInfo] = useState<{ groupId: number, groupName: string } | null>(null)
   const [error, setError] = useState('')
-  const user= useAuthContext()
+  const [user, setUser] = useState<User | null>(null)
+  const [authChecking, setAuthChecking] = useState(true)
   const navigate = useNavigate()
-  const {loading,setLoading} = useLoading()
-  const {toLogin} = useNavigation()
+  const { loading, setLoading } = useLoading()
+  const { toLogin } = useNavigation()
   const { showAlert } = useAlert()
  
- console.log(token) 
+ 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+      setAuthChecking(false)
+    })
+    
+    return () => unsubscribe()
+  }, [])
+  
+  // トークン検証ロジック
   useEffect(() => {
     const validateToken = async () => {
       if (!token) {
         setError('招待リンクが無効です')
         setLoading(false)
-        console.log('トークンがない')
         return
       }
 
       try {
         const response = await InvitationApi.validateInvitation(token)
         setGroupInfo(response.data)
-        console.log('正常に発火');
-        
         setLoading(false)
       } catch (error) {
         setError('招待リンクが無効か期限切れです')
@@ -45,18 +51,19 @@ const InviteChecker = () => {
     }
 
     validateToken()
-  }, [])
+  }, [token])
 
   
   const acceptInvitation = async () => {
     if (!token || !user) return  
     try {
       setLoading(true)
+    await InvitationApi.acceptInvitation(token)
       showAlert('グループに参加しました', 'success')
-      //　TODO isActive trueにする処理をバックエンドで実行する
       navigate('/task') 
     } catch (error) {
       showAlert('グループへの参加に失敗しました', 'error')
+      navigate('/task') 
     } finally {
       setLoading(false)
     }
@@ -64,16 +71,20 @@ const InviteChecker = () => {
 
   
   const goToLogin = () => {
-    
-    navigate(`/login?redirect=/invite&token=${token}`)
+    if (token) {
+      sessionStorage.setItem('inviteToken', token);
+    }
+    navigate(`/login?redirect=/invitechecker&token=${token}`)
   }
 
   const goToSignup = () => {
-    
-    navigate(`/signup?redirect=/invite&token=${token}`)
+    if (token) {
+      sessionStorage.setItem('inviteToken', token);
+    }
+    navigate(`/signup?redirect=/invitechecker&token=${token}`)
   }
 
-  if (loading) {
+  if (loading || authChecking) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CircularProgress />
@@ -87,7 +98,7 @@ const InviteChecker = () => {
         <Typography variant="h5" color="error" gutterBottom>
           {error}
         </Typography>
-        <Button variant="contained" onClick={() => toLogin}>
+        <Button variant="contained" onClick={() => toLogin()}>
          ログイン画面に戻る
         </Button>
       </Box>
@@ -102,7 +113,7 @@ const InviteChecker = () => {
       
       {groupInfo && (
         <Typography variant="h5" gutterBottom>
-          「{groupInfo.groupName}」に招待されています
+          「{groupInfo.groupName}」グループに招待されています！！！
         </Typography>
       )}
 

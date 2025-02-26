@@ -25,7 +25,7 @@ export const InvitationRepo = {
     })
   },
   
-  // トークンの検証
+  // トークンの検証と関連するグループデータの取得
   validateToken: async (token: string) => {
     const invitation = await prisma.invitation.findUnique({
       where: { token },

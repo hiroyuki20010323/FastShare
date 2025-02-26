@@ -5,19 +5,40 @@ import { useAlert } from "../../../provider/AlertProvider"
 import { useLoading } from "../../../provider/LoadingProvider"
 import { AuthApi } from "../api/auth"
 import type { SignUpModalData } from "../components/SignUpModal"
+import { useNavigate, useSearchParams } from "react-router-dom"
 
 export const useAuth = () => {
 	const { loading, setLoading } = useLoading()
 	const [isOpenModal, setIsOpenModal] = useState(false)
-	const { toHome, toTask } = useNavigation()
+	const { toHome} = useNavigation()
 	const { showAlert } = useAlert()
+	const [searchParams] = useSearchParams()
+	const navigate = useNavigate()
+	
+
+
+	const handleAuthSuccess = () => {
+		const savedToken = sessionStorage.getItem('inviteToken')
+		const redirectPath = searchParams.get('redirect') || '/task'
+		console.log(savedToken) 
+		console.log(redirectPath)
+		if (savedToken && redirectPath.includes('/invitechecker')) {
+
+			
+			navigate(`${redirectPath}?token=${savedToken}`)
+			sessionStorage.removeItem('inviteToken')
+		} else {
+			console.log('elseブロックが実行')
+			navigate(redirectPath)
+		}
+	}
 
 	const login = async (email: string, password: string) => {
 		try {
 			setLoading(true)
 			const response = await AuthApi.emailAndPasswordLogin(email, password)
 			showAlert(response.message, "success")
-			toTask()
+			handleAuthSuccess()
 		} catch (e) {
 			showAlert("パスワードまたはメールアドレスが違います", "error")
 		} finally {

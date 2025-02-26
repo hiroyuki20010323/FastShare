@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom"
 
 import InviteChecker from "../features/invitation/components/InviteChecker"
 import { AuthProvider } from "../provider/AuthProvider"
-import NeedAuthRoutes from "../needAuthRoutes"
+import NeedAuthRoutes from "../NeedAuthRoutes"
 
 const AppRoutes = () => {
 	return (

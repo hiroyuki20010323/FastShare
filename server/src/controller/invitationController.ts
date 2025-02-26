@@ -8,14 +8,14 @@ export const generateInvitationLink = async (req: Request, res: Response) => {
     const { groupId } = req.body
     const userId = req.user.uid
     
-    // アクティブなグループかどうか確認するロジックを追加するとよい
+   
     
     const invitation = await InvitationRepo.createInvitation({
       groupId,
       createdBy: userId
     })
     
-    // フロントエンドで使用するための完全なURLを生成
+    // TODO 本番環境のurlなどenvから取ってくる
     const baseUrl = 'http://localhost:5173';
     const invitationLink = `${baseUrl}/invitechecker?token=${invitation.token}`
     
@@ -45,8 +45,9 @@ export const validateInvitation = async (req: Request, res: Response) => {
       return 
     }
     
-    // グループ情報を返す
+
     res.status(200).json({
+      // 検証結果フラグ
       valid: true,
       groupId: invitation.groupId,
       groupName: invitation.group.group_name
@@ -74,21 +75,59 @@ export const acceptInvitation = async (req: Request, res: Response) => {
       return 
     }
     
-    // ユーザーをグループに追加
-    await prisma.participation.create({
-      data: {
-        id: uuidv4(),
+    // ユーザーが既にグループに参加しているか確認
+    const existingParticipation = await prisma.participation.findFirst({
+      where: {
         userId,
         groupId: invitation.groupId
       }
     })
     
-    // トークンを使用済みにする
+    if (existingParticipation) {
+      // 既存のグループを探して非アクティブにする
+      await prisma.participation.updateMany({
+        where: { 
+          userId,
+          isActive: true 
+        },
+        data: { isActive: false }
+      })
+      
+      await prisma.participation.update({
+        where: { id: existingParticipation.id },
+        data: { isActive: true }
+      })
+      
+      res.status(200).json({
+        message: "既に参加済みのグループです。アクティブにしました",
+      })
+      return
+    }
+    
+    // 新規参加の場合、現在参加中のグループを非アクティブにする
+    await prisma.participation.updateMany({
+      where: { 
+        userId,
+        isActive: true 
+      },
+      data: { isActive: false }
+    })
+    
+    // ユーザーをグループに追加して、アクティブにする
+    await prisma.participation.create({
+      data: {
+        id: uuidv4(),
+        userId,
+        groupId: invitation.groupId,
+        isActive: true
+      }
+    })
+    
+    
     await InvitationRepo.markTokenAsUsed(token)
     
     res.status(200).json({
       message: "グループに参加しました",
-      groupId: invitation.groupId
     })
   } catch (e) {
     console.error("招待の受け入れに失敗しました", e)
