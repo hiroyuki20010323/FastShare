@@ -36,6 +36,20 @@ model Groups {
  createdAt DateTime @default(now())
  updatedAt DateTime @updatedAt
  participations Participation[]
+
+ Invitation Invitation[]
+}
+model Invitation {
+  id          String    @id 
+  token       String    @unique
+  groupId     Int
+  createdBy   String    
+  isUsed      Boolean   @default(false)
+  expiresAt   DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  group       Groups    @relation(fields: [groupId], references: [id])
 }
 
 model Participation {

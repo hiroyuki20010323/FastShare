@@ -1,26 +1,21 @@
 import { Route, Routes } from "react-router-dom"
-import Login from "../features/auth/components/Login"
-import { SignUp } from "../features/auth/components/signUp"
-import CreateGroup from "../features/group/components/CreateGroup"
-import GroupSettings from "../features/group/components/GroupSettings"
-import Home from "../features/group/components/Home"
-import Invitations from "../features/invitation/components/Invitations"
-import Notification from "../features/notification/components/Notification"
-import Profile from "../features/profile/components"
-import Task from "../features/task/components/Task"
+
+import InviteChecker from "../features/invitation/components/InviteChecker"
+import { AuthProvider } from "../provider/AuthProvider"
+import NeedAuthRoutes from "../needAuthRoutes"
 
 const AppRoutes = () => {
 	return (
 		<Routes>
-			<Route path="/" element={<Home />} />
-			<Route path="/signup" element={<SignUp />} />
-			<Route path="/login" element={<Login />} />
-			<Route path="/profile" element={<Profile />} />
-			<Route path="/creategroup" element={<CreateGroup />} />
-			<Route path="/notification" element={<Notification />} />
-			<Route path="/invitation" element={<Invitations />} />
-			<Route path="/groupsettings" element={<GroupSettings />} />
-			<Route path="/task" element={<Task />} />
+			{/* 認証状態の監視が不要なルート */}
+			<Route path="/invitechecker" element={<InviteChecker />} />
+
+			{/* 認証の監視が必要なルート */}
+			<Route path="/*" element={
+        <AuthProvider>
+          <NeedAuthRoutes/>
+        </AuthProvider>
+      } />
 		</Routes>
 	)
 }

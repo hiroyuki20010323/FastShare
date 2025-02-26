@@ -4,6 +4,7 @@ import authRoutes from "./routes/authRoutes"
 import groupRoutes from "./routes/groupRoutes"
 import profileRoutes from "./routes/profileRoutes"
 import taskRoutes from "./routes/taskRoutes"
+import invitationRoutes from "./routes/invitationRoutes"
 
 const app = express()
 const PORT = 3080
@@ -24,6 +25,8 @@ app.use("/api", profileRoutes)
 app.use("/api", groupRoutes)
 
 app.use("/api", taskRoutes)
+
+app.use('/invitation',invitationRoutes)
 
 app.listen(PORT, () => {
 	console.log(`Server is running at http://localhost:${PORT}`)
