@@ -14,7 +14,7 @@ router.post("", authMiddleware, generateInvitationLink)
 // 招待リンクの検証（認証不要）
 router.get("/validate", validateInvitation)
 
-// 招待の受け入れ（認証必須）
+// 招待受け入れ（認証必須）
 router.post("/accept", authMiddleware, acceptInvitation)
 
 export default router

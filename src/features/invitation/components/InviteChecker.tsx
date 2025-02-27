@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, Typography, Button, CircularProgress } from "@mui/material"
+import { Box, Typography, Button} from "@mui/material"
 import { useAlert } from "../../../provider/AlertProvider"
 import { useLoading } from "../../../provider/LoadingProvider"
 import { useNavigation } from "../../../hooks/useNavigation"
@@ -8,6 +8,8 @@ import { InvitationApi } from "../api/InvitationApi"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "../../../config/firebaseConfig"
 import { User } from "firebase/auth"
+import Loading from "../../../components/Loading"
+import axios from "axios"
 
 const InviteChecker = () => {
 	const [searchParams] = useSearchParams()
@@ -18,53 +20,61 @@ const InviteChecker = () => {
 	} | null>(null)
 	const [error, setError] = useState("")
 	const [user, setUser] = useState<User | null>(null)
-	const [authChecking, setAuthChecking] = useState(true)
 	const navigate = useNavigate()
 	const { loading, setLoading } = useLoading()
-	const { toLogin } = useNavigation()
+	const { toLogin ,toTask,toHome} = useNavigation()
 	const { showAlert } = useAlert()
 
 	useEffect(() => {
+		setLoading(true)
+		
+		// 認証状態の監視
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
 			setUser(currentUser)
-			setAuthChecking(false)
+			
+			
+			// 認証状態が確定した後にトークン検証を実行
+			const validateToken = async () => {
+				if (!token) {
+					setError("招待リンクが無効です")
+					setLoading(false)
+					return
+				}
+
+				try {
+					const response = await InvitationApi.validateInvitation(token)
+          console.log(response);
+          
+					setGroupInfo(response.data)
+					setLoading(false)
+				} catch (error) {
+					setError("招待リンクが無効か期限切れです")
+					setLoading(false)
+				}
+			}
+			
+			
+			validateToken()
 		})
 
 		return () => unsubscribe()
-	}, [])
-
-	// トークン検証ロジック
-	useEffect(() => {
-		const validateToken = async () => {
-			if (!token) {
-				setError("招待リンクが無効です")
-				setLoading(false)
-				return
-			}
-
-			try {
-				const response = await InvitationApi.validateInvitation(token)
-				setGroupInfo(response.data)
-				setLoading(false)
-			} catch (error) {
-				setError("招待リンクが無効か期限切れです")
-				setLoading(false)
-			}
-		}
-
-		validateToken()
 	}, [token])
+
 
 	const acceptInvitation = async () => {
 		if (!token || !user) return
 		try {
 			setLoading(true)
-			await InvitationApi.acceptInvitation(token)
-			showAlert("グループに参加しました", "success")
-			navigate("/task")
-		} catch (error) {
-			showAlert("グループへの参加に失敗しました", "error")
-			navigate("/task")
+			const response = await InvitationApi.acceptInvitation(token)
+			showAlert(response.data.message, "success")
+			toTask()
+		} catch (error:unknown) {
+			if (axios.isAxiosError(error) && error.response?.data?.error) {
+				showAlert(error.response.data.error, "error")
+			} else {
+				showAlert("予期せぬエラーが発生しました", "error")
+			}
+			toHome()
 		} finally {
 			setLoading(false)
 		}
@@ -84,21 +94,9 @@ const InviteChecker = () => {
 		navigate(`/signup?redirect=/invitechecker&token=${token}`)
 	}
 
-	if (loading || authChecking) {
-		return (
-			<Box
-				sx={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					height: "100vh"
-				}}
-			>
-				<CircularProgress />
-			</Box>
-		)
-	}
 
+	if (loading) return <Loading/>
+		
 	if (error) {
 		return (
 			<Box sx={{ textAlign: "center", p: 4 }}>

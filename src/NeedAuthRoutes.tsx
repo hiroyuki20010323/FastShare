@@ -1,7 +1,5 @@
 import { Route, Routes } from "react-router-dom"
 import Home from "./features/group/components/Home"
-import { SignUp } from "./features/auth/components/signUp"
-import Login from "./features/auth/components/Login"
 import Profile from "./features/profile/components"
 import CreateGroup from "./features/group/components/CreateGroup"
 import Notification from "./features/notification/components/Notification"
@@ -13,8 +11,6 @@ const NeedAuthRoutes = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Home />} />
-			<Route path="/signup" element={<SignUp />} />
-			<Route path="/login" element={<Login />} />
 			<Route path="/profile" element={<Profile />} />
 			<Route path="/creategroup" element={<CreateGroup />} />
 			<Route path="/notification" element={<Notification />} />

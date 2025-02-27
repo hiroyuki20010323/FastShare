@@ -18,7 +18,7 @@ export const generateInvitationLink = async (req: Request, res: Response) => {
 		const invitationLink = `${baseUrl}/invitechecker?token=${invitation.token}`
 
 		res.status(201).json({
-			message: "招待リンクを生成しました",
+			message: "招待リンクを生成しました!!",
 			invitationLink
 		})
 	} catch (e) {
@@ -36,6 +36,7 @@ export const validateInvitation = async (req: Request, res: Response) => {
 			return
 		}
 
+    // ここで検証
 		const invitation = await InvitationRepo.validateToken(token)
 
 		if (!invitation) {
@@ -44,8 +45,6 @@ export const validateInvitation = async (req: Request, res: Response) => {
 		}
 
 		res.status(200).json({
-			// 検証結果フラグ
-			valid: true,
 			groupId: invitation.groupId,
 			groupName: invitation.group.group_name
 		})
@@ -96,7 +95,7 @@ export const acceptInvitation = async (req: Request, res: Response) => {
 			})
 
 			res.status(200).json({
-				message: "既に参加済みのグループです。アクティブにしました"
+				message: "既に参加済みのグループです"
 			})
 			return
 		}
@@ -120,10 +119,11 @@ export const acceptInvitation = async (req: Request, res: Response) => {
 			}
 		})
 
+    // トークンを使用済み
 		await InvitationRepo.markTokenAsUsed(token)
 
 		res.status(200).json({
-			message: "グループに参加しました"
+			message: `${invitation.group.group_name}に参加しました！！`
 		})
 	} catch (e) {
 		console.error("招待の受け入れに失敗しました", e)

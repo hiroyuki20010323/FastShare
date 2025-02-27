@@ -1,27 +1,35 @@
-import { Box, TextField, Button } from "@mui/material"
+import { Box, TextField, Button, Skeleton } from "@mui/material"
 import { useState } from "react"
 import Footer from "../../../components/Footer"
 import Header from "../../../components/Header"
 import { GroupApi } from "../../group/api/group"
 import { useAlert } from "../../../provider/AlertProvider"
 import { InvitationApi } from "../api/InvitationApi"
+import { useLoading } from "../../../provider/LoadingProvider"
+import axios from "axios"
 
 const Invitations = () => {
+	const { loading, setLoading } = useLoading()
 	const [invitationLink, setInvitationLink] = useState("")
 	const { showAlert } = useAlert()
 	const [copied, setCopied] = useState(false)
 
 	const generateLink = async () => {
 		try {
+			setLoading(true)
 			const activeGroup = await GroupApi.getActiveGroup()
-
 			const groupId = activeGroup.data.id
-
 			const response = await InvitationApi.generateInvitation(groupId)
 			setInvitationLink(response.data.invitationLink)
-			showAlert("招待リンクを生成しました", "success")
-		} catch (error) {
-			showAlert("招待リンクの生成に失敗しました", "error")
+			showAlert(response.data.message, "success")
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error) && error.response?.data?.error) {
+				showAlert(error.response.data.error, "error")
+			} else {
+				showAlert("予期せぬエラーが発生しました", "error")
+			}
+		} finally {
+			setLoading(false)
 		}
 	}
 
@@ -33,7 +41,8 @@ const Invitations = () => {
 				setTimeout(() => setCopied(false), 2000)
 			})
 			.catch((err) => {
-				console.error("クリップボードへのコピーに失敗しました", err)
+				console.error("コピーに失敗しました", err)
+				showAlert("リンクのコピーに失敗しました", "error")
 			})
 	}
 
@@ -50,27 +59,36 @@ const Invitations = () => {
 					paddingBottom: "80px"
 				}}
 			>
-				<TextField
-					id="outlined-disabled"
-					label="招待リンク"
-					value={invitationLink}
-					sx={{ width: 300, marginTop: 40 }}
-				/>
+				{loading ? (
+        
+        <Skeleton variant="rectangular" width={300} height={56} sx={{ marginTop: 40 }} />
+      ) : (
+        
+        <TextField
+          id="outlined-disabled"
+          label="招待リンク"
+          value={invitationLink}
+          sx={{ width: 300, marginTop: 40 }}
+        />
+      )}
+			
 				<Button
 					variant="contained"
 					sx={{ width: 300, marginTop: 4 }}
 					onClick={generateLink}
 				>
-					リンクを生成する
+					リンクを生成
 				</Button>
 
-				<Button
-					variant="contained"
-					sx={{ width: 300, marginTop: 4 }}
-					onClick={copyToClipboard}
-				>
-					{copied ? "コピーしました" : "招待リンクをコピー"}
-				</Button>
+		{invitationLink && (
+    <Button
+      variant="contained"
+      sx={{ width: 300, marginTop: 4 }}
+      onClick={copyToClipboard}
+    >
+      {copied ? "コピーしました!!" : "リンクをコピー"}
+    </Button>
+  )}
 			</Box>
 			<Footer />
 		</>

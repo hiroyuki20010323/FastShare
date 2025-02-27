@@ -6,7 +6,6 @@ import { mutate } from "swr"
 import Footer from "../../../components/Footer"
 import Header from "../../../components/Header"
 import { auth } from "../../../config/firebaseConfig"
-import { useNavigation } from "../../../hooks/useNavigation"
 import { useAlert } from "../../../provider/AlertProvider"
 import { useAuthContext } from "../../../provider/AuthProvider"
 import { useLoading } from "../../../provider/LoadingProvider"
@@ -20,12 +19,10 @@ export type UserProfileData = {
 
 const Profile = () => {
 	const user = useAuthContext()
-	const { toHome } = useNavigation()
 	const { showAlert } = useAlert()
 
 	const handleLogout = () => {
 		signOut(auth)
-		toHome()
 	}
 
 	const { control, handleSubmit, setValue } = useForm<UserProfileData>({
