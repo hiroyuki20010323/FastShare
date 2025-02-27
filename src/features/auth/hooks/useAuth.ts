@@ -1,11 +1,11 @@
 import { AxiosError } from "axios"
 import { useState } from "react"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { useNavigation } from "../../../hooks/useNavigation"
 import { useAlert } from "../../../provider/AlertProvider"
 import { useLoading } from "../../../provider/LoadingProvider"
 import { AuthApi } from "../api/auth"
 import type { SignUpModalData } from "../components/SignUpModal"
-import { useNavigate, useSearchParams } from "react-router-dom"
 
 export const useAuth = () => {
 	const { loading, setLoading } = useLoading()

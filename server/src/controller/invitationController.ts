@@ -1,7 +1,7 @@
 import type { Request, Response } from "express"
-import { InvitationRepo } from "../repository/invitationRepository"
-import { prisma } from "../lib/prismaClient"
 import { v4 as uuidv4 } from "uuid"
+import { prisma } from "../lib/prismaClient"
+import { InvitationRepo } from "../repository/invitationRepository"
 
 export const generateInvitationLink = async (req: Request, res: Response) => {
 	try {
@@ -36,7 +36,7 @@ export const validateInvitation = async (req: Request, res: Response) => {
 			return
 		}
 
-    // ここで検証
+		// ここで検証
 		const invitation = await InvitationRepo.validateToken(token)
 
 		if (!invitation) {
@@ -119,7 +119,7 @@ export const acceptInvitation = async (req: Request, res: Response) => {
 			}
 		})
 
-    // トークンを使用済み
+		// トークンを使用済み
 		await InvitationRepo.markTokenAsUsed(token)
 
 		res.status(200).json({

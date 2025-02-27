@@ -1,15 +1,15 @@
+import { Box, Button, Typography } from "@mui/material"
+import axios from "axios"
+import { onAuthStateChanged } from "firebase/auth"
+import type { User } from "firebase/auth"
 import { useEffect, useState } from "react"
-import { Box, Typography, Button} from "@mui/material"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import Loading from "../../../components/Loading"
+import { auth } from "../../../config/firebaseConfig"
+import { useNavigation } from "../../../hooks/useNavigation"
 import { useAlert } from "../../../provider/AlertProvider"
 import { useLoading } from "../../../provider/LoadingProvider"
-import { useNavigation } from "../../../hooks/useNavigation"
-import { useNavigate, useSearchParams } from "react-router-dom"
 import { InvitationApi } from "../api/InvitationApi"
-import { onAuthStateChanged } from "firebase/auth"
-import { auth } from "../../../config/firebaseConfig"
-import { User } from "firebase/auth"
-import Loading from "../../../components/Loading"
-import axios from "axios"
 
 const InviteChecker = () => {
 	const [searchParams] = useSearchParams()
@@ -22,17 +22,16 @@ const InviteChecker = () => {
 	const [user, setUser] = useState<User | null>(null)
 	const navigate = useNavigate()
 	const { loading, setLoading } = useLoading()
-	const { toLogin ,toTask,toHome} = useNavigation()
+	const { toLogin, toTask, toHome } = useNavigation()
 	const { showAlert } = useAlert()
 
 	useEffect(() => {
 		setLoading(true)
-		
+
 		// 認証状態の監視
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
 			setUser(currentUser)
-			
-			
+
 			// 認証状態が確定した後にトークン検証を実行
 			const validateToken = async () => {
 				if (!token) {
@@ -43,8 +42,8 @@ const InviteChecker = () => {
 
 				try {
 					const response = await InvitationApi.validateInvitation(token)
-          console.log(response);
-          
+					console.log(response)
+
 					setGroupInfo(response.data)
 					setLoading(false)
 				} catch (error) {
@@ -52,14 +51,12 @@ const InviteChecker = () => {
 					setLoading(false)
 				}
 			}
-			
-			
+
 			validateToken()
 		})
 
 		return () => unsubscribe()
 	}, [token])
-
 
 	const acceptInvitation = async () => {
 		if (!token || !user) return
@@ -68,7 +65,7 @@ const InviteChecker = () => {
 			const response = await InvitationApi.acceptInvitation(token)
 			showAlert(response.data.message, "success")
 			toTask()
-		} catch (error:unknown) {
+		} catch (error: unknown) {
 			if (axios.isAxiosError(error) && error.response?.data?.error) {
 				showAlert(error.response.data.error, "error")
 			} else {
@@ -94,9 +91,8 @@ const InviteChecker = () => {
 		navigate(`/signup?redirect=/invitechecker&token=${token}`)
 	}
 
+	if (loading) return <Loading />
 
-	if (loading) return <Loading/>
-		
 	if (error) {
 		return (
 			<Box sx={{ textAlign: "center", p: 4 }}>

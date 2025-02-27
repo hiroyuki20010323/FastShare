@@ -1,12 +1,12 @@
-import { Box, TextField, Button, Skeleton } from "@mui/material"
+import { Box, Button, Skeleton, TextField } from "@mui/material"
+import axios from "axios"
 import { useState } from "react"
 import Footer from "../../../components/Footer"
 import Header from "../../../components/Header"
-import { GroupApi } from "../../group/api/group"
 import { useAlert } from "../../../provider/AlertProvider"
-import { InvitationApi } from "../api/InvitationApi"
 import { useLoading } from "../../../provider/LoadingProvider"
-import axios from "axios"
+import { GroupApi } from "../../group/api/group"
+import { InvitationApi } from "../api/InvitationApi"
 
 const Invitations = () => {
 	const { loading, setLoading } = useLoading()
@@ -60,18 +60,21 @@ const Invitations = () => {
 				}}
 			>
 				{loading ? (
-        
-        <Skeleton variant="rectangular" width={300} height={56} sx={{ marginTop: 40 }} />
-      ) : (
-        
-        <TextField
-          id="outlined-disabled"
-          label="招待リンク"
-          value={invitationLink}
-          sx={{ width: 300, marginTop: 40 }}
-        />
-      )}
-			
+					<Skeleton
+						variant="rectangular"
+						width={300}
+						height={56}
+						sx={{ marginTop: 40 }}
+					/>
+				) : (
+					<TextField
+						id="outlined-disabled"
+						label="招待リンク"
+						value={invitationLink}
+						sx={{ width: 300, marginTop: 40 }}
+					/>
+				)}
+
 				<Button
 					variant="contained"
 					sx={{ width: 300, marginTop: 4 }}
@@ -80,15 +83,15 @@ const Invitations = () => {
 					リンクを生成
 				</Button>
 
-		{invitationLink && (
-    <Button
-      variant="contained"
-      sx={{ width: 300, marginTop: 4 }}
-      onClick={copyToClipboard}
-    >
-      {copied ? "コピーしました!!" : "リンクをコピー"}
-    </Button>
-  )}
+				{invitationLink && (
+					<Button
+						variant="contained"
+						sx={{ width: 300, marginTop: 4 }}
+						onClick={copyToClipboard}
+					>
+						{copied ? "コピーしました!!" : "リンクをコピー"}
+					</Button>
+				)}
 			</Box>
 			<Footer />
 		</>

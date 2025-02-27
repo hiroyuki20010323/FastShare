@@ -2,9 +2,9 @@ import cors from "cors"
 import express, { type Request, type Response } from "express"
 import authRoutes from "./routes/authRoutes"
 import groupRoutes from "./routes/groupRoutes"
+import invitationRoutes from "./routes/invitationRoutes"
 import profileRoutes from "./routes/profileRoutes"
 import taskRoutes from "./routes/taskRoutes"
-import invitationRoutes from "./routes/invitationRoutes"
 
 const app = express()
 const PORT = 3080
