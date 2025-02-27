@@ -137,17 +137,27 @@ erDiagram
         DateTime created_at
         DateTime updated_at
     }
+    
+    invitations {
+        String id PK
+        String token
+        Int groupId FK
+        String createdBy
+        Boolean isUsed
+        DateTime expiresAt
+        DateTime created_at
+        DateTime updated_at
+    }
 
 %% 既存のリレーションシップ
     users ||--o{ participations : "ユーザーは複数のグループに参加可能"
-    groups ||--o{ participations : "グループは複数の参加者を持つ"
+    groups ||--o{ participations : "グループは複数の参加者が存在する"
     calendars ||--o{ tasks : "1つの日付に複数のタスクを登録可能"
     participations ||--o{ request : "グループ参加者がタスクを依頼"
     participations ||--o{ contractor: "グループ参加者がタスクを請負"
     request ||--||tasks: "タスクに割り当て"
     contractor ||--||tasks: "タスクに割り当て"
-
-
+    groups ||--o{ invitations : "グループは複数の招待を作成"
 ```
 ## インフラ構成
 <img width="100%" alt="Image" src="https://github.com/user-attachments/assets/b7dc404a-a306-43ad-a2d3-562adfe3af54" />
