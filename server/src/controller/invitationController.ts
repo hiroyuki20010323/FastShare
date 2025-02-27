@@ -13,8 +13,11 @@ export const generateInvitationLink = async (req: Request, res: Response) => {
 			createdBy: userId
 		})
 
-		// TODO 本番環境のurlなどenvから取ってくる
-		const baseUrl = "http://localhost:5173"
+		// 環境変数からベースURLを取得
+		const baseUrl =
+			process.env.NODE_ENV === "production"
+				? "https://fastshare.jp"
+				: "http://localhost:5173"
 		const invitationLink = `${baseUrl}/invitechecker?token=${invitation.token}`
 
 		res.status(201).json({
@@ -46,7 +49,8 @@ export const validateInvitation = async (req: Request, res: Response) => {
 
 		res.status(200).json({
 			groupId: invitation.groupId,
-			groupName: invitation.group.group_name
+			groupName: invitation.group.group_name,
+			group_icon: invitation.group.group_icon
 		})
 	} catch (e) {
 		console.error("招待の検証に失敗しました", e)

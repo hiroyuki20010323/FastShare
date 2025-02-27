@@ -1,7 +1,6 @@
 import { AxiosError } from "axios"
 import { useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { useNavigation } from "../../../hooks/useNavigation"
 import { useAlert } from "../../../provider/AlertProvider"
 import { useLoading } from "../../../provider/LoadingProvider"
 import { AuthApi } from "../api/auth"
@@ -10,7 +9,6 @@ import type { SignUpModalData } from "../components/SignUpModal"
 export const useAuth = () => {
 	const { loading, setLoading } = useLoading()
 	const [isOpenModal, setIsOpenModal] = useState(false)
-	const { toHome } = useNavigation()
 	const { showAlert } = useAlert()
 	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
@@ -18,13 +16,10 @@ export const useAuth = () => {
 	const handleAuthSuccess = () => {
 		const savedToken = sessionStorage.getItem("inviteToken")
 		const redirectPath = searchParams.get("redirect") || "/task"
-		console.log(savedToken)
-		console.log(redirectPath)
 		if (savedToken && redirectPath.includes("/invitechecker")) {
 			navigate(`${redirectPath}?token=${savedToken}`)
 			sessionStorage.removeItem("inviteToken")
 		} else {
-			console.log("elseブロックが実行")
 			navigate(redirectPath)
 		}
 	}
@@ -45,8 +40,8 @@ export const useAuth = () => {
 	const handleGoogleLogin = async () => {
 		try {
 			const response = await AuthApi.googleAuth()
-			toHome()
 			showAlert(response.data.message, "success")
+			handleAuthSuccess()
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				showAlert(error.response?.data?.error, "error")
@@ -77,7 +72,7 @@ export const useAuth = () => {
 		setLoading(false)
 		setIsOpenModal(false)
 		showAlert(response?.data.message, "success")
-		toHome()
+		handleAuthSuccess()
 	}
 
 	return {
