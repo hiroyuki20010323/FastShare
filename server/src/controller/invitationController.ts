@@ -13,11 +13,8 @@ export const generateInvitationLink = async (req: Request, res: Response) => {
 			createdBy: userId
 		})
 
-		// 環境変数からベースURLを取得
-		const baseUrl =
-			process.env.NODE_ENV === "production"
-				? "https://fastshare.jp"
-				: "http://localhost:5173"
+		// TODO あとでenvからprodとdevを認識させてbaseurlをなんとかする
+		const baseUrl ="https://fastshare.jp"
 		const invitationLink = `${baseUrl}/invitechecker?token=${invitation.token}`
 
 		res.status(201).json({
