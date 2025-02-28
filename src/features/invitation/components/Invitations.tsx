@@ -59,18 +59,18 @@ const Invitations = () => {
 					paddingBottom: "80px"
 				}}
 			>
-				<Typography 
-					fontSize={'1.0rem'} 
-					sx={{ 
+				<Typography
+					fontSize={"1.0rem"}
+					sx={{
 						marginBottom: 3,
-						mt:4,
+						mt: 4,
 						fontWeight: "bold",
 						textAlign: "center"
 					}}
 				>
 					✉️ リンクを共有してメンバーを招待しよう 🎉
 				</Typography>
-				<Box 
+				<Box
 					sx={{
 						backgroundColor: "rgba(33, 150, 243, 0.08)",
 						borderRadius: 2,
@@ -80,17 +80,18 @@ const Invitations = () => {
 						boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.06)"
 					}}
 				>
-					<Typography 
-						variant="body1" 
-						sx={{ 
+					<Typography
+						variant="body1"
+						sx={{
 							color: "text.secondary",
 							textAlign: "left",
 							fontStyle: "normal",
-							lineHeight: 2.2,
+							lineHeight: 2.2
 						}}
 					>
-						👥 メンバーと予定を共有しよう！<br/>
-						🔗 リンクを送るだけで簡単に招待<br/>
+						👥 メンバーと予定を共有しよう！
+						<br />🔗 リンクを送るだけで簡単に招待
+						<br />
 						⏱️ リンクの有効期限は24時間です
 					</Typography>
 				</Box>
@@ -107,13 +108,13 @@ const Invitations = () => {
 						id="outlined-disabled"
 						label="招待リンク"
 						value={invitationLink}
-						sx={{ width: 300, marginTop:2 }}
+						sx={{ width: 300, marginTop: 2 }}
 					/>
 				)}
 
 				<Button
 					variant="contained"
-					sx={{ width: 300, marginTop: 4 ,height:50}}
+					sx={{ width: 300, marginTop: 4, height: 50 }}
 					onClick={generateLink}
 				>
 					リンクを生成
@@ -122,7 +123,7 @@ const Invitations = () => {
 				{invitationLink && (
 					<Button
 						variant="outlined"
-						sx={{ width: 300, marginTop: 4,height:50 }}
+						sx={{ width: 300, marginTop: 4, height: 50 }}
 						onClick={copyToClipboard}
 					>
 						{copied ? "コピーしました!!" : "リンクをコピー"}

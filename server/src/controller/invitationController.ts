@@ -14,9 +14,9 @@ export const generateInvitationLink = async (req: Request, res: Response) => {
 		})
 
 		// TODO あとでenvからprodとdevを認識させてbaseurlをなんとかする
-    // "http://localhost:5173"
+		// "http://localhost:5173"
 
-		const baseUrl ="https://fastshare.jp"
+		const baseUrl = "https://fastshare.jp"
 		const invitationLink = `${baseUrl}/invitechecker?token=${invitation.token}`
 
 		res.status(201).json({
@@ -97,7 +97,7 @@ export const acceptInvitation = async (req: Request, res: Response) => {
 				data: { isActive: true }
 			})
 
-      await InvitationRepo.markTokenAsUsed(token)
+			await InvitationRepo.markTokenAsUsed(token)
 
 			res.status(200).json({
 				message: "既に参加済みのグループです"
