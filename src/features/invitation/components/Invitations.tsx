@@ -75,7 +75,7 @@ const Invitations = () => {
 						backgroundColor: "rgba(33, 150, 243, 0.08)",
 						borderRadius: 2,
 						p: 3,
-						mb: 5,
+						mb: 4,
 						maxWidth: "85%",
 						boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.06)"
 					}}
@@ -86,7 +86,8 @@ const Invitations = () => {
 							color: "text.secondary",
 							textAlign: "left",
 							fontStyle: "normal",
-							lineHeight: 2.2
+							lineHeight: 2.2,
+							padding:1
 						}}
 					>
 						👥 メンバーと予定を共有しよう！
@@ -101,14 +102,14 @@ const Invitations = () => {
 						variant="rectangular"
 						width={300}
 						height={56}
-						sx={{ marginTop: 2 }}
+						sx={{ marginTop: 1 }}
 					/>
 				) : (
 					<TextField
 						id="outlined-disabled"
 						label="招待リンク"
 						value={invitationLink}
-						sx={{ width: 300, marginTop: 2 }}
+						sx={{ width: 300, marginTop: 1 }}
 					/>
 				)}
 
