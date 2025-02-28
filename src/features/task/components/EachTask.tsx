@@ -48,7 +48,8 @@ const EachTask: React.FC<TaskItems> = ({ taskItems }) => {
 								border: "1px solid #E0E0E0"
 							}}
 						>
-							<Avatar src={task.requestor.participation.user.icon_url} />
+							<Avatar 
+							src={task.requestor.participation.user.icon_url} />
 							<Typography
 								sx={{
 									flex: 1,
@@ -79,7 +80,7 @@ const EachTask: React.FC<TaskItems> = ({ taskItems }) => {
 									}}
 								>
 									<Avatar
-										src={task.requestor.participation.user.icon_url}
+										src={selectedTask.requestor.participation.user.icon_url}
 										sx={{ marginLeft: 2 }}
 									/>
 									<DialogTitle
