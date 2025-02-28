@@ -269,6 +269,9 @@ const Task = () => {
 							aria-label="delete"
 							size="large"
 							onClick={getPrevWeekTasks}
+							onTouchEnd={(e) => {
+								e.preventDefault();
+							}}
 							sx={{
 								backgroundColor: "white",
 								borderRadius: "50px",
@@ -282,9 +285,15 @@ const Task = () => {
 									boxShadow: "none",
 									transform: "translateY(2px)"
 								},
+								"@media (hover: none)": {
+									"&:active": {
+										transitionDuration: "0.1s"
+									}
+								},
 								padding: "8px",
 								transition: "all 0.2s ease-in-out",
-								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)"
+								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)",
+								WebkitTapHighlightColor: "transparent"
 							}}
 						>
 							<ArrowBackIosNewIcon fontSize="inherit" />
@@ -329,6 +338,9 @@ const Task = () => {
 							aria-label="delete"
 							size="large"
 							onClick={getNextWeekTasks}
+							onTouchEnd={(e) => {
+								e.preventDefault();
+							}}
 							sx={{
 								backgroundColor: "white",
 								borderRadius: "50px",
@@ -342,9 +354,15 @@ const Task = () => {
 									boxShadow: "none",
 									transform: "translateY(2px)"
 								},
+								"@media (hover: none)": {
+									"&:active": {
+										transitionDuration: "0.1s"
+									}
+								},
 								padding: "8px",
 								transition: "all 0.2s ease-in-out",
-								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)"
+								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)",
+								WebkitTapHighlightColor: "transparent"
 							}}
 						>
 							<ArrowForwardIosIcon fontSize="inherit" />

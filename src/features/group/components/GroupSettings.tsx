@@ -7,6 +7,7 @@ import {
 	TextField,
 	Typography
 } from "@mui/material"
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { useEffect, useRef, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
@@ -179,6 +180,7 @@ const GroupSettings = () => {
 							sx={{ height: 40, marginTop: 4, marginBottom: 8 }}
 							component={Link}
 							to="/invitation"
+							startIcon={<PersonAddIcon />}
 						>
 							招待
 						</Button>

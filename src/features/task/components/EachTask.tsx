@@ -79,7 +79,7 @@ const EachTask: React.FC<TaskItems> = ({ taskItems }) => {
 									}}
 								>
 									<Avatar
-										src={task.requestor.participation.user.icon_url}
+										src={selectedTask.requestor.participation.user.icon_url}
 										sx={{ marginLeft: 2 }}
 									/>
 									<DialogTitle

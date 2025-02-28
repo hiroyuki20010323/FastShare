@@ -40,11 +40,14 @@ URL: https://fastshare.jp/login<br>
 * タスク作成
 * Spinnerの実装
 * Snackbarの作成
+* グループ招待
 
 2025-2/22時点
 ## 実装予定機能
   1. タスクCRUD（実装中...）
-  2. グループ招待
+  2. 請負や依頼の機能
+  3. 通知機能
+  
 ## 使用技術
 - フロントエンド
   - React
@@ -62,7 +65,7 @@ URL: https://fastshare.jp/login<br>
   - Multer-S3（画像アップロード）
 - インフラストラクチャ
   - AWS
-    - フロントエンド: S3, CloudFront
+    - フロントエンド: S3, CloudFront, Route53
     - バックエンド: ECS (Fargate), ECR, S3
     - データベース: RDS (MySQL)
     - Bastion Host: EC2
