@@ -87,7 +87,7 @@ const Invitations = () => {
 							textAlign: "left",
 							fontStyle: "normal",
 							lineHeight: 2.2,
-							padding:1
+							padding: 1
 						}}
 					>
 						👥 メンバーと予定を共有しよう！

@@ -270,30 +270,14 @@ const Task = () => {
 							size="large"
 							onClick={getPrevWeekTasks}
 							onTouchEnd={(e) => {
-								e.preventDefault();
+								e.preventDefault()
 							}}
 							sx={{
 								backgroundColor: "white",
 								borderRadius: "50px",
-								"&:hover": {
-									backgroundColor: "rgba(0, 0, 0, 0.02)",
-									boxShadow: "none",
-									transform: "translateY(2px)"
-								},
-								"&:active": {
-									backgroundColor: "rgba(0, 0, 0, 0.02)",
-									boxShadow: "none",
-									transform: "translateY(2px)"
-								},
-								"@media (hover: none)": {
-									"&:active": {
-										transitionDuration: "0.1s"
-									}
-								},
 								padding: "8px",
 								transition: "all 0.2s ease-in-out",
-								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)",
-								WebkitTapHighlightColor: "transparent"
+								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)"
 							}}
 						>
 							<ArrowBackIosNewIcon fontSize="inherit" />
@@ -339,30 +323,14 @@ const Task = () => {
 							size="large"
 							onClick={getNextWeekTasks}
 							onTouchEnd={(e) => {
-								e.preventDefault();
+								e.preventDefault()
 							}}
 							sx={{
 								backgroundColor: "white",
 								borderRadius: "50px",
-								"&:hover": {
-									backgroundColor: "rgba(0, 0, 0, 0.02)",
-									boxShadow: "none",
-									transform: "translateY(2px)"
-								},
-								"&:active": {
-									backgroundColor: "rgba(0, 0, 0, 0.02)",
-									boxShadow: "none",
-									transform: "translateY(2px)"
-								},
-								"@media (hover: none)": {
-									"&:active": {
-										transitionDuration: "0.1s"
-									}
-								},
 								padding: "8px",
 								transition: "all 0.2s ease-in-out",
-								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)",
-								WebkitTapHighlightColor: "transparent"
+								boxShadow: "0px 2px 3px rgba(0,0,0,0.15)"
 							}}
 						>
 							<ArrowForwardIosIcon fontSize="inherit" />
