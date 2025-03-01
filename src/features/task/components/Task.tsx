@@ -269,9 +269,6 @@ const Task = () => {
 							aria-label="delete"
 							size="large"
 							onClick={getPrevWeekTasks}
-							onTouchEnd={(e) => {
-								e.preventDefault()
-							}}
 							sx={{
 								backgroundColor: "white",
 								borderRadius: "50px",
@@ -322,9 +319,6 @@ const Task = () => {
 							aria-label="delete"
 							size="large"
 							onClick={getNextWeekTasks}
-							onTouchEnd={(e) => {
-								e.preventDefault()
-							}}
 							sx={{
 								backgroundColor: "white",
 								borderRadius: "50px",
